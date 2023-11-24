@@ -3,9 +3,47 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <link rel="stylesheet" href="./css/header_footer.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+        
+        <title>Ads Management System</title>
     </head>
     <body>
-        <h1>This is the static web</h1>
+        
+        <div class="container">
+
+            <!-- Header and Footer -->
+            <div class="header_footer">
+                <div class="header">
+                    <div class="searchBar">
+                        <i class="bi bi-search"></i>
+                        <label for="textSearch" class="textSearch">
+                        </label><input placeholder="Nhập địa chỉ" type="text" name="textSearch" id="textSearch">
+                    </div>
+
+                    <div class="mapBtns">
+                        <button title="geology" class="geology">
+                            <i class="bi bi-geo-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="displayQC">
+                        <button title="showQC" class="showQC">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <div class="content">Bảng QC</div>
+                    </div>
+
+                    <div class="displayBC">
+                        <button title="showBC" class="showBC">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                        <div class="content">Báo cáo vi phạm</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

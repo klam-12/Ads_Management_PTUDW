@@ -1,0 +1,146 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* background-color: pink; */
+    background: var(--white-color) url("map.png") no-repeat;
+}
+
+:root {
+	--white-color: #FFF; 
+    --black-color: #121212;
+    --red-color: #BC5B5B;    
+}
+
+.container{
+    height: 100%;
+    width: 100%;
+}
+
+.bi{
+    background: transparent;
+}
+
+/* Header */
+.header_footer{
+    display: inline-flex;
+    width: 100vw;
+    height: 92vh;
+    padding: 20px 0px;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+.header{
+    display: flex;
+    padding: 0px 20px;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 95vw;
+}
+
+.searchBar{
+    display: flex;
+    width: 60vw;
+    height: 3vh;
+    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--white-color);
+}
+
+.searchBar:hover {
+    border: 1px solid lightgrey;
+}
+
+.searchBar .bi-search{
+    background: var(--white-color);
+    font-size: 22px;
+}
+
+.searchBar input{
+    border: none;
+    height: 100%;
+    width: 100%;
+    background: var(--white-color);
+}
+
+.searchBar input:focus{
+    outline: none;
+}
+
+.bi-geo-alt{
+    font-size: 18px;
+}
+
+.mapBtns{
+    display: flex;
+    padding: 5px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 10px;
+    background: var(--white-color);
+}
+
+.mapBtns .geology{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--white-color);
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+}
+
+.mapBtns .geology:hover{
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+/* Footer */
+.footer{
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 2px 20px;
+    width: 100vw;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.70);
+}
+
+.footer .content{
+    background: transparent;
+}
+
+.displayQC, .displayBC{
+    display: flex;
+    gap: 10px;
+    background: transparent;
+    align-items: center;
+    padding: 0px 5px;
+}
+
+.showQC, .showBC{
+    border: none;
+    background: transparent;
+}
+
+.bi-eye, .bi-eye-slash{
+    font-size: 27px;
+    color: var(--red-color);
+}
+
+.showQC:hover, .showBC:hover{
+    text-shadow: 0px 3px 4px rgba(255, 190, 190, 0.5);   
+}
+
+
+
+
+
+
