@@ -9,6 +9,7 @@
 	--white-color: #FFF; 
     --black-color: #121212;
     --red-color: #BC5B5B;    
+    --blue-color: #005BC6;
 }
 
 .container{
@@ -17,6 +18,10 @@
 }
 
 .bi{
+    background: transparent;
+}
+
+.bk-trans{
     background: transparent;
 }
 
@@ -113,10 +118,6 @@
     background: rgba(255, 255, 255, 0.70);
 }
 
-.footer .content{
-    background: transparent;
-}
-
 .displayQC, .displayBC{
     display: flex;
     gap: 10px;
@@ -140,7 +141,127 @@
 }
 
 
+/* Modal Layout */
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.80);
+    /* display: none; */
+}
 
+.modal-content{
+    background: transparent;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+}
 
+.bi-x-lg{
+    font-size: 30px;
+}
 
+.component-QC{
+    /* padding: 10px 10px; */
+    display: flex;
+    width: 90%;
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 
+    border-radius: 10px;
+    border: 1px solid #CCC;
+    background: #F9FDFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+}
+
+.QC-head{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    align-self: stretch;
+    background: transparent;
+}
+
+.qc-title{
+    color: var(--blue-color);
+}
+
+.qc-adr{
+    color: #8C8C8C;
+}
+
+.QC-body{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    align-self: stretch;
+    background: transparent;
+
+}
+
+.qc-size{
+
+}
+
+.qc-number{
+
+}
+
+.qc-format{
+
+}
+
+.qc-type{
+
+}
+
+.QC-foot{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    background: transparent;
+
+}
+
+.qc-report{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+}
+
+.bi-info-circle-fill{
+    font-size: 27px;
+    color: var(--blue-color);
+    padding: 5px;
+}
+
+.btn-report{
+    border: none;
+    background: transparent;
+    color: #D70000;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 5px;;
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+.bi-exclamation-octagon-fill{
+    font-size: 23px;
+    padding: 5px;
+}
+                                                 
+                                                                                                  
+                      
+                                          
