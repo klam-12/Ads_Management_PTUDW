@@ -1,15 +1,25 @@
 * {
     margin: 0;
     padding: 0;
-    /* background-color: pink; */
     background: var(--white-color) url("map.png") no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
 	--white-color: #FFF; 
-    --black-color: #121212;
+    --text-color: #121212;
     --red-color: #BC5B5B;    
-    --blue-color: #005BC6;
+    --info-color: #005BC6;
+
+    --QC-Chua_quy_hoach: #87A1FD;
+    --QC-Đa_quy_hoach: #2F8FFF;
+    --QC-Nhieu_QCs: #44E9FF;
+
+    --BC-Đang_xử_lý: #FF9162;
+    --BC-Đa_xử_lý: #8C8C8C;
+    --BC-Nhieu_BCs: #FF7272;
+
+    --report-color: #D70000;
 }
 
 .container{
@@ -190,7 +200,7 @@
 }
 
 .qc-title{
-    color: var(--blue-color);
+    color: var(--info-color);
 }
 
 .qc-adr{
@@ -241,20 +251,21 @@
 
 .bi-info-circle-fill{
     font-size: 27px;
-    color: var(--blue-color);
+    color: var(--info-color);
     padding: 5px;
 }
 
 .btn-report{
     border: none;
     background: transparent;
-    color: #D70000;
+    color: var(--report-color);
     display: flex;
     align-items: center;
     gap: 5px;
     padding: 0px 5px;;
     border-radius: 10px;
     border: 1px solid;
+    font-size: 14px;
 }
 
 .bi-exclamation-octagon-fill{
