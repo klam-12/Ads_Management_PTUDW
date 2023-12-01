@@ -1,8 +1,10 @@
 * {
     margin: 0;
     padding: 0;
-    background: var(--white-color) url("map.png") no-repeat;
     font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    background: var(--white-color) url("map.png") no-repeat;
 }
 
 :root {
