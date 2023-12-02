@@ -3,68 +3,83 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./css/header_footer.css">
+        <link rel="stylesheet" href="globalStyle.css">
+        <link rel="stylesheet" href="./css/layout.css">
+        
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <title>Ads Management System</title>
     </head>
     <body>
         
-        <div class="container">
+        <div class="layout-container">
 
             <!-- Header and Footer -->
-            <div class="header_footer">
-                <div class="header">
-                    <div class="searchBar">
-                        <i class="bi bi-search"></i>
+            <div class="container-fluid d-flex flex-column justify-content-between header-footer">
+                <div class="row d-flex align-items-center justify-content-between header">
+                    <div class="col-5 searchBar">
+                        <button title="searchBtn" class="searchBtn">
+                            <i class="bi bi-search"></i>
+                        </button>
                         <label for="textSearch" class="textSearch">
                         </label><input placeholder="Nhập địa chỉ" type="text" name="textSearch" id="textSearch">
                     </div>
 
-                    <div class="mapBtns">
+                    <div class="col-md-auto mapBtns">
                         <button title="geology" class="geology">
                             <i class="bi bi-geo-alt"></i>
                         </button>
                     </div>
                 </div>
 
-                <div class="footer">
-                    <div class="displayQC">
+                <div class="row d-flex align-items-center footer">
+                    <div class="col-md-auto displayQC">
                         <button title="showQC" class="showQC">
                             <i class="bi bi-eye"></i>
+                            Bảng QC
                         </button>
-                        <div class="content bk-trans">Bảng QC</div>
                     </div>
 
-                    <div class="displayBC">
+                    <div class="col-md-auto displayBC">
                         <button title="showBC" class="showBC">
                             <i class="bi bi-eye-slash"></i>
+                            Báo cáo vi phạm
                         </button>
-                        <div class="content bk-trans">Báo cáo vi phạm</div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal">
-                <div class="modal-content">
-                    <i class="bi bi-x-lg"></i>
+            <div class="modal d-flex justify-content-end">
+            <div class="row d-flex align-items-end  ">
+                <div class="col-sm offset-md-6 modal-content">
+                    <div class="closeBtn" >
+                        <button type="button">
+                            <i class="bi bi-x-lg"></i>
+                            &#8203;
+                        </button>
+                    </div>
                     <!-- Below are the components -->
 
                     <!-- Component QC -->
-                    <div class="component-QC">
-                        <div class="QC-head">
-                            <h2 class="qc-title bk-trans">Trụ, cụm pano</h2>
-                            <div class="qc-adr bk-trans">459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh</div>
+                    <div class="component-QC d-flex">
+                        <div class="row flex-column QC-head">
+                            <h3 class="qc-title ">Trụ, cụm pano</h3>
+                            <div class="qc-adr ">459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh</div>
                         </div>
-                        <div class="QC-body">
-                            <div class="qc-size bk-trans">Kích thước: 2.5m x 10m</div>
-                            <div class="qc-number bk-trans">Số lượng: 1 trụ/bảng</div>
-                            <div class="qc-format bk-trans">Hình thức: Cổ động chính trị</div>
-                            <div class="qc-type bk-trans">Phân loại: Đất công/Công viên, Hành lang an toàn giao thong</div>
+                        <div class="row flex-column QC-body">
+                            <div class="qc-size ">Kích thước: 2.5m x 10m</div>
+                            <div class="qc-number ">Số lượng: 1 trụ/bảng</div>
+                            <div class="qc-format ">Hình thức: Cổ động chính trị</div>
+                            <div class="qc-type ">Phân loại: Đất công/Công viên, Hành lang an toàn giao thong</div>
                         </div>
-                        <div class="QC-foot">
-                            <i class="bi bi-info-circle-fill"></i>
-                            <div class="qc-report bk-trans">
+                        <div class="row d-flex align-items-center justify-content-between QC-foot">
+                            <div class="col-md-auto infoBtn">
+                                <button type="button">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                    &#8203;
+                                </button>
+                            </div>
+                            <div class=" col-md-auto d-flex qc-report ">
                                 <button type="button" class="btn-report">
                                     <i class="bi bi-exclamation-octagon-fill"></i>
                                     Báo cáo vi phạm
@@ -76,30 +91,34 @@
 
                     <!-- Component for more infor about QC -->
                     <div class="component-moreInfoQC">
-                        <img  src="robot.jpg" alt="robot.jpg" class="moreInfoQC-imgs bk-trans">
-                        <div class="moreInfoQC-content bk-trans">
+                        <img src="./img/robot.jpg" alt="robot.jpg" class="moreInfoQC-imgs"  width="250" height="140">
+                        <div class="moreInfoQC-content ">
                             Ngày hết hạn hợp đồng: 30/12/2023
                         </div>
                     </div>
 
 
                     <!-- Component for random location (not QC) -->
-                    <div class="component-location-qc">
-                        <i class="bi bi-info-circle"></i>
-                        <div class="loc-qc-content">
-                            <h3 class="title bk-trans">Thông tin bảng quảng cáo</h3>
-                            <h4 class="qc bk-trans">Chưa có dữ liệu</h4>
-                            <div class="note bk-trans">Vui lòng chọn điểm trên bản đồ để xem</div>
+                    <div class="component-location-qc d-flex">
+                        <div class="row">
+                            <i class="bi bi-info-circle"></i>
+                        </div> 
+                        <div class="row loc-qc-content">
+                            <h4 class="title ">Thông tin bảng quảng cáo</h4>
+                            <h5 class="qc ">Chưa có dữ liệu</h5>
+                            <div class="note ">Vui lòng chọn điểm trên bản đồ để xem</div>
                         </div>
                     </div>
 
-                    <div class="component-location-info">
-                        <i class="bi bi-check2-circle"></i>
-                        <div class="loc-location-content">
-                            <h3 class="title bk-trans">Thông tin địa điểm</h3>
-                            <h4 class="location-name bk-trans">Quân Chủng Hải Quân - Trung tâm văn phòng thương mại hải quân</h4>
-                            <div class="location-geo bk-trans">15 Đường Lê Thánh Tôn, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh</div>
-                            <div class="qc-report bk-trans">
+                    <div class="component-location-info d-flex">
+                        <div class="row">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <div class="row loc-location-content">
+                            <h4 class="title ">Thông tin địa điểm</h4>
+                            <h5 class="location-name ">Quân Chủng Hải Quân - Trung tâm văn phòng thương mại hải quân</h5>
+                            <div class="location-geo ">15 Đường Lê Thánh Tôn, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh</div>
+                            <div class="qc-report d-flex flex-row-reverse">
                                 <button type="button" class="btn-report">
                                     <i class="bi bi-exclamation-octagon-fill"></i>
                                     Báo cáo vi phạm
@@ -116,9 +135,10 @@
 
                 </div>
             </div>
+            </div>
 
         </div>
 
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 </html>

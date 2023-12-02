@@ -1,5 +1,5 @@
 {
-  "type": "commonjs",
+  "type": "module",
   "name": "ads_management_ptudw",
   "version": "1.0.0",
   "description": "## Prerequisites",
