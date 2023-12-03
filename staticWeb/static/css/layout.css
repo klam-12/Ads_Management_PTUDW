@@ -1,0 +1,168 @@
+.layout-container, .header-footer{
+    height: 100vh;
+    width: 100vw;
+}
+
+.header, .footer{
+    height: 10%;
+}
+
+.bi {
+    font-size: 20px;
+}
+
+button {
+    border: none;
+    background-color: var(--white-color);
+}
+
+
+/* Header */
+.searchBar{
+    background-color: var(--white-color);
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.searchBar:hover {
+    border: 1px solid lightgrey;
+}
+
+.searchBar .bi-search{
+    font-size: 20px;
+}
+
+.searchBar input{
+    border: none;
+    width: 90%;
+}
+
+.searchBar input:focus{
+    outline: none;
+}
+
+.searchBtn{
+    padding-right: 5px;
+}
+
+.mapBtns{
+    border-radius: 10px;
+}
+
+.mapBtns .geology{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.mapBtns .geology:hover{
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Footer */
+.footer{
+    /* background-color: var(--white-color); */
+}
+
+.showQC, .showBC{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 5px;
+    border-radius: 10px;
+}
+
+.showQC:hover, .showBC:hover{
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);   
+}
+
+.bi-eye, .bi-eye-slash{
+    color: var(--red-color);
+}
+
+/* Modal */
+.modal-content{
+    background: rgba(255, 255, 255, 0.80);
+    padding: 10px;
+    gap: 10px;
+}
+
+.modal-content .closeBtn{
+    align-self: flex-end;
+}
+
+
+/* Component QC */
+.component-QC, .component-moreInfoQC, .component-location-qc,.component-location-info, .component-report-sm{
+    padding: 10px;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 10px;
+    border: 1px solid #CCC;
+    background: #F9FDFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+}
+
+.qc-title{
+    color: var(--info-color);
+}
+
+.qc-adr{
+    color: #8C8C8C;
+}
+
+.bi-info-circle-fill{
+    font-size: 27px;
+    color: var(--info-color);
+}
+
+.btn-report{
+    color: var(--report-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 5px;;
+    border-radius: 10px;
+    border: 1px solid;
+    font-size: 14px;
+}
+
+.bi-exclamation-octagon-fill{
+    font-size: 23px;
+}
+
+
+/* Component location */
+.loc-qc-content, .loc-location-content{
+    flex-direction: column;
+}
+
+.loc-qc-content .title, .bi-info-circle{
+    color: var(--info-color);
+}
+
+.loc-location-content .title, .bi-check2-circle {
+    color: green;
+}
+
+.component-location-qc{
+    background: #CEEAFF;
+    flex-direction: row;
+}   
+
+.component-location-info{
+    background: #F5FFF6;
+    flex-direction: row;
+}
+
+.bi-info-circle, .bi-check2-circle{
+    font-size: 27px;
+}
+
+
