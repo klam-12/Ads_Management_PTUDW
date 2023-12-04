@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet MarkerCluster Example</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+        <style>
+            #map {
+                height: 400px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+        <script>
+            var map = L.map('map').setView([51.505, -0.09], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+            }).addTo(map);
+
+            // Khởi tạo Marker Cluster Group
+            var markers = L.markerClusterGroup();
+
+            // Thêm một số marker vào Cluster Group
+            for (var i = 0; i < 100; i++) {
+                var marker = L.marker(L.latLng(51.5 + Math.random(), -0.09 + Math.random()));
+                markers.addLayer(marker);
+            }
+
+            // Thêm Cluster Group vào bản đồ
+            map.addLayer(markers);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,91 @@
+#map {
+    /* Style for the map container */
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.qc-icon {
+    width: 160px; /* Diameter of the circle */
+    height: 150px; /* Diameter of the circle */
+    border-radius: 50%; /* Ensures it's a circle */
+    display: flex;
+    justify-content: center;
+    color: #232323; /* Color of the 'QC' text */
+    text-align: center;
+    align-items: center;
+    /* font-weight: 500; */
+}
+.qc-planned {
+    background-color: #2f8fff;
+}
+.qc-planning {
+    background-color: #7e95e9;
+}
+.custom-svg-icon {
+    border-radius: 10%;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.report-icon {
+    border-radius: 12.5%;
+    display: flex;
+    justify-content: center;
+    color: #232323; /* Color of the 'QC' text */
+    text-align: center;
+    align-items: center;
+}
+.report-processing {
+    background-color: #ff9162;
+}
+.report-done {
+    background-color: #8c8c8c;
+}
+.report-icon-report {
+    height: 30px;
+    width: 30px;
+    background-color: #ff7272;
+}
+
+/* CSS cho phần tử bao quanh popup */
+.custom-popup-class {
+    display: none;
+    top: 100px;
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    z-index: 1000;
+    width: 258px;
+    border-radius: 10px;
+    gap: 10px;
+    flex-direction: column;
+}
+/* CSS cho tiêu đề trong popup */
+.popup-title {
+    font-size: 18px;
+    line-height: 21.78px;
+    font-weight: 600;
+}
+
+/* CSS cho văn bản trong popup */
+.popup-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #8c8c8c;
+    line-height: 19.36px;
+}
+
+/* CSS cho trạng thái (status) trong popup */
+.popup-status {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21.78px;
+    color: #2f8fff;
+    padding: -10px;
+}

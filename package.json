@@ -22,6 +22,7 @@
   "homepage": "https://github.com/klam-12/Ads_Management_PTUDW#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "express-handlebars": "^7.1.2"
+    "express-handlebars": "^7.1.2",
+    "leaflet.locatecontrol": "^0.79.0"
   }
 }
