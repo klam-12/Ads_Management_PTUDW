@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BÁO CẢO VI PHẠM</title>
-    <link href="../report.css" rel="stylesheet">
+    <link href="../css/report.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
 </head>
 <body>
     <div class="report-form-container center">
+        <!-- Nếu copy sang chỗ khác thì lấy từ form trở xuống (không lấy cái div ở trên) -->
         <form class="report-form">
             <h4 class="report-form-title"><i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM</h4>
             <h6 class="report-status"></h6>
@@ -19,11 +20,11 @@
                 <div class="row">
                     <div class="container report-info">
                         <div class="row">
-                            <div class="col-xs-6 col-sm-5 col-md-3">
+                            <div class="col-xs-6 col-sm-5 col-md-4">
                                 <label class="align-middle" for="reportType">Hình thức báo cáo</label>
                             </div>
-                            <div class="col-xs-6 col-sm-7 col-md-9">
-                                <input class="report-data-loaded" type="text" name="reportType" id="reportType">
+                            <div class="col-xs-6 col-sm-7 col-md-8">
+                                <input class="report-data-loaded" type="text" name="reportType" id="reportType" readonly>
                             </div>
                         </div>
                     </div>
@@ -32,25 +33,28 @@
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="fullName">Họ và tên</label> 
-                        <input class="report-data-loaded" type="text" name="fullName" id="fullName"> 
+                        <input class="report-data-loaded" type="text" name="fullName" id="fullName" readonly> 
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col report-info half column-split">
+                    <div class="report-info">
                         <label class="mb-1" for="email">Email</label> 
-                        <input class="report-data-loaded" type="email" name="email" id="email"> 
+                        <input class="report-data-loaded" type="email" name="email" id="email" readonly> 
                     </div>
-                    <div class="col report-info half">
+                </div>
+
+                <div class="row">
+                    <div class="report-info">
                         <label class="mb-1" for="phoneNumber">Số điện thoại</label> 
-                        <input class="report-data-loaded" type="tel" name="phoneNumber" id="phoneNumber">   
+                        <input class="report-data-loaded" type="tel" name="phoneNumber" id="phoneNumber" readonly>   
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
-                        <textarea class="report-data-loaded" name="reportContent" id="reportContent" cols="30" rows="10" style="resize: none"></textarea>   
+                        <textarea class="report-data-loaded" name="reportContent" id="reportContent" cols="30" rows="10" style="resize: none" readonly></textarea>   
                     </div>
                 </div>
 

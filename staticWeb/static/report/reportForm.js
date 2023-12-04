@@ -4,6 +4,7 @@ var reportType = document.getElementById('reportType');
 var fullName = document.getElementById('fullName');
 var email = document.getElementById('email');
 var phoneNumber = document.getElementById('phoneNumber');
+// var reportContent = tinymce.get('reportContent').getContent();
 var reportContent = document.getElementById('reportContent');
 const images = document.getElementById('img');
 const submitButton = document.getElementById('submitBtn');
@@ -77,6 +78,8 @@ form.addEventListener("submit", (e) => {
         const formData = new FormData(e.target);
         const jsonObject = Object.fromEntries(formData);
         const jsonString = JSON.stringify(jsonObject);
+
+        console.log(jsonString);
         
         //TODO: SAVING DATA TO JSON FILE
 
