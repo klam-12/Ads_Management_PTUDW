@@ -1,12 +1,19 @@
-.layout-container, .header-footer{
+.layout-container,
+.header-footer {
     height: 100vh;
     width: 100vw;
 }
 
-.header, .footer{
+.header,
+.footer {
     height: 10%;
+    z-index: 2;
 }
 
+.header {
+    width: 0;
+    height: 0;
+}
 .bi {
     font-size: 20px;
 }
@@ -16,9 +23,8 @@ button {
     background-color: var(--white-color);
 }
 
-
 /* Header */
-.searchBar{
+.searchBar {
     background-color: var(--white-color);
     padding: 5px;
     border-radius: 10px;
@@ -29,28 +35,28 @@ button {
     border: 1px solid lightgrey;
 }
 
-.searchBar .bi-search{
+.searchBar .bi-search {
     font-size: 20px;
 }
 
-.searchBar input{
+.searchBar input {
     border: none;
     width: 90%;
 }
 
-.searchBar input:focus{
+.searchBar input:focus {
     outline: none;
 }
 
-.searchBtn{
+.searchBtn {
     padding-right: 5px;
 }
 
-.mapBtns{
+.mapBtns {
     border-radius: 10px;
 }
 
-.mapBtns .geology{
+.mapBtns .geology {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,16 +67,17 @@ button {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 
-.mapBtns .geology:hover{
+.mapBtns .geology:hover {
     box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* Footer */
-.footer{
+.footer {
     /* background-color: var(--white-color); */
 }
 
-.showQC, .showBC{
+.showQC,
+.showBC {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -78,96 +85,115 @@ button {
     border-radius: 10px;
 }
 
-.showQC:hover, .showBC:hover{
-    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);   
+.showQC:hover,
+.showBC:hover {
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
 }
 
-.bi-eye, .bi-eye-slash{
+.bi-eye,
+.bi-eye-slash {
     color: var(--red-color);
 }
 
 /* Modal */
-.modal-content{
-    background: rgba(255, 255, 255, 0.80);
+.modal {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0px;
+    left: inherit;
+    width: 30vw;
+    background: rgba(255, 255, 255, 0.8);
+    overflow-y: auto;
+    display: flex;
+}
+.modal-content {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
     padding: 10px;
     gap: 10px;
+    margin: 0;
 }
 
-.modal-content .closeBtn{
+.modal-content .closeBtn {
     align-self: flex-end;
 }
 
-
 /* Component QC */
-.component-QC, .component-moreInfoQC, .component-location-qc,.component-location-info, .component-report-sm{
+.component-QC,
+.component-moreInfoQC,
+.component-location-qc,
+.component-location-info,
+.component-report-sm {
     padding: 10px;
     flex-direction: column;
     gap: 5px;
     border-radius: 10px;
-    border: 1px solid #CCC;
-    background: #F9FDFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+    border: 1px solid #ccc;
+    background: #f9fdff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
 }
 
-.component-report-sm{
-    background: #FFF7ED;
+.component-report-sm {
+    background: #fff7ed;
     z-index: 5;
 }
 
-.qc-title{
+.qc-title {
     color: var(--info-color);
 }
 
-.qc-adr{
-    color: #8C8C8C;
+.qc-adr {
+    color: #8c8c8c;
 }
 
-.bi-info-circle-fill{
+.bi-info-circle-fill {
     font-size: 27px;
     color: var(--info-color);
 }
 
-.btn-report{
+.btn-report {
     color: var(--report-color);
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 0px 5px;;
+    padding: 0px 5px;
     border-radius: 10px;
     border: 1px solid;
     font-size: 14px;
 }
 
-.bi-exclamation-octagon-fill{
+.bi-exclamation-octagon-fill {
     font-size: 23px;
 }
 
-
 /* Component location */
-.loc-qc-content, .loc-location-content{
+.loc-qc-content,
+.loc-location-content {
     flex-direction: column;
 }
 
-.loc-qc-content .title, .bi-info-circle{
+.loc-qc-content .title,
+.bi-info-circle {
     color: var(--info-color);
 }
 
-.loc-location-content .title, .bi-check2-circle {
+.loc-location-content .title,
+.bi-check2-circle {
     color: green;
 }
 
-.component-location-qc{
-    background: #CEEAFF;
-    flex-direction: row;
-}   
-
-.component-location-info{
-    background: #F5FFF6;
+.component-location-qc {
+    background: #ceeaff;
     flex-direction: row;
 }
 
-.bi-info-circle, .bi-check2-circle{
+.component-location-info {
+    background: #f5fff6;
+    flex-direction: row;
+}
+
+.bi-info-circle,
+.bi-check2-circle {
     font-size: 27px;
 }
-
-

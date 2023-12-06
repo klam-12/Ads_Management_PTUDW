@@ -5,22 +5,22 @@
 }
 
 body {
-    background: var(--white-color) url("./img/map.png") no-repeat;
+    background: var(--white-color);
 }
 
 :root {
-	--white-color: #FFF; 
+    --white-color: #fff;
     --text-color: #121212;
-    --red-color: #BC5B5B;    
-    --info-color: #005BC6;
+    --red-color: #bc5b5b;
+    --info-color: #005bc6;
 
-    --QC-Chua_quy_hoach: #87A1FD;
-    --QC-Đa_quy_hoach: #2F8FFF;
-    --QC-Nhieu_QCs: #44E9FF;
+    --QC-Chua_quy_hoach: #87a1fd;
+    --QC-Đa_quy_hoach: #2f8fff;
+    --QC-Nhieu_QCs: #44e9ff;
 
-    --BC-Đang_xử_lý: #FF9162;
-    --BC-Đa_xử_lý: #8C8C8C;
-    --BC-Nhieu_BCs: #FF7272;
+    --BC-Đang_xử_lý: #ff9162;
+    --BC-Đa_xử_lý: #8c8c8c;
+    --BC-Nhieu_BCs: #ff7272;
 
-    --report-color: #D70000;
+    --report-color: #d70000;
 }

@@ -251,14 +251,6 @@ map.on('click', onMapClick);
 const searchControl = new GeoSearch.GeoSearchControl({
     provider: new GeoSearch.OpenStreetMapProvider(),
     style: 'bar',
-    // showMarker: true, // optional: true|false  - default true
-    // showPopup: false, // optional: true|false  - default false
-    // marker: {
-    //     icon: new L.Icon.Default(),
-    //     draggable: false,
-    // },
-    // popupFormat: ({ query, result }) => result.label, // optional: function    - default returns result label,
-    // resultFormat: ({ result }) => result.label,
     searchLabel: 'Nhập địa chỉ',
 });
 
