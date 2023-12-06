@@ -87,5 +87,34 @@
     font-size: 18px;
     line-height: 21.78px;
     color: #2f8fff;
-    padding: -10px;
+}
+
+.leaflet-control-geosearch {
+    width: 35vw;
+    height: 3vh;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 3px;
+    border: none;
+    background: var(--white-color);
+    height: 4.5vh;
+}
+.leaflet-control-geosearch input[type='text'] {
+    width: 100%;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 0 -8px;
+}
+.leaflet-control-geosearch button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 100%;
+}
+.leaflet-control-geosearch button:hover {
+    background-color: #45a049;
 }

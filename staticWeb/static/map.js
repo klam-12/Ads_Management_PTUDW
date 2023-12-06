@@ -1,3 +1,4 @@
+// when the docs use an import:
 var dataADS = {
     type: 'FeatureCollection',
     features: [
@@ -158,7 +159,7 @@ var reportIconDone = L.divIcon({
     popupAnchor: [-3, -76],
 });
 
-// Initializing the Map
+// // Initializing the Map
 var map = L.map('map').setView([10.762925255348815, 106.68249376487807], 16);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -205,12 +206,12 @@ var popupTemplate = function (feature) {
     return `
           <h3 class="popup-title">${feature.properties.AdsFormat}</h3>
           <div class="popup-text">
-              <span class = "popup-text">${feature.properties.typeofLocation}</span> 
+              <span class = "popup-text">${feature.properties.typeofLocation}</span>
               <br></br>
               <span class = "popup-text">${feature.properties.address}</span>
           </div>
           <span class = "popup-status">${plannedStatus}</span>
- 
+
   `;
 };
 
@@ -246,6 +247,22 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
+
+const searchControl = new GeoSearch.GeoSearchControl({
+    provider: new GeoSearch.OpenStreetMapProvider(),
+    style: 'bar',
+    // showMarker: true, // optional: true|false  - default true
+    // showPopup: false, // optional: true|false  - default false
+    // marker: {
+    //     icon: new L.Icon.Default(),
+    //     draggable: false,
+    // },
+    // popupFormat: ({ query, result }) => result.label, // optional: function    - default returns result label,
+    // resultFormat: ({ result }) => result.label,
+    searchLabel: 'Nhập địa chỉ',
+});
+
+map.addControl(searchControl);
 reportMarkers.addLayer(reportMarker);
 map.addLayer(reportMarkers);
 map.addLayer(qcMarkers);

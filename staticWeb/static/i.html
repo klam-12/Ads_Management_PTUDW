@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>Leaflet MarkerCluster Example</title>
+        <meta charset="UTF-8" />
+        <title>Leaflet with GeoSearch</title>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+        <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch/dist/geosearch.css" /> -->
+
         <style>
             #map {
                 height: 400px;
@@ -15,26 +16,39 @@
         <div id="map"></div>
 
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+        <!-- <script src="https://unpkg.com/leaflet-geosearch/dist/geosearch.min.js"></script> -->
 
         <script>
-            var map = L.map('map').setView([51.505, -0.09], 13);
+            // Initialize Leaflet map
+            var map = L.map('map').setView([0, 0], 10); // Set an initial view
 
+            // Add a tile layer to the map
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
             }).addTo(map);
 
-            // Khởi tạo Marker Cluster Group
-            var markers = L.markerClusterGroup();
+            // Initialize GeoSearch control
+            var searchControl = new GeoSearch.GeoSearchControl({
+                provider: new GeoSearch.OpenStreetMapProvider(),
+                style: 'bar',
+                showMarker: true,
+                showPopup: false,
+                marker: {
+                    icon: new L.Icon.Default(),
+                    draggable: false,
+                },
+                popupFormat: ({ query, result }) => result.label,
+                resultFormat: ({ result }) => result.label,
+                maxMarkers: 1,
+                retainZoomLevel: false,
+                animateZoom: true,
+                autoClose: false,
+                searchLabel: 'Enter address',
+                keepResult: false,
+                updateMap: true,
+            });
 
-            // Thêm một số marker vào Cluster Group
-            for (var i = 0; i < 100; i++) {
-                var marker = L.marker(L.latLng(51.5 + Math.random(), -0.09 + Math.random()));
-                markers.addLayer(marker);
-            }
-
-            // Thêm Cluster Group vào bản đồ
-            map.addLayer(markers);
+            map.addControl(searchControl);
         </script>
     </body>
 </html>
