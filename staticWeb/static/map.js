@@ -9,6 +9,10 @@ var dataADS = {
                 typeofLocation: 'Đất công/Công viên/Hành lang an toàn giao thông',
                 AdsFormat: 'Cổ động chính trị',
                 isPlanned: true,
+                typeofAds: 'Trụ bảng hiflex',
+                width: 2.5,
+                height: 10,
+                quantity: 1,
             },
             geometry: {
                 coordinates: [106.68222807113926, 10.762650746826012],
@@ -22,6 +26,10 @@ var dataADS = {
                 typeofLocation: 'Trung tâm thương mại',
                 AdsFormat: 'Quảng cáo thương mại',
                 isPlanned: true,
+                typeofAds: 'Trung tâm thương mại',
+                width: 2.5,
+                height: 10,
+                quantity: 1,
             },
             geometry: {
                 coordinates: [106.68225621143063, 10.761193217103099],
@@ -35,6 +43,10 @@ var dataADS = {
                 typeofLocation: ' Chợ',
                 AdsFormat: 'Xã hội hoá',
                 isPlanned: false,
+                typeofAds: 'Trụ hộp đèn',
+                width: 2.5,
+                height: 10,
+                quantity: 1,
             },
             geometry: {
                 coordinates: [106.68051981395382, 10.76387028778423],
@@ -48,6 +60,10 @@ var dataADS = {
                 typeofLocation: ' Đất tư nhân/Nhà ở riêng lẻ',
                 AdsFormat: 'Quảng cáo thương mại',
                 isPlanned: true,
+                typeofAds: 'Trụ/Cụm pano',
+                width: 2.5,
+                height: 10,
+                quantity: 1,
             },
             geometry: {
                 coordinates: [106.68048211743064, 10.76130263744605],
@@ -61,6 +77,10 @@ var dataADS = {
                 typeofLocation: ' Nhà chờ xe buýt',
                 AdsFormat: 'Xã hội hoá',
                 isPlanned: true,
+                typeofAds: ' Màn hình điện tử ốp tường',
+                width: 2.5,
+                height: 10,
+                quantity: 1,
             },
             geometry: {
                 coordinates: [106.67946431131486, 10.761012540960436],
@@ -74,6 +94,10 @@ var dataADS = {
                 typeofLocation: ' Cây xăng',
                 AdsFormat: 'Quảng cáo thương mại',
                 isPlanned: false,
+                typeofAds: 'Trụ treo băng rôn dọc',
+                width: 2.5,
+                height: 10,
+                quantity: 1,
             },
             geometry: {
                 coordinates: [106.67887038240696, 10.762101450786247],
@@ -90,6 +114,13 @@ var dataReport = {
             type: 'Feature',
             properties: {
                 isProcess: true,
+                reportType: 'Tố giác sai phạm',
+                fullName: 'John Doe',
+                email: 'johndoe@example.com',
+                phoneNumber: '123-456-7890',
+                reportContent: 'Report details and description...',
+                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
+                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
             },
             geometry: {
                 coordinates: [106.68222807113926, 10.762650746826012],
@@ -100,6 +131,13 @@ var dataReport = {
             type: 'Feature',
             properties: {
                 isProcess: false,
+                reportType: 'Tố giác sai phạm',
+                fullName: 'John Doe',
+                email: 'johndoe@example.com',
+                phoneNumber: '123-456-7890',
+                reportContent: 'Report details and description...',
+                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
+                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
             },
             geometry: {
                 coordinates: [106.68260580019103, 10.766612233710092],
@@ -110,6 +148,13 @@ var dataReport = {
             type: 'Feature',
             properties: {
                 isProcess: true,
+                reportType: 'Tố giác sai phạm',
+                fullName: 'John Doe',
+                email: 'johndoe@example.com',
+                phoneNumber: '123-456-7890',
+                reportContent: 'Report details and description...',
+                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
+                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
             },
             geometry: {
                 coordinates: [106.67862331833987, 10.765453009157298],
@@ -120,6 +165,13 @@ var dataReport = {
             type: 'Feature',
             properties: {
                 isProcess: true,
+                reportType: 'Tố giác sai phạm',
+                fullName: 'John Doe',
+                email: 'johndoe@example.com',
+                phoneNumber: '123-456-7890',
+                reportContent: 'Report details and description...',
+                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
+                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
             },
             geometry: {
                 coordinates: [106.68060964262065, 10.765443348934227],
@@ -158,8 +210,8 @@ var reportIconDone = L.divIcon({
     iconAnchor: [15, 15],
     popupAnchor: [-3, -76],
 });
-
-// // Initializing the Map
+checkModalComponents();
+// Creating Map
 var map = L.map('map').setView([10.762925255348815, 106.68249376487807], 16);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -172,6 +224,7 @@ var customPopup = L.DomUtil.create('div', 'custom-popup-class');
 map.getContainer().appendChild(customPopup);
 
 var qcMarkers = L.markerClusterGroup();
+var listComponent = [];
 var qcMarker = L.geoJSON(dataADS, {
     pointToLayer: function (feature, latlng) {
         if (feature.properties.isPlanned) {
@@ -195,11 +248,32 @@ var qcMarker = L.geoJSON(dataADS, {
         });
 
         layer.on('mouseout', function (e) {
-            // Ẩn thẻ div khi di chuột ra khỏi điểm
             customPopup.style.display = 'none';
+        });
+        layer.on('click', function (e) {
+            if ($('.modal-content').find('.component-QC-and-Img').length > 0) {
+                console.log('remove');
+                $('.modal-content').find('.component-QC-and-Img').remove();
+            }
+            const content = QCComponent(feature.properties);
+
+            $('.modal-content').append(content);
+            checkModalComponents();
+            $('.component-QC-and-Img').addClass('show');
         });
     },
 });
+// Function to check if the modal has components with class 'component-QC'
+function checkModalComponents() {
+    const modalContent = $('.modal-content');
+    console.log(modalContent.children());
+    if (modalContent.children().length === 1) {
+        $('#modal').hide();
+    } else {
+        $('#modal').show();
+    }
+}
+
 var popupTemplate = function (feature) {
     const plannedStatus = feature.properties.isPlanned ? 'Đã quy hoạch' : 'Chưa quy hoạch';
 
@@ -214,9 +288,138 @@ var popupTemplate = function (feature) {
 
   `;
 };
+var QCComponent = function (info) {
+    return `
+    <div class="hide component-QC-and-Img " style = "gap: 10px;flex-direction: column;">
+    <div class="component-QC">
+    <div class="row flex-column QC-head">
+        <h3 class="qc-title">${info.typeofAds}</h3>
+        <div class="qc-adr">${info.address}</div>
+    </div>
+    <div class="row flex-column QC-body">
+        <div class="qc-size">Kích thước: ${info.width}m x ${info.height}m</div>
+        <div class="qc-number">Số lượng: ${info.quantity} trụ/bảng</div>
+        <div class="qc-format">Hình thức: ${info.AdsFormat}</div>
+        <div class="qc-type">Phân loại: ${info.typeofLocation}</div>
+    </div>
+    <div class="row d-flex align-items-center justify-content-between QC-foot">
+        <div class="col-md-auto infoBtn">
+            <button type="button">
+                <i class="bi bi-info-circle-fill"></i>
+                &#8203;
+            </button>
+        </div>
+        <div class="col-md-auto d-flex qc-report">
+            <button type="button" class="btn-report">
+                <i class="bi bi-exclamation-octagon-fill"></i>
+                Báo cáo vi phạm
+            </button>
+        </div>
+    </div>
+</div>
+<div class="component-moreInfoQC">
+                        <img src="./img/robot.jpg" alt="robot.jpg" class="moreInfoQC-imgs" width="250" height="140" />
+                        <div class="moreInfoQC-content">Ngày hết hạn hợp đồng: 30/12/2023</div>
+                    </div>
+
+  `;
+};
 
 qcMarkers.addLayer(qcMarker);
 
+const reportInfo = (info) => {
+    return `<div class="component-report-sm component-report">
+    <form class="report-form">
+        <h4 class="report-form-title">
+            <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
+        </h4>
+        <h6 class="report-status"></h6>
+
+        <div class="container">
+            <div class="row">
+                <div class="container report-info">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-5 col-md-4">
+                            <label class="align-middle" for="reportType">Hình thức báo cáo</label>
+                        </div>
+                        <div class="col-xs-6 col-sm-7 col-md-8">
+                            <input
+                                class="report-data-loaded"
+                                type="text"
+                                name="reportType"
+                                id="reportType"
+                                readonly
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="report-info">
+                    <label class="mb-1" for="fullName">Họ và tên</label>
+                    <input
+                        class="report-data-loaded"
+                        type="text"
+                        name="fullName"
+                        id="fullName"
+                        readonly
+                    />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="report-info">
+                    <label class="mb-1" for="email">Email</label>
+                    <input
+                        class="report-data-loaded"
+                        type="email"
+                        name="email"
+                        id="email"
+                        readonly
+                    />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="report-info">
+                    <label class="mb-1" for="phoneNumber">Số điện thoại</label>
+                    <input
+                        class="report-data-loaded"
+                        type="tel"
+                        name="phoneNumber"
+                        id="phoneNumber"
+                        readonly
+                    />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="report-info">
+                    <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
+                    <textarea
+                        class="report-data-loaded"
+                        name="reportContent"
+                        id="reportContent"
+                        cols="30"
+                        rows="10"
+                        style="resize: none"
+                        readonly
+                    ></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="report-image-upload">
+                    <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label> <br />
+                    <img src="" alt="Hình biển quảng cáo" />
+                    <img src="" alt="Hình biển quảng cáo" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>`;
+};
 var reportMarkers = L.markerClusterGroup({
     iconCreateFunction: function (cluster) {
         var childCount = cluster.getChildCount();
@@ -236,17 +439,100 @@ var reportMarker = L.geoJSON(dataReport, {
             return L.marker(latlng, { icon: reportIconProcessing });
         }
     },
+    onEachFeature: function (feature, layer) {
+        layer.on('click', function (e) {
+            if ($('.modal-content').find('.component-report').length > 0) {
+                console.log('remove');
+                $('.modal-content').find('.component-report').remove();
+            }
+            const content = reportInfo(feature);
+
+            $('.modal-content').append(content);
+            checkModalComponents();
+            $('.component-QC-and-Img').addClass('show');
+        });
+    },
 });
-var popup = L.popup();
+const handleReportBtn = (info) => {
+    const content = `
+        <div class="qc-report d-flex flex-row-reverse">
+            <button type="button" class="btn-report">
+                <i class="bi bi-exclamation-octagon-fill"></i>
+                Báo cáo vi phạm
+            </button>
+        </div>`;
 
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent('You clicked the map at ' + e.latlng.toString())
-        .openOn(map);
-}
+    return content;
+};
 
-map.on('click', onMapClick);
+$('.modal-content').on('click', '.btn-report', function () {
+    console.log('hj');
+    $('.report-component').removeClass('hide');
+    $('.report-component').addClass('show-report');
+});
+
+const locationInfo = (info) => {
+    const type = info.addresstype;
+    let name = '';
+    let address = '';
+
+    if (type !== 'road') {
+        name = info.address[type] || ''; // Extract the type-specific name
+        address = info.display_name.replace(name + ', ', ''); // Remove the type-specific name from the display nam
+    } else {
+        address = info.display_name; // If it's a road, keep the entire display name as the address
+    }
+    const reportBtn = handleReportBtn(info);
+
+    return `
+    
+            <div class="hide component-location-qc">
+                        <div class="row">
+                            <i class="bi bi-info-circle"></i>
+                        </div>
+                        <div class="row loc-qc-content">
+                            <h4 class="title">Thông tin bảng quảng cáo</h4>
+                            <h5 class="qc">Chưa có dữ liệu</h5>
+                            <div class="note">Vui lòng chọn điểm trên bản đồ để xem</div>
+                        </div>
+                    </div>
+
+                    <div class="component-location-info">
+                        <div class="row">
+                            <i class="bi bi-check2-circle"></i>
+                        </div>
+                        <div class="row loc-location-content">
+                            <h4 class="title">Thông tin địa điểm</h4>
+                            <h5 class="location-name">${name}</h5>
+                            <div class="location-geo">
+                            ${address}
+                            </div>
+                            ${reportBtn}
+                        </div>
+                    </div>
+`;
+};
+map.on('click', function (e) {
+    const { lat, lng } = e.latlng;
+
+    // Perform reverse geocoding
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+        .then((response) => response.json())
+        .then((data) => {
+            if ($('.modal-content').find('.component-location-qc').length > 0) {
+                $('.modal-content').find('.component-location-qc').remove();
+                $('.modal-content').find('.component-location-info').remove();
+            }
+
+            $('.modal-content').append(locationInfo(data));
+            checkModalComponents();
+            $('.component-location-qc').addClass('show');
+            $('.component-location-info').addClass('show');
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+        });
+});
 
 const searchControl = new GeoSearch.GeoSearchControl({
     provider: new GeoSearch.OpenStreetMapProvider(),
@@ -260,3 +546,32 @@ map.addLayer(reportMarkers);
 map.addLayer(qcMarkers);
 
 L.control.locate().addTo(map);
+
+const showMarker = async (whichLayer) => {
+    let marker;
+    let text;
+    if (whichLayer === 'showQC') {
+        marker = qcMarkers;
+        text = 'Bảng QC';
+    } else if (whichLayer === 'showBC') {
+        marker = reportMarkers;
+        text = 'Báo cáo vi phạm';
+    }
+    if (map.hasLayer(marker)) {
+        map.removeLayer(marker);
+        document.getElementById(whichLayer).innerHTML = `<i class="bi bi-eye-slash"></i> ${text}`;
+    } else {
+        map.addLayer(marker);
+        document.getElementById(whichLayer).innerHTML = `<i class="bi bi-eye"></i> ${text}`;
+    }
+};
+
+document.getElementById('showQC').addEventListener('click', () => showMarker('showQC'));
+document.getElementById('showBC').addEventListener('click', () => showMarker('showBC'));
+
+// Btn close
+const modal = document.getElementById('modal');
+document.getElementById('closeBtn').addEventListener('click', () => {
+    modal.style.display = 'none';
+    $('.modal-content').remove();
+});
