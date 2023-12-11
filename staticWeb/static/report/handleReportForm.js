@@ -1,11 +1,32 @@
+//WYSIWYG toolbar
+tinymce.init({
+    selector: '#reportContent',
+    plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+    mergetags_list: [
+      { value: 'First.Name', title: 'First Name' },
+      { value: 'Email', title: 'Email' },
+    ],
+    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+    setup: (editor) => {
+        editor.on("change", (e) => {     
+            modifyMessage((reportContent.value === ""), "Vui lòng nhập nội dung báo cáo", 4);
+        });
+        // editor.on('keyup', function(e) {
+        //     modifyMessage((reportContent.value === "" || reportContent === undefined), "Vui lòng nhập nội dung báo cáo", 4);
+        // });
+    }
+});
+
 //Get form information
 const form = document.getElementById('reportForm');
 var reportType = document.getElementById('reportType');
 var fullName = document.getElementById('fullName');
 var email = document.getElementById('email');
 var phoneNumber = document.getElementById('phoneNumber');
-// var reportContent = tinymce.get('reportContent').getContent();
-var reportContent = document.getElementById('reportContent');
+var reportContent = tinymce.get('reportContent').getContent();
 const images = document.getElementById('img');
 const submitButton = document.getElementById('submitBtn');
 
@@ -44,9 +65,6 @@ phoneNumber.onchange = () => {
     const phoneNumberPattern = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
     modifyMessage((phoneNumber.value === "" || !phoneNumberPattern.test(phoneNumber.value)), "Vui lòng nhập SĐT", 3);
 };
-reportContent.onchange = () => {
-    modifyMessage((reportContent.value === ""), "Vui lòng nhập nội dung báo cáo", 4);
-};
 
 //Check image files input
 if(images !== undefined){
@@ -81,57 +99,7 @@ form.addEventListener("submit", (e) => {
 
         console.log(jsonString);
         
-        //TODO: SAVING DATA TO JSON FILE
-
-        // fs.writeFile("../reportData.json", jsonString, (error) => {
-        //     if(error){
-        //         console.error(error);
-        //         throw error;
-        //     }
-
-        //     console.log("Write successfully");
-        // })
+        //TODO: STORE DATA
     }
-
-    // var imageURL = "";
-    // let imageFile = images.files.item(0);
-    // let reader = new FileReader();
-    // reader.onloadend = () => {
-    //     imageURL = reader.result;
-    // }
-    // reader.readAsDataURL(imageFile);
- 
-    // var jsonString = `{ "reportType":"${reportType.value}", 
-    // "fullName":"${fullName.value}", 
-    // "email":"${email.value}", 
-    // "phoneNumber":"${phoneNumber.value}",
-    // "reportContent":"${reportContent.value}",
-    // "img":"${imageURL}"}`;
-
-    // for(let i = 0; i < images.files.length; i++){        
-    //     let imageFile = images.files.item(i);
-    //     let reader = new FileReader();
-    //     reader.onloadend = () => {
-    //       jsonObject['img'] = reader.result;
-    //     }
-    //     reader.readAsDataURL(imageFile);
-
-        // toDataURL(`${URL.createObjectURL(images.files.item(i))}`,
-        // function (dataUrl) {
-        //   console.log('RESULT:', dataUrl)
-        // });
-
-
-        // let base64String = "";
-        // let imgFile = images.files.item(i);
-        // let reader = new FileReader();
-
-        // reader.onload = () => {
-        //     base64String = reader.result.replace("data:", "")
-        //         .replace(/^.+,/, "");
-        //     imageBase64Stringsep = base64String;
-        // };
-        // reader.readAsDataURL(imgFile);
-    //}
 });
 
