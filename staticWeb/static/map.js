@@ -262,6 +262,7 @@ var qcMarker = L.geoJSON(dataADS, {
             $('.component-QC-and-Img').addClass('show');
         });
     },
+    ffff,
 });
 // Function to check if the modal has components with class 'component-QC'
 function checkModalComponents() {
