@@ -20,6 +20,7 @@
         />
         <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script src="https://cdn.tiny.cloud/1/1mgs17eq01zd41d9me8lhpm2tqgbgg7v7gbigwucjmpt4ayy/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
         <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.9/dist/leaflet-search.min.css" />
 
@@ -84,10 +85,15 @@
 
                 <div class="col-sm offset-md-5 modal-content"></div>
             </div>
-            <div class="report-component hide">
+            <div class="report-component hide" id="report"">
                 <div class="report-form-container center">
                     <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
                     <form class="report-form" id="reportForm">
+                        <div id="reportCloseBtn">
+                            <button type="button" class="float-end">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
                         <h4 class="report-form-title">
                             <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
                         </h4>

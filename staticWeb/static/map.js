@@ -592,3 +592,9 @@ document.getElementById('closeBtn').addEventListener('click', () => {
     modal.style.display = 'none';
     // $('.modal-content').remove();
 });
+
+// Report Btn close
+// const report = document.getElementById('report');
+// document.getElementById('reportCloseBtn').addEventListener('click', () => {
+//     report.style.display = 'none';
+// });
