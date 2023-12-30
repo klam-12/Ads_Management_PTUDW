@@ -1,11 +1,14 @@
-const path = require('path');
-const express = require('express');
-const hbs = require('express-handlebars');
-const route = require('./routes');
+import path from 'path';
+import express from 'express';
+import hbs from 'express-handlebars';
+import db from './db.js';
+// import route from './routes.js';
+import { fileURLToPath } from 'url';
 
-// Connect to MongoDB
-// db.connectDB();
+db.connectDB();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const port = 3000;
 app.use(express.static(__dirname + 'static'));
@@ -20,12 +23,11 @@ app.engine(
     'hbs',
     hbs.engine({
         extname: '.hbs',
-        defaultLayout: 'main', // Layout mặc định nếu có
-        layoutsDir: path.join(__dirname, 'views/layouts'), // Thư mục chứa layout templates
-        partialsDir: path.join(__dirname, 'views/partials'), // Thư mục chứa partials
+        defaultLayout: 'main',
+        layoutsDir: path.join(__dirname, 'views/layouts'), 
+        partialsDir: path.join(__dirname, 'views/partials').
     }),
 );
-// app.set('view engine', 'hbs');
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.get('/', (req, res) => {

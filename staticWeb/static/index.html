@@ -45,7 +45,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
-
+        <link rel="stylesheet" href="./globalStyle.css" />
         <link rel="stylesheet" href="./css/layout.css" />
         <link rel="stylesheet" href="./css/report.css" />
         <link rel="stylesheet" href="./css/map.css" />
@@ -75,17 +75,18 @@
             </div>
 
             <div class="modal" id="modal">
-                <div class="col-sm offset-md-5 modal-content">
-                    <div id="closeBtn" class="closeBtn">
-                        <button type="button">
-                            <i class="bi bi-x-lg"></i>
-                            &#8203;
-                        </button>
-                    </div>
+                <div id="closeBtn" class="closeBtn">
+                    <button type="button">
+                        <i class="bi bi-x-lg"></i>
+                        &#8203;
+                    </button>
                 </div>
+
+                <div class="col-sm offset-md-5 modal-content"></div>
             </div>
             <div class="report-component hide">
                 <div class="report-form-container center">
+                    <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
                     <form class="report-form" id="reportForm">
                         <h4 class="report-form-title">
                             <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM

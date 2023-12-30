@@ -134,3 +134,9 @@ show-report {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.25);
 }
+
+.btn-close-report-form {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}

@@ -13,6 +13,8 @@ var dataADS = {
                 width: 2.5,
                 height: 10,
                 quantity: 1,
+                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
+                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
             },
             geometry: {
                 coordinates: [106.68222807113926, 10.762650746826012],
@@ -30,6 +32,8 @@ var dataADS = {
                 width: 2.5,
                 height: 10,
                 quantity: 1,
+                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
+                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
             },
             geometry: {
                 coordinates: [106.68225621143063, 10.761193217103099],
@@ -47,6 +51,8 @@ var dataADS = {
                 width: 2.5,
                 height: 10,
                 quantity: 1,
+                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
+                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
             },
             geometry: {
                 coordinates: [106.68051981395382, 10.76387028778423],
@@ -64,6 +70,8 @@ var dataADS = {
                 width: 2.5,
                 height: 10,
                 quantity: 1,
+                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
+                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
             },
             geometry: {
                 coordinates: [106.68048211743064, 10.76130263744605],
@@ -81,6 +89,8 @@ var dataADS = {
                 width: 2.5,
                 height: 10,
                 quantity: 1,
+                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
+                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
             },
             geometry: {
                 coordinates: [106.67946431131486, 10.761012540960436],
@@ -98,6 +108,8 @@ var dataADS = {
                 width: 2.5,
                 height: 10,
                 quantity: 1,
+                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
+                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
             },
             geometry: {
                 coordinates: [106.67887038240696, 10.762101450786247],
@@ -224,7 +236,7 @@ var customPopup = L.DomUtil.create('div', 'custom-popup-class');
 map.getContainer().appendChild(customPopup);
 
 var qcMarkers = L.markerClusterGroup();
-var listComponent = [];
+// var listComponent = [];
 var qcMarker = L.geoJSON(dataADS, {
     pointToLayer: function (feature, latlng) {
         if (feature.properties.isPlanned) {
@@ -251,27 +263,23 @@ var qcMarker = L.geoJSON(dataADS, {
             customPopup.style.display = 'none';
         });
         layer.on('click', function (e) {
-            if ($('.modal-content').find('.component-QC-and-Img').length > 0) {
-                console.log('remove');
-                $('.modal-content').find('.component-QC-and-Img').remove();
-            }
+            $('.modal-content').empty();
             const content = QCComponent(feature.properties);
-
-            $('.modal-content').append(content);
+            $('.modal-content').html(content);
+            console.log(content);
             checkModalComponents();
+            $('.modal-content').show();
             $('.component-QC-and-Img').addClass('show');
         });
     },
-    ffff,
 });
-// Function to check if the modal has components with class 'component-QC'
 function checkModalComponents() {
     const modalContent = $('.modal-content');
-    console.log(modalContent.children());
-    if (modalContent.children().length === 1) {
+    if (modalContent.children().length === 0) {
         $('#modal').hide();
     } else {
         $('#modal').show();
+        modalContent.show();
     }
 }
 
@@ -286,26 +294,30 @@ var popupTemplate = function (feature) {
               <span class = "popup-text">${feature.properties.address}</span>
           </div>
           <span class = "popup-status">${plannedStatus}</span>
+          <div style = " height: 115px;">
+            <img src="${feature.properties.image1}" alt="" style = "object-fit: contain;width: inherit;height: inherit;">
+          </div>
+          
 
   `;
 };
 var QCComponent = function (info) {
     return `
-    <div class="hide component-QC-and-Img " style = "gap: 10px;flex-direction: column;">
+    <div class="component-QC-and-Img " style = "gap: 20px;flex-direction: column;">
     <div class="component-QC">
     <div class="row flex-column QC-head">
         <h3 class="qc-title">${info.typeofAds}</h3>
         <div class="qc-adr">${info.address}</div>
     </div>
     <div class="row flex-column QC-body">
-        <div class="qc-size">Kích thước: ${info.width}m x ${info.height}m</div>
-        <div class="qc-number">Số lượng: ${info.quantity} trụ/bảng</div>
-        <div class="qc-format">Hình thức: ${info.AdsFormat}</div>
-        <div class="qc-type">Phân loại: ${info.typeofLocation}</div>
+        <div class="qc-size">Kích thước: <strong> ${info.width}m x ${info.height}m </strong></div>
+        <div class="qc-number">Số lượng: <strong> ${info.quantity} trụ/bảng</strong></div>
+        <div class="qc-format">Hình thức: <strong> ${info.AdsFormat}</strong></div>
+        <div class="qc-type">Phân loại: <strong> ${info.typeofLocation}</strong></div>
     </div>
     <div class="row d-flex align-items-center justify-content-between QC-foot">
         <div class="col-md-auto infoBtn">
-            <button type="button">
+            <button type="button" class ="btn-info">
                 <i class="bi bi-info-circle-fill"></i>
                 &#8203;
             </button>
@@ -317,18 +329,24 @@ var QCComponent = function (info) {
             </button>
         </div>
     </div>
-</div>
-<div class="component-moreInfoQC">
-                        <img src="./img/robot.jpg" alt="robot.jpg" class="moreInfoQC-imgs" width="250" height="140" />
-                        <div class="moreInfoQC-content">Ngày hết hạn hợp đồng: 30/12/2023</div>
-                    </div>
+    </div>
+    <div class="component-moreInfoQC hide">
+            <img src="${info.image2}" alt="robot.jpg" class="moreInfoQC-imgs" height="140" style="object-fit: contain;" />
+            <div class="moreInfoQC-content">Ngày hết hạn hợp đồng: 30/12/2023</div>
+        </div>
 
   `;
 };
+$('.modal-content').on('click', '.btn-info', function () {
+    console.log('click');
+    $('.component-moreInfoQC').removeClass('hide').addClass('show');
+});
 
 qcMarkers.addLayer(qcMarker);
 
 const reportInfo = (info) => {
+    console.log(info.properties);
+    const content = info.properties;
     return `<div class="component-report-sm component-report">
     <form class="report-form">
         <h4 class="report-form-title">
@@ -349,6 +367,7 @@ const reportInfo = (info) => {
                                 type="text"
                                 name="reportType"
                                 id="reportType"
+                                value="${content.reportType}"
                                 readonly
                             />
                         </div>
@@ -364,6 +383,7 @@ const reportInfo = (info) => {
                         type="text"
                         name="fullName"
                         id="fullName"
+                        value="${content.fullName}"
                         readonly
                     />
                 </div>
@@ -377,6 +397,7 @@ const reportInfo = (info) => {
                         type="email"
                         name="email"
                         id="email"
+                        value="${content.email}"
                         readonly
                     />
                 </div>
@@ -390,6 +411,7 @@ const reportInfo = (info) => {
                         type="tel"
                         name="phoneNumber"
                         id="phoneNumber"
+                        value="${content.phoneNumber}"
                         readonly
                     />
                 </div>
@@ -405,6 +427,7 @@ const reportInfo = (info) => {
                         cols="30"
                         rows="10"
                         style="resize: none"
+                        value="${content.reportContent}"
                         readonly
                     ></textarea>
                 </div>
@@ -412,9 +435,11 @@ const reportInfo = (info) => {
 
             <div class="row">
                 <div class="report-image-upload">
-                    <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label> <br />
-                    <img src="" alt="Hình biển quảng cáo" />
-                    <img src="" alt="Hình biển quảng cáo" />
+                    <label for="reportImage">Hình ảnh minh hoạ </label> <br />
+                    <div class="report-img" style = "display: flex; flex-direction: row;"> 
+                        <img src="${content.image1}" alt="Hình biển quảng cáo" style="width: 50%;"/> 
+                        <img src="${content.image2}" alt="Hình biển quảng cáo" style="width: 50%;"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -442,15 +467,11 @@ var reportMarker = L.geoJSON(dataReport, {
     },
     onEachFeature: function (feature, layer) {
         layer.on('click', function (e) {
-            if ($('.modal-content').find('.component-report').length > 0) {
-                console.log('remove');
-                $('.modal-content').find('.component-report').remove();
-            }
+            $('.modal-content').empty();
             const content = reportInfo(feature);
-
             $('.modal-content').append(content);
             checkModalComponents();
-            $('.component-QC-and-Img').addClass('show');
+            $('.component-report').addClass('show');
         });
     },
 });
@@ -467,7 +488,6 @@ const handleReportBtn = (info) => {
 };
 
 $('.modal-content').on('click', '.btn-report', function () {
-    console.log('hj');
     $('.report-component').removeClass('hide');
     $('.report-component').addClass('show-report');
 });
@@ -516,14 +536,10 @@ const locationInfo = (info) => {
 map.on('click', function (e) {
     const { lat, lng } = e.latlng;
 
-    // Perform reverse geocoding
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
         .then((response) => response.json())
         .then((data) => {
-            if ($('.modal-content').find('.component-location-qc').length > 0) {
-                $('.modal-content').find('.component-location-qc').remove();
-                $('.modal-content').find('.component-location-info').remove();
-            }
+            $('.modal-content').empty();
 
             $('.modal-content').append(locationInfo(data));
             checkModalComponents();
@@ -574,5 +590,5 @@ document.getElementById('showBC').addEventListener('click', () => showMarker('sh
 const modal = document.getElementById('modal');
 document.getElementById('closeBtn').addEventListener('click', () => {
     modal.style.display = 'none';
-    $('.modal-content').remove();
+    // $('.modal-content').remove();
 });
