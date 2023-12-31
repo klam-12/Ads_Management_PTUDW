@@ -7,12 +7,14 @@ import {createRequire} from "module";
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import numeral from 'numeral'
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Connect to MongoDB
 // db.connectDB();
 
 import accountRoute from "./routes/account.route.js"
+import formService from "./routes/form.route.js"
 
 const app = express();
 const port = 3000;
@@ -37,10 +39,18 @@ app.engine(
             format_number(val) {
               return numeral(val).format('0,0');
             }
-          }
-    }),
-    
+        }
+    })
 );
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {}
+}));
+
 // app.set('view engine', 'hbs');
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, './views'));
@@ -51,6 +61,7 @@ app.get('/', (req, res) => {
 // route(app);
 
 app.use('/account',accountRoute);
+app.use('/form',formService);
 
 app.listen(port, () => {
     console.log(`Blog app listening at http://localhost:${port}`);

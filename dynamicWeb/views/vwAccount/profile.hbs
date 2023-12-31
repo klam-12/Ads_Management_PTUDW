@@ -1,0 +1,87 @@
+
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>Profile</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+        <link rel="stylesheet" href="/static/css/globalStyle.css">
+        <link rel="stylesheet" href="/static/css/blob.css">
+    </head>
+    <body>
+        <div class='container'>
+            <div class="blob topleft-pos"></div>
+            <div class="blob botright-pos"></div>
+            <div class="container ">
+                <form method="post" class="profile-width position-absolute top-50 start-50 translate-middle p-4 custom-form box-shadow">
+                    <div class="row text-center mb-3 info-color ">
+                        <i class="bi bi-person-square heading-size" style="font-size: 34px;"></i>
+                    </div>
+
+                    <div class="row mb-3 bg-light p-2 mx-2 box-shadow">
+                        <div class="col-4 fs-5 fw-semibold info-color text-center d-flex align-items-center ">
+                            <i class="bi bi-person-fill-gear">
+                                Thông tin tài khoản
+                            </i>
+                        </div>
+                        <div class="col-8">
+                            <label for="txtTdn" class="form-label fw-semibold black-color">Tên đăng nhập</label>
+                            <input type="text" class="form-control  mb-2" id="txtTdn" name="tdn" value="aiduno" disabled>
+                            <a href="/account/forgotPass" class="btn btn-sm btn-link fw-semibold">Đổi mật khẩu</a>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 bg-light p-2 mx-2 box-shadow">
+                        <div class="col-4 fs-5 fw-semibold info-color text-center d-flex align-items-center ">
+                            <i class="bi bi-person-vcard">
+                                Thông tin cá nhân
+                            </i>
+                        </div>
+                        <div class="col-8">
+                            <label for="txtName" class="form-label fw-semibold black-color">Họ và tên</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtName" name="tdn" value="Nguyễn Văn A">
+                            
+                            <label for="txtDob" class="form-label fw-semibold black-color">Ngày sinh</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtDob" name="raw_dob">
+                            
+                            <label for="txtEmail" class="form-label fw-semibold black-color">Email</label>
+                            <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email" value="email@gmail.com" disabled>
+                            
+                            <label for="txtPhone" class="form-label fw-semibold black-color">Số điện thoại</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-center fw-semibold">
+                            <a href="#" class="btn btn-outline-primary me-2">
+                                <i class="bi bi-house-door-fill"></i>
+                                Về trang chủ
+                            </a>
+
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+
+                            {{!-- <a href="#" class="btn btn-outline-primary fw-semibold">Đổi mật khẩu</a> --}}
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+        <script>
+        $('#txtDob').datetimepicker({
+            timepicker: false,
+            format: 'd/m/Y',
+            mask: true
+        });
+        </script>
+    </body>
+</html>

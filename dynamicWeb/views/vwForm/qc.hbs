@@ -1,0 +1,150 @@
+{{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+<script>
+    $('#fuMain').fileinput({
+        dropZoneEnabled: false,
+        maxFileCount: 5,
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        // language: 'vi',
+    });
+
+    $('#txtDate').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+
+    $('input[name^=dateExpired]').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+</script>
+{{/section}}
+
+{{#section 'css'}}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
+<link rel="stylesheet" href="/static/css/form.css">
+{{/section}}
+
+<div class="position-relative">
+    <form method="post" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-qc box-shadow ">
+        <div class="row ">
+            <i class="bi bi-x d-flex justify-content-end white-color" style="font-size: 34px;"></i>
+        </div>
+
+        <div class="row text-center mb-3 white-color ">
+            <i class="bi bi-badge-ad-fill fw-bold heading-size">
+                Yêu cầu chỉnh sửa bảng quảng cáo
+            </i>
+        </div>
+
+        <div class="row mb-2 bg-light rounded-1 p-2 mx-2">
+            <div class="row mb-1 fs-5 fw-semibold ">
+                Thông tin chung
+            </div>
+
+            <div class="row">
+                <label for="txtSender" class="col-sm-3 col-form-label">Người gửi</label>
+                <div class="col-sm-9">
+                    <input type="text" readonly class="form-control-plaintext" id="txtSender" value="Cán bộ phường X">
+                </div>
+            </div>
+            <div class="row">
+                <label for="txtDate" class="col-sm-3 col-form-label">Thời điểm chỉnh sửa</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtDate" name="dateReport">
+                </div>
+            </div>
+
+            <div class="row">
+                <span class="col-sm-3 col-form-label">Lí do chỉnh sửa</span>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="reasonArea" style="height: 100px"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2 bg-light rounded-1 p-2 mx-2">
+            <div class="row mb-1 fs-5 fw-semibold ">
+                Thông tin chỉnh sửa
+            </div>
+
+            <div class="row mb-2">
+                <span class="col-sm-3 col-form-label align-middle">Kích thước & Số lượng</span>
+                <div class="col-sm-9">
+                    <div class="row">
+                    <div class="col-sm-4">
+                            <label for="txtPhone" class="form-label fw-italic black-color">Chiều rộng (m)</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                    </div>
+                    <div class="col-sm-4">
+                            <label for="txtPhone" class="form-label fw-italic black-color">Chiều dài (m)</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                    </div>
+                    <div class="col-sm-4">
+                            <label for="txtPhone" class="form-label fw-italic black-color">Số lượng (trụ/bảng)</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <span class="col-sm-3 col-form-label">Hình thức</span>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Hình thức quảng cáo</option>
+                        <option value="1">Cổ động chính trị</option>
+                        <option value="2">Quảng cáo thương mại</option>
+                        <option value="3">Xã hội hoá</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <span class="col-sm-3 col-form-label">Phân loại</span>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Phân loại</option>
+                        <option value="1">Trụ bảng hiflex</option>
+                        <option value="2">Trụ màn hình điện tử LED</option>
+                        <option value="3">Trụ hộp đèn</option>
+                        <option value="4">Bảng hiflex ốp tường</option>
+                        <option value="5">Màn hình điện tử ốp tường</option>
+                        <option value="6">Trụ treo băng rôn dọc</option>
+                        <option value="7">Trụ treo băng rôn ngang</option>
+                        <option value="8">Trụ/Cụm pano</option>
+                        <option value="9">Cổng chào</option>
+                        <option value="10">Trung tâm thương mại</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="txtDateQC" class="col-sm-3 col-form-label">Ngày hết hạn</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtDateQC" name="dateExpired">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center fw-semibold">
+                <button type="submit" class="btn btn-outline-light btn-submit box-shadow">Hoàn thành</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row"></div>
+</div>

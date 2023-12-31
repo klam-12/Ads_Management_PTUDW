@@ -1,0 +1,46 @@
+.custom-form-location{
+    border-radius: 5px;
+    background: var(--form-edit-bg);
+}
+
+.custom-form-qc{
+    border-radius: 5px;
+    background: var(--form-edit-qc);
+}
+
+.box-shadow{
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.white-color{
+    color: #ffff;
+}
+
+.green-color{
+    color: var(--green-color);
+}
+
+.info-color{
+    color: var(--info);
+}
+
+.heading-size{
+    font-size: 24px;
+}
+
+.btn-submit{
+    color:var(--black-color);
+    background-color: #ffff;
+}
+
+.btn-submit:hover{
+    opacity: 90%;
+}
+
+.form-width{
+    width: 55vw;
+}
+
+.form-license-width{
+    width: 80vw;
+}
