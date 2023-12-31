@@ -192,7 +192,7 @@ router.get('/department/license',async function (req, res) {
     });
 })
 
-//Notification
+//Notification testing
 // router.get('/notification/updateNotif', function (req, res) {
 //     res.render('vwNotification/updateConfirm');
 // })
@@ -203,6 +203,10 @@ router.get('/department/license',async function (req, res) {
 
 // router.get('/notification/createNotif', function (req, res) {
 //     res.render('vwNotification/createConfirm');
+// })
+
+// router.get('/notification/error', function (req, res) {
+//     res.render('vwNotification/errorNotif');
 // })
 
   export default router;
