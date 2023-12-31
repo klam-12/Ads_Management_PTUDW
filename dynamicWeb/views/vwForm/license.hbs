@@ -37,18 +37,21 @@
 {{/section}}
 
 <div class="position-relative">
-    <form method="post" class="container-fluid position-absolute top-50 start-50 translate-middle-x bg-info form-license-width box-shadow ">
+    <form method="post" class="container-fluid position-absolute top-50 start-50 translate-middle-x custom-form-license box-shadow ">
+        <div class="row ">
+            <i class="bi bi-x d-flex justify-content-end green-color" style="font-size: 34px;"></i>
+        </div>
+
         <div class="row text-center my-3 ">
-            <span class="fw-bold heading-size white-color">
+            <span class="fw-bold heading-size green-color">
                 ĐƠN XIN CẤP PHÉP QUẢNG CÁO
             </span>
         </div>
 
-        <div class="row justify-content-around mb-3">
-            
-                <div class="col-6 col-md-6 bg-light rounded-1 p-2">
-                    <div class="row mb-1 fs-6 fw-semibold ">
-                        <div class="col-12 form-label">
+        <div class="row justify-content-center mb-3">
+                <div class="col-6 col-md-5 rounded-1 p-3 me-4 white-bg border border-success">
+                    <div class="row mb-1 fs-5 fw-semibold ">
+                        <div class="col-12 form-label green-color">
                             Thông tin quảng cáo
                         </div>
                     </div>
@@ -74,11 +77,6 @@
                                 <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
                         </div>
                     </div>  
-
-                    {{!-- <div class="mb-3">
-                        <label for="txtNameCompany" class="form-label">Tên công ty</label>
-                        <input type="text" class="form-control form-control-sm" id="txtNameCompany" name="nameCompany">
-                    </div> --}}
 
                     <div class="mb-2">
                         <label class="form-label">Loại bảng quảng cáo </label>
@@ -130,9 +128,9 @@
 
 
                 {{!-- Part 2 --}}
-                <div class="col-6 col-md-5 bg-light rounded-1 p-2 border-left">
-                    <div class="mb-1 fs-6 fw-semibold ">
-                        <div class="col-12 form-label">
+                <div class="col-6 col-md-5 rounded-1 p-3 ms-4 white-bg border border-success">
+                    <div class="mb-1 fs-5 fw-semibold ">
+                        <div class="col-12 form-label green-color">
                             Thông tin công ty
                         </div>
                     </div>
@@ -173,8 +171,8 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-12 text-center fw-semibold green-color">
-                <button type="submit" class="btn btn-outline-light btn-submit box-shadow">
+            <div class="col-12 text-center fw-semibold ">
+                <button type="submit" class="btn btn-success box-shadow custom-btn-license">
                     <i class="bi bi-file-earmark-plus-fill">
                     </i>
                     Tạo yêu cầu

@@ -17,5 +17,10 @@ route.get('/license', function(req,res){
     res.render('vwForm/license');
 });
 
+// Tạo tài khoản cán bộ
+route.get('/createAcc', function(req,res){
+    res.render('vwForm/createAcc');
+});
+
 
 export default route;

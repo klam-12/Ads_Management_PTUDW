@@ -8,6 +8,12 @@
     background: var(--form-edit-qc);
 }
 
+.custom-form-license{
+    width: 75vw;
+    border-radius: 5px;
+    background-color: #EFFFF1;
+}
+
 .box-shadow{
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
@@ -41,6 +47,19 @@
     width: 55vw;
 }
 
-.form-license-width{
-    width: 80vw;
+.form-createAcc-width{
+    width: 60vw;
+}
+
+
+.grey-bg{
+    background-color: #F2FFF4;
+}
+
+.custom-btn-license{
+    width: 30vw;
+}
+
+.white-bg{
+    background-color: #ffff;
 }
