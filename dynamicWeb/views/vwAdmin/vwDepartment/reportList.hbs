@@ -1,0 +1,77 @@
+<div class="container-fluid p-5 pt-4">
+  <div class="card-container m-5 mt-4">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="blue-heading">Danh sách báo cáo</h5>
+        <div class="d-flex">
+          <div class="dropdown me-2">
+              <a class="btn btn-sm blue-sort-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Quận</a>
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+          </div>
+          <div class="dropdown">
+              <a class="btn btn-sm blue-sort-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Phường</a>
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+          </div>
+        </div>
+      </div>
+      {{#if this.empty}}
+      <div class="card-body">
+        Không có dữ liệu
+      </div>
+      {{else}}
+      <table class="table table-hover align-middle">
+        <thead class="align-middle text-center">
+            <tr>
+                <th class="col-0.5" scope="col">STT</th>
+                <th class="col-2" scope="col">Thời điểm gửi</th>
+                <th class="col-2" scope="col">Thông tin người gửi</th>
+                <th class="col-4" scope="col">Thông tin quảng cáo</th>
+                <th class="col-2" scope="col">Loại hình quảng cáo</th>
+                <th class="col-2" scope="col">Cách thức xử lý</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each reportList}}
+                <tr class="card-info-row">
+                    <td class="text-center">{{ReportID}}</td>
+                    <td class="text-center">{{ReportDate}}</td>
+                    <td>{{{ReportInfo}}}</td>
+                    <td>{{{ReportAdsInfo}}}</td>
+                    <td class="text-center">{{ReportType}}</td>
+                    <td class="text-center"><a href="/" role="button" class="btn btn-sm btn-table btn-blue">Xem thêm</a></td>
+                </tr>
+            {{/each}}
+        </tbody>
+      </table>
+      {{/if}}
+      <div class="card-footer text-muted d-flex align-items-center justify-content-between">
+          <p>
+            Hiển thị {{limit}} trên {{totalPages}} mục
+          </p>
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Trước</a></li>
+            {{#each this.pageNumbers}}
+            {{#if isActive}}
+              <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">{{value}}</a>
+              </li>
+              {{else}}
+              <li class="page-item">
+                <a class="page-link" href="?page={{value}}">{{value}}</a>
+              </li>
+              {{/if}}
+            {{/each}}
+            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>

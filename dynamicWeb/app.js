@@ -1,8 +1,10 @@
 import express from 'express';
-import { engine } from 'express-handlebars';
+import hbs from 'express-handlebars';
 import hbs_sections from 'express-handlebars-sections';
-import session from 'express-session';
-import {createRequire} from "module";
+// import session from 'express-session';
+// import {createRequire} from "module";
+
+import adminRoute from './routes/admin.route.js';
 
 import path from 'path';
 import { dirname } from 'path';
@@ -11,8 +13,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Connect to MongoDB
 // db.connectDB();
-
-import accountRoute from "./routes/account.route.js"
 
 const app = express();
 const port = 3000;
@@ -27,8 +27,8 @@ app.use(express.json());
 
 app.engine(
     'hbs',
-    engine({
-        extname: 'hbs',
+    hbs.engine({
+        extname: '.hbs',
         defaultLayout: 'main', // Layout mặc định nếu có
         layoutsDir: path.join(__dirname, 'views/layouts'), // Thư mục chứa layout templates
         partialsDir: path.join(__dirname, 'views/partials'), // Thư mục chứa partials
@@ -50,7 +50,8 @@ app.get('/', (req, res) => {
 });
 // route(app);
 
-app.use('/account',accountRoute);
+// app.use('/account',accountRoute);
+app.use('/admin', adminRoute);
 
 app.listen(port, () => {
     console.log(`Blog app listening at http://localhost:${port}`);

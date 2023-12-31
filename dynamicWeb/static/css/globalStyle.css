@@ -3,10 +3,11 @@
     margin: 0;
     box-sizing: border-box;
     outline: none;
+    font-family: Segoe UI;
 }
 
 body{
-    background-color: #fff;
+    background-color: #DDEDFF;
 }
 
 :root {
