@@ -9,7 +9,6 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import numeral from 'numeral'
 
-import adminRoute from './routes/admin.route.js';
 import accountRoute from "./routes/account.route.js"
 import formService from "./routes/form.route.js"
 
@@ -19,7 +18,7 @@ import formService from "./routes/form.route.js"
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
-app.use("/static", express.static(__dirname + "\\static"));
+app.use("/static", express.static(__dirname + "/static"));
 
 app.use(
     express.urlencoded({
@@ -63,7 +62,6 @@ app.get('/', (req, res) => {
 
 app.use('/account',accountRoute);
 app.use('/form',formService);
-app.use('/admin', adminRoute);
 
 app.listen(port, () => {
     console.log(`Blog app listening at http://localhost:${port}`);
