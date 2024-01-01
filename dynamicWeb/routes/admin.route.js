@@ -192,6 +192,11 @@ router.get('/department/license',async function (req, res) {
     });
 })
 
+router.get('/department/createAccount',async function (req, res) {    
+    res.render('vwAdmin/vwDepartment/createAccount');
+})
+
+
 //Notification testing
 // router.get('/notification/updateNotif', function (req, res) {
 //     res.render('vwNotification/updateConfirm');

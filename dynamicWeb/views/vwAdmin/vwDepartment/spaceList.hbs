@@ -46,11 +46,14 @@
                           <td class="text-center">{{SpaceID}}</td>
                           <td>{{SpaceAddress}}</td>
                           <td>{{{SpaceInfo}}}</td>
-                          <td class="text-center"><a href="/" role="button" class="btn btn-sm btn-table btn-blue">Xem yêu cầu</a></td>
+                          <td class="text-center"><a href="/form/location" role="button" class="btn btn-sm btn-table btn-blue">Xem yêu cầu</a></td>
                       </tr>
                   {{/each}}
               </tbody>
             </table>
+            {{!-- {{#if formLocation}} --}}
+              {{!-- Render location form --}}
+            {{!-- {{/if}} --}}
             {{/if}}
             <div class="card-footer text-muted d-flex align-items-center justify-content-between">
                 <p>
@@ -102,11 +105,14 @@
                         <td class="text-center">{{SurfaceID}}</td>
                         <td>{{{SurfaceInfo}}}</td>
                         <td class="text-center">{{SurfaceExpiredDate}}</td>
-                        <td class="text-center"><a href="/" role="button" class="btn btn-sm btn-table btn-green">Xem yêu cầu</a></td>
+                        <td class="text-center"><a href="/form/qc" role="button" class="btn btn-sm btn-table btn-green">Xem yêu cầu</a></td>
                     </tr>
                 {{/each}}
             </tbody>
           </table>
+            {{!-- {{#if formQC}} --}}
+              {{!-- Render QC form --}}
+            {{!-- {{/if}} --}}
           {{/if}}
           <div class="card-footer text-muted d-flex align-items-center justify-content-between">
               <p>

@@ -1,0 +1,185 @@
+{{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+<script>
+    $('#fuMain').fileinput({
+        dropZoneEnabled: false,
+        maxFileCount: 5,
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        // language: 'vi',
+    });
+
+    $('#txtDayStart').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+
+    $('input[name^=dayEnd]').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+</script>
+{{/section}}
+
+{{#section 'css'}}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
+<link rel="stylesheet" href="/static/css/form.css">
+{{/section}}
+
+<div class="position-relative">
+    <form method="post" class="container-fluid position-absolute top-50 start-50 translate-middle-x custom-form-license box-shadow ">
+        <div class="row ">
+            <i class="bi bi-x d-flex justify-content-end green-color" style="font-size: 34px;"></i>
+        </div>
+
+        <div class="row text-center my-3 ">
+            <span class="fw-bold heading-size green-color">
+                ĐƠN XIN CẤP PHÉP QUẢNG CÁO
+            </span>
+        </div>
+
+        <div class="row justify-content-center mb-3">
+                <div class="col-6 col-md-5 rounded-1 p-3 me-4 white-bg border border-success">
+                    <div class="row mb-1 fs-5 fw-semibold ">
+                        <div class="col-12 form-label green-color">
+                            Thông tin quảng cáo
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                            <div class="col">
+                                    <label for="txtPhone" class="form-label fw-italic black-color">Kinh độ</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                            </div>
+                            <div class="col">
+                                    <label for="txtPhone" class="form-label fw-italic black-color">Vĩ độ</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                            </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col">
+                                <label for="txtPhone" class="form-label fw-italic black-color">Chiều dài</label>
+                                <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                        </div>
+                        <div class="col">
+                                <label for="txtPhone" class="form-label fw-italic black-color">Chiều rộng</label>
+                                <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                        </div>
+                    </div>  
+
+                    <div class="mb-2">
+                        <label class="form-label">Loại bảng quảng cáo </label>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected>Phân loại</option>
+                            <option value="1">Trụ bảng hiflex</option>
+                            <option value="2">Trụ màn hình điện tử LED</option>
+                            <option value="3">Trụ hộp đèn</option>
+                            <option value="4">Bảng hiflex ốp tường</option>
+                            <option value="5">Màn hình điện tử ốp tường</option>
+                            <option value="6">Trụ treo băng rôn dọc</option>
+                            <option value="7">Trụ treo băng rôn ngang</option>
+                            <option value="8">Trụ/Cụm pano</option>
+                            <option value="9">Cổng chào</option>
+                            <option value="10">Trung tâm thương mại</option>
+                        </select>
+                    </div>
+
+                    <div class=" mb-2">
+                        <label class="form-label">Loại vị trí</label>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected>Phân loại</option>
+                            <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                            <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
+                            <option value="3">Trung tâm thương mại</option>
+                            <option value="4">Chợ</option>
+                            <option value="5">Cây xăng</option>
+                            <option value="6">Nhà chờ xe buýt</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class=" mb-2">
+                        <label class="form-label">Hình thức quảng cáo</label>
+                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected>Phân loại</option>
+                            <option value="1">Cổ động chính trị</option>
+                            <option value="2">Quảng cáo thương mại</option>
+                            <option value="3">Xã hội hoá</option>
+                        </select>
+                    </div>
+
+                    <div class=" mb-2 form-group">
+                        <label for="fuMain" class="form-label">Hình ảnh minh họa</label>
+                        <input type="file" multiple id="fuMain" name="fuMain">
+                    </div>
+
+                </div>
+
+
+                {{!-- Part 2 --}}
+                <div class="col-6 col-md-5 rounded-1 p-3 ms-4 white-bg border border-success">
+                    <div class="mb-1 fs-5 fw-semibold ">
+                        <div class="col-12 form-label green-color">
+                            Thông tin công ty
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtNameCompany" class="form-label">Tên công ty</label>
+                        <input type="text" class="form-control form-control-sm" id="txtNameCompany" name="nameCompany">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtAdr" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control form-control-sm" id="txtAdr" name="address">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control form-control-sm" id="txtEmail" name="email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtPhone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control form-control-sm" id="txtPhone" name="phone">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtDayStart" class="form-label">Ngày bắt đầu hợp đồng</label>
+                        <input type="text" class="form-control form-control-sm" id="txtDayStart" name="dayStart">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtDayEnd" class="form-label">Ngày kết thúc hợp đồng</label>
+                        <input type="text" class="form-control form-control-sm" id="txtDayEnd" name="dayEnd">
+                    </div>
+
+                </div>
+
+
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-12 text-center fw-semibold ">
+                <button type="submit" class="btn btn-success box-shadow custom-btn-license">
+                    <i class="bi bi-file-earmark-plus-fill">
+                    </i>
+                    Tạo yêu cầu
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row"></div>
+</div>

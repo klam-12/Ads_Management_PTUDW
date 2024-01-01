@@ -15,12 +15,12 @@
             <div class="blob topleft-pos"></div>
             <div class="blob botright-pos"></div>
             <div class="container">
-                <form method="post" class="row g-3 position-absolute top-50 start-50 translate-middle p-4 custom-form">
-                    <div class="col-12 text-center fw-bold info-color heading-size">
+                <form method="post" class="position-absolute top-50 start-50 translate-middle p-5 custom-form box-shadow">
+                    <div class="row mb-3 text-center fw-bold info-color heading-size">
                         <label for="form-title">Nhập email để nhận mã OTP</label>
                     </div>
 
-                    <div class="col-12">
+                    <div class="row mb-3">
                         <div class="col-12 d-flex justify-content-between">
                             <label for="txtEmail" class="form-label fw-semibold info-color">Email</label>
                             <div id="errMess" class="form-text text-danger">Email không hợp lệ</div>
@@ -28,7 +28,7 @@
                         <input type="email" class="form-control" id="txtEmail" name="email" placeholder="email@gmail.com" autofocus>
                     </div>
 
-                    <div class="col-12">
+                    <div class="row mb-3">
                         <div class="col-12 d-flex justify-content-between">
                             <label for="txtOTP" class="form-label fw-semibold info-color">Mã OTP</label>
                             <div id="errMess" class="form-text text-danger">OTP không đúng</div>
@@ -36,8 +36,8 @@
                         <input type="text" class="form-control" id="txtOTP" name="OTP">
                     </div>
 
-                    <div class="d-grid gap-2 mt-4">
-                        <button type="submit" class="btn btn-primary fw-semibold p-2">Verify Account</button>
+                    <div class="row d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary fw-semibold p-2">Xác nhận tài khoản</button>
                     </div>
                 </form>
             </div>

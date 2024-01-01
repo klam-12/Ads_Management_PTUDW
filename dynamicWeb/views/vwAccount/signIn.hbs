@@ -14,13 +14,14 @@
             <div class="blob topleft-pos"></div>
             <div class="blob botright-pos"></div>
             <div class="container">
-                <form method="post" class="row g-3 position-absolute top-50 start-50 translate-middle p-4 custom-form">
-                    <div class="col-12 text-center fw-bold info-color heading-size">
-                        <i class="bi bi-emoji-laughing"></i>
-                        <label for="form-title">Welcome Back</label>
+                <form method="post" class="position-absolute top-50 start-50 translate-middle p-5 custom-form box-shadow">
+                    <div class="row mb-3 text-center fw-bold info-color heading-size">
+                        <i class="bi bi-emoji-laughing">
+                            Welcome Back
+                        </i>
                     </div>
 
-                    <div class="col-12">
+                    <div class="row mb-3">
                         {{!-- <div class="col-12 d-flex justify-content-between">
                             <label for="txtTdn" class="form-label">Tên đăng nhập</label>
                             <div id="errMess" class="form-text text-danger">Sai tên đăng nhập</div>
@@ -29,7 +30,7 @@
                         <input type="text" class="form-control" id="txtTdn" name="tdn" placeholder="Tên đăng nhập" autofocus>
                     </div>
 
-                    <div class="col-12">
+                    <div class="row mb-3">
                         {{!-- <div class="col-12 d-flex justify-content-between">
                             <label for="txtPass" class="form-label">Mật khẩu</label>
                             <div id="errMess" class="form-text text-danger">Sai mật khẩu</div>
@@ -38,9 +39,14 @@
                         <input type="password" class="form-control" id="txtPass" name="password" placeholder="Mật khẩu">
                     </div>
 
-                    <div class="d-grid gap-2 mt-4">
+                    <div class="row d-grid gap-2 mt-4">
                         <button type="submit" class="btn btn-primary fw-semibold p-2">Đăng nhập</button>
                     </div>
+
+                    <div class="row d-grid gap-2 mt-2">
+                        <a href="/account/forgotPass" class="btn btn-outline-secondary fw-semibold p-2">Quên mật khẩu</a>
+                    </div>
+
                 </form>
             </div>
 
