@@ -1,0 +1,43 @@
+.info-color{
+    color: var(--info);
+}
+
+.black-color{
+    color: var(--black-color);
+}
+
+.heading-size{
+    font-size: 24px;
+}
+
+.blob{
+    height: 300px;
+    width: 400px;
+    background: var(--blob-color);
+    border-radius: 56% 44% 57% 43% / 56% 37% 63% 44%;
+}
+
+.topleft-pos{
+    position: fixed;
+    top: -100;
+    left: -100;
+}
+
+.botright-pos{
+    position: fixed;
+    bottom: -100;
+    right: -100;
+}
+
+.custom-form{
+    border-radius: 5px;
+    background: var(--account-background);
+}
+
+.box-shadow{
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.profile-width{
+    width: 60vw;
+}

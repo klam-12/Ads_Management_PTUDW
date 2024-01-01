@@ -1,0 +1,32 @@
+<div class="layout-container">
+    <!-- Header and Footer -->
+    <div class="container-fluid d-flex flex-column justify-content-between header-footer">
+        <div class="row d-flex align-items-center justify-content-between header"></div>
+        <div id="map"></div>
+        <div class="row d-flex align-items-center footer">
+            <div class="col-md-auto displayQC">
+                <button title="showQC" id="showQC">
+                    <i class="bi bi-eye"></i>
+                    Bảng QC
+                </button>
+            </div>
+
+            <div class="col-md-auto displayBC">
+                <button title="showBC" id="showBC">
+                    <i class="bi bi-eye"></i>
+                    Báo cáo vi phạm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div id="closeBtn" class="closeBtn">
+            <button type="button">
+                <i class="bi bi-x-lg"></i>
+                &#8203;
+            </button>
+        </div>
+        <div class="col-sm offset-md-5 modal-content"></div>
+    </div>
+</div>

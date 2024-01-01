@@ -1,29 +1,93 @@
-<html lang='en'>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset='UTF-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <title></title>
-        <link
-            href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css'
-            rel='stylesheet'
-            integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN'
-            crossorigin='anonymous'
-        />
-        <link rel='stylesheet' href='/css/app/app.css' />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" 
+              rel="stylesheet" 
+              integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
+              crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="/static/css/globalStyle.css">
+        <link rel="stylesheet" href="/static/css/layout.css">
+        {{{_sections.css}}}
     </head>
+
     <body>
-        <div class='container'>{{{body}}}</div>
+        <nav class="navbar navbar-expand-lg bg-white">
+            <div class="container-fluid d-flex">
+                <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link nav-menu" href="/">Trang chủ</a>
+                        </li>
+                        {{!-- {{#if auth}} --}}
+                            <li class="nav-item">
+                                <a class="nav-item nav-link nav-menu" href="/admin/district/space">Xem danh sách</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-item nav-link nav-menu" href="/admin/district/report">Xử lý báo cáo</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-item nav-link nav-menu" href="/admin/district/license">Cấp phép quảng cáo</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-item nav-link nav-menu" href="/admin/department/createAccount">Tạo tài khoản</a>
+                            </li>
+                        {{!-- {{/if}} --}}
+                    </ul>
+                    {{!-- {{#if auth}} --}}
+                    <div class="dropdown">
+                        <a class="nav-item nav-link nav-profil" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-lines-fill"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            <li>
+                                <a class="dropdown-item m-0" href="#">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <i class="bi bi-person-circle" style="font-size: 50px;"></i> 
+                                        <div>
+                                            <h6 class="mb-1">Trần Minh Anh</h6>
+                                            <p class="m-0">Cán bộ quận</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item m-0" href="/account/profile">Hồ sơ cá nhân</a></li>
+                            <li><a class="dropdown-item m-0" href="#">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                    {{!-- {{else}} --}}
+                    <a class="nav-item nav-link nav-menu nav-login" href="/account/signIn">Đăng nhập</a>
+                    {{!-- {{/if}} --}}
+                </div>
+            </div>
+        </nav>
+        <div class='container-fluid'>{{{body}}}</div>  
 
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
-        <script
-            src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js'
-            integrity='sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r'
-            crossorigin='anonymous'
-        ></script>
-        <script
-            src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'
-            integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL'
-            crossorigin='anonymous'
-        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" 
+                integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" 
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" 
+                integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" 
+                crossorigin="anonymous"></script> 
+        <script>
+            var navBarItems = document.querySelectorAll('a.nav-item');
+            navBarItems.forEach(item => {
+                if(item.href === window.location.href){
+                    item.classList.add("selected");
+                }
+                else{
+                    item.classList.remove("selected");
+                }
+            });
+        </script>
+        {{{_sections.js}}}
     </body>
 </html>

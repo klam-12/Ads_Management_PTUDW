@@ -1,0 +1,132 @@
+{{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+<script>
+    $('#fuMain').fileinput({
+        dropZoneEnabled: false,
+        maxFileCount: 5,
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        // language: 'vi',
+    });
+
+    $('#txtDate').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+</script>
+{{/section}}
+
+{{#section 'css'}}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
+<link rel="stylesheet" href="/static/css/form.css">
+{{/section}}
+
+<div class="container">
+
+</div>
+
+<div class="position-relative mt-5">
+    <form method="post" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-location box-shadow">
+        <div class="row">
+            <i class="bi bi-x d-flex justify-content-end white-color" style="font-size: 34px;"></i>
+        </div>
+
+        <div class="row text-center mb-3 white-color ">
+            <i class="bi bi-geo-fill fw-bold heading-size">
+                Yêu cầu chỉnh sửa điểm đặt
+            </i>
+        </div>
+
+        <div class="row mb-2 bg-light rounded-1 p-2 mx-2">
+            <div class="row mb-1 fs-5 fw-semibold info-color">
+                Thông tin chung
+            </div>
+
+            <div class="row">
+                <label for="txtSender" class="col-sm-3 col-form-label">Người gửi</label>
+                <div class="col-sm-9">
+                    <input type="text" readonly class="form-control-plaintext" id="txtSender" value="Cán bộ phường X">
+                </div>
+            </div>
+            <div class="row">
+                <label for="txtDate" class="col-sm-3 col-form-label">Thời điểm chỉnh sửa</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtDate" name="dateReport">
+                </div>
+            </div>
+
+            <div class="row">
+                <span class="col-sm-3 col-form-label">Lí do chỉnh sửa</span>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="reasonArea" style="height: 100px"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2 bg-light rounded-1 p-2 mx-2">
+            <div class="row mb-1 fs-5 fw-semibold info-color">
+                Thông tin chỉnh sửa
+            </div>
+
+            <div class="row mb-2">
+                <span class="col-sm-3 col-form-label">Hình thức</span>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Hình thức quảng cáo</option>
+                        <option value="1">Cổ động chính trị</option>
+                        <option value="2">Quảng cáo thương mại</option>
+                        <option value="3">Xã hội hoá</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <span class="col-sm-3 col-form-label">Phân loại</span>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Phân loại</option>
+                        <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                        <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
+                        <option value="3">Trung tâm thương mại</option>
+                        <option value="4">Chợ</option>
+                        <option value="5">Cây xăng</option>
+                        <option value="6">Nhà chờ xe buýt</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <span class="col-sm-3 col-form-label">Tình trạng</span>
+                <div class="col-sm-9">
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Tình hình quy hoạch</option>
+                        <option value="1">Đã quy hoạch</option>
+                        <option value="2">Chưa quy hoạch</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-2 form-group">
+                <label for="fuMain" class="mb-2">Hình ảnh</label>
+                <input type="file" multiple id="fuMain" name="fuMain">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center fw-semibold">
+                <button type="submit" class="btn btn-outline-light btn-submit box-shadow">Hoàn thành</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row"></div>
+</div>
