@@ -20,7 +20,7 @@
                 <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-item nav-link nav-menu selected" href="/">Trang chủ</a>
+                            <a class="nav-item nav-link nav-menu" href="/">Trang chủ</a>
                         </li>
                         {{!-- {{#if auth}} --}}
                             <li class="nav-item">
@@ -77,6 +77,17 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" 
                 integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" 
                 crossorigin="anonymous"></script> 
+        <script>
+            var navBarItems = document.querySelectorAll('a.nav-item');
+            navBarItems.forEach(item => {
+                if(item.href === window.location.href){
+                    item.classList.add("selected");
+                }
+                else{
+                    item.classList.remove("selected");
+                }
+            });
+        </script>
         {{{_sections.js}}}
     </body>
 </html>
