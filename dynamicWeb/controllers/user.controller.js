@@ -5,45 +5,40 @@ import { BadRequest,NotFoundResponse } from '../common/error.response.js';
 import {validateUpdateAccount} from '../validator/user.validator.js';
 
 const getMe = async (req, res, next) => {
-  const { id } = req.user;
-  const user = await userService.getUserById(id);
-    if (!user) {
-        return next(new NotFoundResponse('User not found'));
-    }
-  const profile = {
-    username: user.username,
-    fullName: user.fullName,
-    email: user.email,
-    phoneNumber: user.phoneNumber,
-    birthDate: user.birthDate,
-  }
-  return new SuccessResponse({
-    metadata: profile
-  }).send(req,res);
+  res.render('vwAccount/profile');
 }
 const editProfile = async (req, res, next) => {
-  const { id } = req.user;
   const data = req.body;
-  const user = await userService.getUserById(id);
-  if (!user) {
-      return next(new NotFoundResponse('User not found'));
-  }
+  console.log(req.body)
+  const id =  req.session.authUser._id
+  const user = await userService.getUserById(id)
+  const dateString = data.birthDate; // Chuỗi ngày tháng
+const parts = dateString.split('/'); // Phân tách chuỗi ngày tháng
+const day = parseInt(parts[0], 10); // Ngày
+const month = parseInt(parts[1], 10) - 1; // Tháng (trừ 1 vì tháng bắt đầu từ 0)
+const year = parseInt(parts[2], 10);
+const dateObject = new Date(year, month, day);
   const profileInput = {
     fullName: data.fullName || user.fullName,
     email: data.email || user.email,
     phoneNumber: data.phoneNumber || user.phoneNumber,
-    birthDate: data.birthDate || user.birthDate,
+    birthDate: dateObject || user.birthDate,
    }
   console.log(profileInput)
   const {value, error} = validateUpdateAccount.validate(profileInput);
   if (error) {
-    throw new BadRequest(error);
+    return res.render('vwAccount/profile', {
+      // layout: false,
+      err_message: error.details[0].message
+    })
   }
-
   const profile = await userService.updateUser(id, value);
-
-  return new SuccessResponse({
-    metadata: profile
-}).send(req,res);
+  req.session.authUser = profile;
+  console.log(profile)
+  console.log(req.session.authUser)
+  return res.render('vwAccount/profile', {
+    layout: false,
+    success_message: 'Cập nhật thành công'
+  })
 }
 export {getMe,editProfile}

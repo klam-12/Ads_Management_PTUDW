@@ -7,21 +7,17 @@ class User {
   async signIn(username, password) {
     const user = await userService.getOneUser({ username });
     if (!user) {
-        throw new NotFoundResponse('Username or password is wrong');
+        return null;
     }
 
     // check password
     const isMatch = bcrypt.compareSync(password, user.password);
     if (!isMatch) {
-        throw new AuthFailureResponse('Username or password is wrong');
+      return null;
     }
 
-    // generate token
-    const token = jwt.sign({ id: user._id, role: user.role }, 'secret', {
-        expiresIn: '1h',
-    });
-    console.log({ token, user })
-    return { token, user };
+    console.log({ user })
+    return user;
   }
 }
 

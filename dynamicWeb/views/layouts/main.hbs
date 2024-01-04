@@ -22,9 +22,9 @@
                         <li class="nav-item">
                             <a class="nav-item nav-link nav-menu" href="/">Trang chủ</a>
                         </li>
-                        {{!-- {{#if auth}} --}}
+                        
                             <li class="nav-item">
-                                <a class="nav-item nav-link nav-menu" href="/admin/district/space">Xem danh sách</a>
+                                <a class="nav-item nav-link nav-menu" href="/setPoints">Xem danh sách</a>
                             </li>
 
                             <li class="nav-item">
@@ -34,37 +34,44 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-item nav-link nav-menu" href="/admin/district/license">Cấp phép quảng cáo</a>
                             </li>
-
+                        {{#if auth}}
+                            {{#ifEquals authUser.role 'Cán bộ Sở'}}
                             <li class="nav-item">
-                                <a class="nav-item nav-link nav-menu" href="/admin/department/createAccount">Tạo tài khoản</a>
+                                <a class="nav-item nav-link nav-menu" href="/auth/create-account">Tạo tài khoản</a>
                             </li>
-                        {{!-- {{/if}} --}}
+                            {{/ifEquals}}
+                        {{/if}}
                     </ul>
-                    {{!-- {{#if auth}} --}}
+                    {{#if auth}}
                     <div class="dropdown">
                         <a class="nav-item nav-link nav-profil" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-lines-fill"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             <li>
-                                <a class="dropdown-item m-0" href="#">
+                                <a class="dropdown-item m-0" href="/users/me">
                                     <div class="d-flex justify-content-center align-items-center">
                                         <i class="bi bi-person-circle" style="font-size: 50px;"></i> 
                                         <div>
-                                            <h6 class="mb-1">Trần Minh Anh</h6>
-                                            <p class="m-0">Cán bộ quận</p>
+                                            <h6 class="mb-1">{{authUser.fullName}}</h6>
+                                            <p class="m-0">{{authUser.role}}</p>
                                         </div>
                                     </div>
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item m-0" href="/account/profile">Hồ sơ cá nhân</a></li>
-                            <li><a class="dropdown-item m-0" href="#">Đăng xuất</a></li>
+                            <li><a class="dropdown-item m-0" href="/users/me">Hồ sơ cá nhân</a></li>
+                            <form
+                                id='frmLogout'
+                                action='/auth/logout'
+                                method='post'
+                            ></form>
+                            <li><a class="dropdown-item m-0"  href="javascript: $('#frmLogout').submit()">Đăng xuất</a></li>
                         </ul>
                     </div>
-                    {{!-- {{else}} --}}
-                    <a class="nav-item nav-link nav-menu nav-login" href="/account/signIn">Đăng nhập</a>
-                    {{!-- {{/if}} --}}
+                    {{else}}
+                    <a class="nav-item nav-link nav-menu nav-login" href="/auth/signIn">Đăng nhập</a>
+                    {{/if}}
                 </div>
             </div>
         </nav>

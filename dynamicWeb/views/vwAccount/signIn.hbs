@@ -27,7 +27,7 @@
                             <div id="errMess" class="form-text text-danger">Sai tên đăng nhập</div>
                         </div> --}}
                         <label for="txtTdn" class="form-label fw-semibold info-color">Tên đăng nhập</label>
-                        <input type="text" class="form-control" id="txtTdn" name="tdn" placeholder="Tên đăng nhập" autofocus>
+                        <input type="text" class="form-control" id="txtTdn" name="username" placeholder="Tên đăng nhập" autofocus>
                     </div>
 
                     <div class="row mb-3">
@@ -38,7 +38,16 @@
                         <label for="txtPass" class="form-label fw-semibold info-color">Mật khẩu</label>
                         <input type="password" class="form-control" id="txtPass" name="password" placeholder="Mật khẩu">
                     </div>
-
+                    {{#if err_message}}
+                        <div
+                        class='alert alert-warning alert-dismissible fade show'
+                        role='alert'
+                        >
+                        <strong>Login failed!</strong>
+                        {{err_message}}
+                    
+                        </div>
+                    {{/if}}
                     <div class="row d-grid gap-2 mt-4">
                         <button type="submit" class="btn btn-primary fw-semibold p-2">Đăng nhập</button>
                     </div>

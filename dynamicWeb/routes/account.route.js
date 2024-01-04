@@ -4,19 +4,6 @@ import moment from 'moment';
 const route = express.Router();
 
 // SIGN IN
-route.get('/signIn', function(req,res){
-    res.render('vwAccount/signIn',{
-        layout: false,
-    });
-});
-
-route.post('/signIn', function(req,res){
-    // check account
-
-    res.render('vwAccount/signIn',{
-        layout: false,
-    });
-});
 
 
 // FORGOT PASS

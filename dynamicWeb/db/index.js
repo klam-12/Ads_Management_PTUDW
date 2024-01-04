@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const URL =
-    // 'mongodb+srv://ads_management:ads_management@adsmanagement.as0mvty.mongodb.net/Ads_Management?retryWrites=true&w=majority';
     'mongodb+srv://ads_management:ads_management@adsmanagement.as0mvty.mongodb.net/Ads_Management?retryWrites=true&w=majority'
 
 const connectDB = async () => {

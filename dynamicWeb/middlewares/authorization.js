@@ -2,27 +2,19 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { AuthFailureResponse, BadRequest, ErrorResponse } from '../common/error.response.js';
 
-const verifyToken = async (req, res, next) => {
+const authentication = async (req, res, next) => {
    
-    const token = req.headers['authorization']?.split(' ')[1];
-    console.log(token);
-    if (!token) {
-        throw new AuthFailureResponse('Access denied');
+    if(req.session.auth) {
+        return next();
     }
-    let verified;
-    try {
-        verified = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    } catch (err) {
-        throw new AuthFailureResponse();
+    else {
+        res.redirect('/auth/signIn');
     }
-
-    req.user = verified;
-    next();
 };
 
 const checkRoles = (roles) => {
     return (req, res, next) => {
-        const { user } = req;
+        const user = req.session.authUser;
         if (roles.indexOf(user.role) !== -1) {
             next();
         } else {
@@ -31,6 +23,6 @@ const checkRoles = (roles) => {
     };
 };
 export {
-    verifyToken,
+    authentication,
     checkRoles,
 };

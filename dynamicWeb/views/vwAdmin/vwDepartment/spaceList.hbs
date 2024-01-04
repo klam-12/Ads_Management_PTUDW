@@ -41,10 +41,11 @@
                   </tr>
               </thead>
               <tbody>
-                  {{#each spaceList}}
+                  {{#each list}}
+                  <h6>{{listSetPoint.lat}}</h6>
                       <tr class="card-info-row green-hover" style="cursor: pointer;">
-                          <td class="text-center">{{SpaceID}}</td>
-                          <td>{{SpaceAddress}}</td>
+                          <td class="text-center">{{list._id}}</td>
+                          <td>{{list.lat}}</td>
                           <td>{{{SpaceInfo}}}</td>
                           <td class="text-center"><a href="/form/location" role="button" class="btn btn-sm btn-table btn-blue">Xem yêu cầu</a></td>
                       </tr>

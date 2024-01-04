@@ -13,10 +13,11 @@ import session from 'express-session';
 import numeral from 'numeral'
 
 import accountRoute from "./routes/account.route.js"
-import formService from "./routes/form.route.js"
+import formService from "./routes/form.route.js";
+import connectMongoDBSession from 'connect-mongodb-session';
 
+const MongoDBStore = connectMongoDBSession(session);
 // Connect to MongoDB
-// db.connectDB();
 dotenv.config();
 db();
 
@@ -25,15 +26,32 @@ const __dirname = path.dirname(__filename);
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
+app.use(express.json());
+const store = new MongoDBStore({
+  uri: 'mongodb+srv://ads_management:ads_management@adsmanagement.as0mvty.mongodb.net/Ads_Management?retryWrites=true&w=majority',
+  collection: 'mySessions'
+});
+
+// Catch errors
+store.on('error', (error) => {
+  console.log(error);
+});
+app.set('trust proxy', 1) 
+app.use(session({
+  secret: 'This is a secret',
+  cookie: {},
+  store, 
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.use("/static", express.static(__dirname + "/static"));
 
 app.use(
     express.urlencoded({
         extended: true,
     }),
-);
-app.use(express.json());
-
+); 
 app.engine(
     'hbs',
     hbs.engine({
@@ -45,26 +63,40 @@ app.engine(
             section: hbs_sections(),
             format_number(val) {
               return numeral(val).format('0,0');
+            },
+            ifEquals: function(arg1, arg2, options) {
+                return arg1 === arg2 ? options.fn(this) : options.inverse(this);
             }
+            
         }
     })
 );
 
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {}
-}));
+// trust first proxy
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {}
+// }));
 
 // app.set('view engine', 'hbs');
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, './views'));
 
-app.get('/', (req, res) => {
-    res.render('home');
+app.use(function (req, res, next) {
+    // console.log(req.session.auth);
+    if (typeof req.session.auth === 'undefined') {
+      req.session.auth = false;
+      req.session.authUser = null;
+    }
+  
+    res.locals.auth = req.session.auth;
+    res.locals.authUser = req.session.authUser;
+    next();
+
 });
+
 route(app);
 app.use(errorHandler);
 
