@@ -30,10 +30,29 @@
                     {{#each licenseList}}
                         <tr class="card-info-row">
                             <td class="text-center">{{LicenseID}}</td>
-                            <td>{{{LicenseAdsInfo}}}</td>
-                            <td>{{{LicenseContent}}}</td>
+                            <td>
+                                <ul>
+                                    <li>Trụ, cụm pano</li>
+                                    <li>Địa chỉ: </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Kích thước: </li>
+                                    <li>Số lượng: </li>
+                                    <li>Hình thức: </li>
+                                    <li>Phân loại: </li>
+                                    <li><a href="">Link hình ảnh</a></li>
+                                </ul>
+                            </td>
                             <td>{{LicenseCompany}}</td>
-                            <td>{{{LicenseCompanyInfo}}}</td>
+                            <td>
+                                <ul>
+                                    <li>Địa chỉ: </li>
+                                    <li>Email: </li>
+                                    <li>SĐT: </li>
+                                </ul>
+                            </td>
                             <td class="text-center">{{LicenseBeginDate}}</td>
                             <td class="text-center">{{LicenseEndDate}}</td>
                             <td class="text-center"><button class="btn btn-sm btn-readonly">{{LicenseState}}</button></td>
