@@ -1,4 +1,21 @@
 {{#section 'js'}}
+<script>
+    $('button.btn-blue').click(function() {
+      $('div.report-container').removeClass('d-none');
+    });
+
+    $('i.report-close-btn').click(function(){
+      $('div.report-container').addClass('d-none');
+    });
+  </script>
+{{/section}}
+
+{{#section 'css'}}
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
+    <link rel="stylesheet" href="/static/css/form.css">
 {{/section}}
 
 <div class="container-fluid p-5 pt-4">
@@ -6,16 +23,12 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="blue-heading">Danh sách báo cáo tại quận X</h5>
-        <div class="dropdown">
-            <a class="btn btn-sm blue-sort-btn" href="#" role="button" data-bs-toggle="dropdown">Phường <i class="bi bi-arrow-down"></i></a>
-            <ul class="dropdown-menu dropdown-menu-lg-end">
-            {{!-- {{#each this.wards}} --}}
-                <li><a class="dropdown-item" href="#">1</a></li>
-                <li><a class="dropdown-item" href="#">2</a></li>
-                <li><a class="dropdown-item" href="#">3</a></li>
-            {{!-- {{/each}} --}}
-            </ul>
-        </div>
+          <select class="form-select form-select-sm blue-sort-btn" aria-label=".form-select-sm example">
+            <option selected>Phường</option>
+            <option value="1">Cầu Ông Lãnh</option>
+            <option value="2">Bến Thành</option>
+            <option value="3">Bến Nghé</option>
+          </select>
       </div>
       {{#if this.empty}}
       <div class="card-body">
@@ -39,10 +52,25 @@
                 <tr class="card-info-row">
                     <td class="text-center">{{ReportID}}</td>
                     <td class="text-center">{{ReportDate}}</td>
-                    <td>{{{ReportInfo}}}</td>
-                    <td>{{{ReportAdsInfo}}}</td>
+                    <td>
+                      <ul>
+                        <li>Họ tên: </li>
+                        <li>Email: </li>
+                        <li>SĐT: </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Địa chỉ: </li>
+                        <li>Kích thước: </li>
+                        <li>Số lượng: </li>
+                        <li>Hình thức: </li>
+                        <li>Phân loại: </li>
+                        <li><a href="">Link hình ảnh</a></li>
+                      </ul>
+                    </td>
                     <td class="text-center">{{ReportType}}</td>
-                    <td class="text-center"><a href="/form/report" role="button" class="btn btn-sm btn-table btn-blue">Xem thêm</a></td>
+                    <td class="text-center"><button type="button" class="btn btn-sm btn-table btn-blue">Xem thêm</button></td>
                     <td class="text-center"><button class="btn btn-sm btn-readonly">{{ReportState}}</button></td>
                 </tr>
             {{/each}}
@@ -71,4 +99,105 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="report-container container-fluid form-center p-4 d-none">
+    <div class="report-form-container center">
+        <i class="report-close-btn bi bi-x d-flex justify-content-end" style="font-size: 34px; cursor: pointer;"></i>
+        
+        <form class="report-form" id="reportForm">
+            <h4 class="report-form-title">
+                <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
+            </h4>
+
+            <div class="container">
+                <div class="row">
+                    <div class="container report-info">
+                        <div class="row">
+                            <div class="col-sm-5 col-md-4">
+                                <label class="align-middle" for="reportType">Hình thức báo cáo</label>
+                            </div>
+                            <div class="col-sm-7 col-md-8">
+                                <select
+                                    class="form-select form-select-sm"
+                                    aria-label=".form-select-sm example"
+                                    name="reportType"
+                                    id="reportType"
+                                >
+                                    <option value="" selected>Chọn hình thức báo cáo</option>
+                                    <option value="politicalReport">Cổ động chính trị</option>
+                                    <option value="adsReport">Quảng cáo thương mại</option>
+                                    <option value="socializedReport">Xã hội hoá</option>
+                                </select>
+                                <span class="report-required"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-info">
+                        <label class="mb-1" for="fullName">Họ và tên</label>
+                        <span class="report-required float-end"></span>
+                        <input type="text" name="fullName" id="fullName" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col report-info half column-split">
+                        <label class="mb-1" for="email">Email</label>
+                        <span class="report-required float-end"></span>
+                        <input type="email" name="email" id="email" />
+                    </div>
+                    <div class="col report-info half">
+                        <label class="mb-1" for="phoneNumber">Số điện thoại</label>
+                        <span class="report-required float-end"></span>
+                        <input type="tel" name="phoneNumber" id="phoneNumber" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-info">
+                        <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
+                        <span class="report-required float-end"></span>
+                        <textarea
+                            name="reportContent"
+                            id="reportContent"
+                            cols="30"
+                            rows="10"
+                            style="resize: none"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-image-upload">
+                        <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
+                        <span class="report-required float-end"></span>
+                        <input type="file" id="img" name="img" accept="image/*" multiple />
+                        <div id="imagesOutput"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-info">
+                        <label for="captcha">Captcha</label>
+                        <span class="report-required float-end"></span>
+                        <div class="d-flex justify-content-center">
+                            <div
+                                class="g-recaptcha object-fit-fill"
+                                data-sitekey="6LcAIR0pAAAAAPG1GImTO73xZ6rCXwKOLWsoDEBF"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-submit-button">
+                        <input type="submit" id="submitBtn" value="Hoàn thành" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

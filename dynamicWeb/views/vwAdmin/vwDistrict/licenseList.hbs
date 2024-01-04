@@ -6,16 +6,12 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="blue-heading">Danh sách cấp phép tại quận X</h5>
-                <div class="dropdown">
-                    <a class="btn btn-sm blue-sort-btn" href="#" role="button" data-bs-toggle="dropdown">Phường <i class="bi bi-arrow-down"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-lg-end">
-                        {{!-- {{#each this.wards}} --}}
-                            <li><a class="dropdown-item" href="#">1</a></li>
-                            <li><a class="dropdown-item" href="#">2</a></li>
-                            <li><a class="dropdown-item" href="#">3</a></li>
-                        {{!-- {{/each}} --}}
-                    </ul>
-                </div>
+                    <select class="form-select form-select-sm blue-sort-btn" aria-label=".form-select-sm example">
+                    <option selected>Phường</option>
+                    <option value="1">Cầu Ông Lãnh</option>
+                    <option value="2">Bến Thành</option>
+                    <option value="3">Bến Nghé</option>
+                    </select>
             </div>
             {{#if this.empty}}
             <div class="card-body">
@@ -40,10 +36,29 @@
                     {{#each licenseList}}
                         <tr class="card-info-row">
                             <td class="text-center">{{LicenseID}}</td>
-                            <td>{{{LicenseAdsInfo}}}</td>
-                            <td>{{{LicenseContent}}}</td>
+                            <td>
+                                <ul>
+                                    <li>Trụ, cụm pano</li>
+                                    <li>Địa chỉ: </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li>Kích thước: </li>
+                                    <li>Số lượng: </li>
+                                    <li>Hình thức: </li>
+                                    <li>Phân loại: </li>
+                                    <li><a href="">Link hình ảnh</a></li>
+                                </ul>
+                            </td>
                             <td>{{LicenseCompany}}</td>
-                            <td>{{{LicenseCompanyInfo}}}</td>
+                            <td>
+                                <ul>
+                                    <li>Địa chỉ: </li>
+                                    <li>Email: </li>
+                                    <li>SĐT: </li>
+                                </ul>
+                            </td>
                             <td class="text-center">{{LicenseBeginDate}}</td>
                             <td class="text-center">{{LicenseEndDate}}</td>
                             <td class="text-center"><button class="btn btn-sm btn-readonly">{{LicenseState}}</button></td>
