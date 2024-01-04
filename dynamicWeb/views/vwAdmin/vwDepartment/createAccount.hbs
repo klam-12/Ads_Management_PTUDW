@@ -79,13 +79,37 @@
 {{/section}}
 
 <div class="container-fluid p-5 d-flex justify-content-center">
+    <div id="errorContainer">
+        {{#if this.msg}}
+            {{#if this.is_err}}
+            <div class="alert alert-danger text-center center error-noti" role="alert">
+                <div class="d-inline-flex">
+                    <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                    <h5>{{this.msg}}</h5>
+                </div>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+            </div>
+            {{else}}
+            <div class="alert alert-success text-center center create-confirm" role="alert">
+                <div class="d-inline-flex">
+                    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+                    <h5>{{this.msg}}</h5>
+                </div>
+                <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
+            </div>
+
+            {{/if}}
+        {{/if}}
+    </div>
     <div class="position-relative">
-        <form method="post" class="form-createAcc-width p-4 custom-form box-shadow">
+        
+
+        <form method="post" class="form-createAcc-width p-4 bg-light box-shadow" id="create-acc-form">
             <div class="row text-center mb-3 info-color ">
                 <i class="bi bi-person-square heading-size" style="font-size: 34px;"></i>
             </div>
 
-            <div class="row mb-3 bg-light p-2 mx-2 box-shadow">
+            <div class="row mb-3 bg-light p-2 mx-2 border border-primary border-1" style="--bs-border-opacity: .3;">
                 <div class="col-4 fs-5 fw-semibold info-color text-center d-flex align-items-center ">
                     <i class="bi bi-person-fill-gear">
                         Thông tin tài khoản
@@ -100,7 +124,7 @@
                 </div>
             </div>
 
-            <div class="row mb-3 bg-light p-2 mx-2 box-shadow">
+            <div class="row mb-3 bg-light p-2 mx-2 border border-primary border-1" style="--bs-border-opacity: .3;">
                 <div class="col-4 fs-5 info-color fw-semibold text-center d-flex align-items-center ">
                     <i class="bi bi-person-vcard">
                         Thông tin cá nhân
@@ -114,14 +138,14 @@
                     <input type="text" class="form-control form-control-sm mb-2" id="txtDob" name="raw_dob">
                     
                     <label for="txtEmail" class="form-label black-color">Email</label>
-                    <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email" value="email@gmail.com" disabled>
+                    <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email" value="email@gmail.com">
                     
                     <label for="txtPhone" class="form-label black-color">Số điện thoại</label>
                     <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
                 </div>
             </div>
 
-            <div class="row mb-3 bg-light p-2 mx-2 box-shadow">
+            <div class="row mb-3 bg-light p-2 mx-2 border border-primary border-1" style="--bs-border-opacity: .3;">
                 <div class="col-4 fs-5 fw-semibold info-color text-center d-flex align-items-center ">
                     <i class="bi bi-crosshair2">
                         Phân công khu vực
@@ -158,7 +182,7 @@
             <div class="row">
                 <div class="col text-center">
                     <button type="submit" class="btn btn-primary me-1">Tạo tài khoản</button>
-                    <a class="btn btn-outline-primary ms-1" href="/">Huỷ</a>
+                    <a class="btn btn-outline-secondary ms-1" href="/">Huỷ</a>
                 </div>
             </div>
         </form>

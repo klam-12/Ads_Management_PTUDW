@@ -1,16 +1,16 @@
 import express from 'express'
 import moment from 'moment';
 
-const route = express.Router();
+const router = express.Router();
 
 // SIGN IN
-route.get('/signIn', function(req,res){
+router.get('/signIn', function(req,res){
     res.render('vwAccount/signIn',{
         layout: false,
     });
 });
 
-route.post('/signIn', function(req,res){
+router.post('/signIn', function(req,res){
     // check account
 
     res.render('vwAccount/signIn',{
@@ -20,47 +20,79 @@ route.post('/signIn', function(req,res){
 
 
 // FORGOT PASS
-route.get('/forgotPass', function(req,res){
+router.get('/forgotPass', function(req,res){
     res.render('vwAccount/forgotPass',{
         layout: false,
     });
 });
 
-route.post('/forgotPass', function(req,res){
-    // check OTP and render setPass
+router.post('/forgotPass', function(req,res){
+    // send OTP to email and render input OTP
 
-    res.redirect('/account/setPass');
+    res.render('vwAccount/forgotPass',{
+        layout: false,
+        msg: "Email chưa được đăng ký",
+    });
+
+    // res.redirect('/account/verify');
 });
+
+// INPUT OTP
+router.get('/verify', function(req,res){
+    res.render('vwAccount/inputOTP',{
+        layout: false,
+    });
+})
+
+router.post('/verify', function(req,res){
+    // Check otp and render setPass
+    res.render('vwAccount/inputOTP',{
+        layout: false,
+        msg: "OTP không đúng",
+    });
+
+    // res.redirect('/account/setPass');
+})
 
 
 // SET PASS
-route.get('/setPass', function(req,res){
+router.get('/setPass', function(req,res){
     res.render('vwAccount/setPass',{
         layout: false,
     });
 });
 
-route.post('/setPass', function(req,res){
+router.post('/setPass', function(req,res){
     // check pass and render Sign In
-    res.redirect('/account/signIn');
+
+    res.render('vwAccount/setPass',{
+        layout: false,
+        msg: "Mật khẩu phải tối thiểu 8 kí tự",
+    });
+
+    // res.redirect('/account/signIn');
 });
 
 
 // PROFILE
-route.get('/profile', function(req,res){
+router.get('/profile', function(req,res){
     res.render('vwAccount/profile',{
         layout: false,
     });
 });
 
-route.post('/profile', function(req,res){
+router.post('/profile', function(req,res){
     // update profile and render profile
     const raw_dob = req.body.raw_dob;
     const dob = moment(raw_dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
+    // Nếu Có lỗi -> is_err: true + msg: Lỗi gì đó
+    // Nếu thành công -> is_err: false + msg : Thành công
     res.render('vwAccount/profile',{
         layout: false,
+        msg: "Có lỗi xảy ra. Hãy kiểm tra lại",
+        is_err: false,
     });
 });
 
-export default route;
+export default router;

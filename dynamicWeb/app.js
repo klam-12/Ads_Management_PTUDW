@@ -10,7 +10,8 @@ import { fileURLToPath } from 'url';
 import numeral from 'numeral'
 
 import accountRoute from "./routes/account.route.js"
-import formService from "./routes/form.route.js"
+import formRoute from "./routes/form.route.js"
+import adminRoute from "./routes/admin.route.js"
 
 // Connect to MongoDB
 // db.connectDB();
@@ -61,7 +62,8 @@ app.get('/', (req, res) => {
 // route(app);
 
 app.use('/account',accountRoute);
-app.use('/form',formService);
+app.use('/form',formRoute);
+app.use('/admin',adminRoute);
 
 app.listen(port, () => {
     console.log(`Blog app listening at http://localhost:${port}`);
