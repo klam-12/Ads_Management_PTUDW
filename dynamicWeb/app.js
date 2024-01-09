@@ -13,13 +13,10 @@ import session from 'express-session';
 import numeral from 'numeral'
 
 import accountRoute from "./routes/account.route.js"
-<<<<<<< HEAD
 import formService from "./routes/form.route.js";
 import connectMongoDBSession from 'connect-mongodb-session';
-=======
 import formRoute from "./routes/form.route.js"
 import adminRoute from "./routes/admin.route.js"
->>>>>>> origin/dynamic/update-form-UI
 
 const MongoDBStore = connectMongoDBSession(session);
 // Connect to MongoDB

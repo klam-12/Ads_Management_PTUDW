@@ -4,8 +4,6 @@ import moment from 'moment';
 const router = express.Router();
 
 // SIGN IN
-<<<<<<< HEAD
-=======
 router.get('/signIn', function(req,res){
     res.render('vwAccount/signIn',{
         layout: false,
@@ -19,7 +17,6 @@ router.post('/signIn', function(req,res){
         layout: false,
     });
 });
->>>>>>> origin/dynamic/update-form-UI
 
 
 // FORGOT PASS
