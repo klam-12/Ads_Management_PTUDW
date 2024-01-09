@@ -1,7 +1,7 @@
-// import express from 'express'
+import express from 'express'
 
-// const router = express.Router();
-// const limit = 5;
+const router = express.Router();
+const limit = 5;
 
 
 // //Pagination
@@ -191,26 +191,36 @@
 //     });
 // })
 
-// router.get('/department/createAccount',async function (req, res) {    
-//     res.render('vwAdmin/vwDepartment/createAccount');
+router.get('/department/createAccount',async function (req, res) {    
+    res.render('vwAdmin/vwDepartment/createAccount');
+})
+
+router.post('/department/createAccount',async function (req, res) {  
+    // check check  
+    // Nếu Có lỗi -> is_err: true + msg: Lỗi gì đó
+    // Nếu thành công -> is_err: false + msg : Thành công
+    res.render('vwAdmin/vwDepartment/createAccount', {
+        msg: "Có lỗi xảy ra. Hãy kiểm tra lại",
+        is_err: false,
+    });
+})
+
+
+//Notification testing
+// router.get('/notification/updateNotif', function (req, res) {
+//     res.render('vwNotification/updateConfirm');
 // })
 
+// router.get('/notification/deleteNotif', function (req, res) {
+//     res.render('vwNotification/deleteConfirm');
+// })
 
-// //Notification testing
-// // router.get('/notification/updateNotif', function (req, res) {
-// //     res.render('vwNotification/updateConfirm');
-// // })
+// router.get('/notification/createNotif', function (req, res) {
+//     res.render('vwNotification/createConfirm');
+// })
 
-// // router.get('/notification/deleteNotif', function (req, res) {
-// //     res.render('vwNotification/deleteConfirm');
-// // })
+// router.get('/notification/error', function (req, res) {
+//     res.render('vwNotification/errorNotif');
+// })
 
-// // router.get('/notification/createNotif', function (req, res) {
-// //     res.render('vwNotification/createConfirm');
-// // })
-
-// // router.get('/notification/error', function (req, res) {
-// //     res.render('vwNotification/errorNotif');
-// // })
-
-//   export default router;
+  export default router;

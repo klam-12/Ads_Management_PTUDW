@@ -1,4 +1,3 @@
-
 <html lang='en'>
     <head>
         <meta charset='UTF-8' />
@@ -9,8 +8,32 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
         <link rel="stylesheet" href="/static/css/globalStyle.css">
         <link rel="stylesheet" href="/static/css/blob.css">
+        <link rel="stylesheet" href="/static/css/layout.css">
     </head>
-    <body>
+    <body class="bg-light">
+        <div id="errorContainer">
+            {{#if this.msg}}
+                {{#if this.is_err}}
+                <div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>{{this.msg}}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>
+                {{else}}
+                <div class="alert alert-success text-center center create-confirm" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>{{this.msg}}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>
+
+                {{/if}}
+            {{/if}}
+        </div>
+
         <div class='container'>
             <div class="blob topleft-pos"></div>
             <div class="blob botright-pos"></div>
@@ -27,9 +50,24 @@
                             </i>
                         </div>
                         <div class="col-8">
+<<<<<<< HEAD
                             <label for="txtTdn" class="form-label fw-semibold black-color">Username:</label>
                             <input type="text" class="form-control  mb-2" id="txtTdn" name="username" value={{authUser.username}} disabled>
                             <a href="/account/forgotPass" class="btn btn-sm btn-link fw-semibold">Đổi mật khẩu</a>
+=======
+                            <div class="row">
+                            <div class="col-6">
+                                <label for="txtTdn" class="form-label fw-semibold black-color">Tên đăng nhập</label>
+                                <input type="text" class="form-control form-control-sm  mb-2" id="txtTdn" name="tdn" value="aiduno" disabled>
+                                <a href="/account/setPass" class="btn btn-sm btn-link fw-semibold">Đổi mật khẩu</a>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="txtTdn" class="form-label fw-semibold black-color">Khu vực quản lí</label>
+                                <input type="text" class="form-control form-control-sm mb-2" id="txtTdn" name="tdn" value="Phường Cầu Ông Lãnh" disabled>
+                            </div>
+                            </div>
+>>>>>>> origin/dynamic/update-form-UI
                         </div>
                     </div>
 
