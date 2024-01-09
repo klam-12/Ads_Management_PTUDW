@@ -76,21 +76,22 @@
                   </tr>
               </thead>
               <tbody>
-                  {{#each spaceList}}
-                      <tr class="space-row card-info-row green-hover">
-                          <td class="text-center">{{SpaceID}}</td>
-                          <td>{{SpaceAddress}}</td>
-                          <td>
+                  {{#each list}}
+                    <tr class="space-row card-info-row green-hover">
+                        <td class="text-center">{{@index}}</td>
+                        <td>{{this.address}}</td>
+                        <td>
                             <ul>
-                              <li>Hình thức quảng cáo: </li>
-                              <li>Phân loại: </li>
-                              <li>Đã quy hoạch</li>
-                              <li><a href="">Link hình ảnh</a></li>
+                                <li>Hình thức quảng cáo: {{this.adsFormat}}</li>
+                                <li>Phân loại: {{this.typeofLocation}}</li>
+                                <li>Đã quy hoạch: {{#if this.isPlanned}}Có{{else}}Không{{/if}}</li>
+                                <li><a href="{{this.image}}">Link hình ảnh</a></li>
                             </ul>
-                          </td>
-                          <td class="text-center"><button type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button></td>
-                      </tr>
-
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+                        </td>
+                    </tr>
                   {{/each}}
               </tbody>
             </table>
