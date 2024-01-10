@@ -23,9 +23,21 @@
                             <a class="nav-item nav-link nav-menu" href="/">Trang chủ</a>
                         </li>
                         {{!-- {{#if auth}} --}}
-                            <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="nav-item nav-link nav-menu" id="dropdownList" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Xem danh sách
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg-start p-0">
+                                <li><a class="nav-item nav-link nav-dropdown-item dropdown-item m-0" href="/admin/department/list/districtWard">Quận, phường</a></li>
+                                <li><a class="nav-item nav-link nav-dropdown-item dropdown-item m-0" href="/admin/department/list/advertisementType">Loại hình QC</a></li>
+                                <li><a class="nav-item nav-link nav-dropdown-item dropdown-item m-0" href="/admin/department/list/reportType">Loại hình thức báo cáo</a></li>
+                                <li><a class="nav-item nav-link nav-dropdown-item dropdown-item m-0" href="/admin/department/list/space">Điểm đặt và bảng QC</a></li>
+                            </ul>
+                        </div>
+
+                            {{!-- <li class="nav-item">
                                 <a class="nav-item nav-link nav-menu" href="/admin/district/space">Xem danh sách</a>
-                            </li>
+                            </li> --}}
 
                             <li class="nav-item">
                                 <a class="nav-item nav-link nav-menu" href="/admin/district/report">Xử lý báo cáo</a>
@@ -68,7 +80,7 @@
                 </div>
             </div>
         </nav>
-        <div class='container-fluid'>{{{body}}}</div>  
+        <div class='container-fluid p-0'>{{{body}}}</div>  
 
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" 
@@ -78,10 +90,17 @@
                 integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" 
                 crossorigin="anonymous"></script> 
         <script>
-            var navBarItems = document.querySelectorAll('a.nav-item');
+            var navBarItems = document.querySelectorAll('a.nav-link');
             navBarItems.forEach(item => {
                 if(item.href === window.location.href){
-                    item.classList.add("selected");
+                    if(item.classList.contains("nav-dropdown-item")){
+                        document.getElementById("dropdownList").classList.add("selected");
+                    }
+                    else{
+                        item.classList.add("selected");
+                        document.getElementById("dropdownList").classList.remove("selected");
+                    }
+                    return;
                 }
                 else{
                     item.classList.remove("selected");

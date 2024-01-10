@@ -1,0 +1,275 @@
+{{#section 'js'}}
+  <script>
+    $('tr.district-row').click(function() {
+        $('.ward-default').addClass('d-none');
+        $('.ward-table').removeClass('d-none');
+        $('tr.district-row').removeClass('row-active')
+        $(this).addClass('row-active');
+    });
+
+    $('a#btnEdit').click(function() {
+        $('div.edit-form-container').removeClass('d-none');
+    });
+
+    $('a#btnAdd').click(function() {
+        if(!$('div.ward-table').hasClass('d-none')){
+            $('div.add-form-container').removeClass('d-none');
+        }
+    });
+
+    $('a#btnDelete').click(function() {
+        $('div.delete-confirm').removeClass('d-none');
+    });
+
+    $('div.edit-form-container form').submit(function(e){
+        e.preventDefault();
+        if($('#editForm').find('input[name="wardNewName"]').val().length === 0){
+            $('span.edit-warning').removeClass('d-none');
+        }
+        else{
+            $('div.update-confirm').removeClass('d-none');
+            if(!$('span.edit-warning').hasClass('d-none')){
+                $('span.edit-warning').addClass('d-none');
+            }
+        }
+    });
+
+    $('div.add-form-container form').submit(function(e){
+        e.preventDefault();
+        if($('#addForm').find('input[name="wardName"]').val().length === 0){
+            $('span.add-warning').removeClass('d-none');
+        }
+        else{
+            $('div.create-confirm').removeClass('d-none');
+            if(!$('span.add-warning').hasClass('d-none')){
+                $('span.add-warning').addClass('d-none');
+            }
+        }
+    });
+
+    $('a.edit-btn-close').click(function(){
+        $('div.edit-form-container').addClass('d-none');
+        $('div.edit-form-container form')[0].reset();
+    });
+
+    $('a.add-btn-close').click(function(){
+        $('div.add-form-container').addClass('d-none');
+        $('div.add-form-container form')[0].reset();
+    });
+
+    $('div.create-confirm a.btn').click(function() {
+        $('div.create-confirm').addClass('d-none');
+        //$('div.add-form-container form').submit();
+    });
+
+    $('div.update-confirm a.btn').click(function() {
+        $('div.update-confirm').addClass('d-none');
+        //$('div.edit-form-container form').submit();
+    });
+
+    $('a.btn-yes').click(function() {
+        $('div.delete-confirm').addClass('d-none');
+    });
+
+    $('a.btn-no').click(function() {
+        $('div.delete-confirm').addClass('d-none');
+    });
+  </script>
+{{/section}}
+
+{{#section 'css'}}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
+<link rel="stylesheet" href="/static/css/form.css">
+{{/section}}
+
+<div class="container p-5">
+  <div class="row">
+    <div class="col-3">
+      <div class="card-container mt-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="blue-heading">Danh sách các quận</h5>
+            </div>
+            {{#if this.empty}}
+            <div class="card-body">
+              Không có dữ liệu
+            </div>
+            {{else}}
+            <table class="table table-hover align-middle">
+              <tbody>
+                  {{!-- {{#each spaceList}} --}}
+                      <tr class="district-row card-info-row green-hover">
+                          <td>Quận 1</td>
+                      </tr>
+                        <tr class="district-row card-info-row green-hover">
+                          <td>Quận 5</td>
+                      </tr>
+
+                  {{!-- {{/each}} --}}
+              </tbody>
+            </table>
+            <div class="container">
+              
+            </div>
+            {{!-- {{#if formLocation}} --}}
+              {{!-- Render location form --}}
+            {{!-- {{/if}} --}}
+            {{/if}}
+          </div>
+      </div>
+    </div>
+
+    <div class="col-9">
+      <div class="card-container bg-green mt-4">
+        <div class="card">
+          <div class="card-header bg-green d-flex justify-content-between align-items-center">
+            <h5 class="green-heading">Danh sách các phường</h5>
+            <a class="btn btn-sm btn-table btn-green rounded" id="btnAdd"><i class="bi bi-plus"></i> Thêm phường</a>
+          </div>
+          <div class="ward-default card-body fw-bold">
+            Vui lòng chọn quận để xem thêm
+          </div>
+          <div class="ward-table d-none">
+            {{#if this.empty}}
+            <div class="card-body">
+              Không có dữ liệu
+            </div>
+            {{else}}
+            <table class="table table-hover align-middle">
+              <thead class="align-middle">
+                  <tr>
+                    <th class="col-1 text-center" scope="col">STT</th>
+                    <th class="col-10" scope="col">Tên phường</th>
+                    <th class="col-1" scope="col"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {{!-- {{#each surfaceList}} --}}
+                <tr class="card-info-row">
+                    <td class="text-center">1</td>
+                    <td>Phường Cầu Ông Lãnh</td>
+                    <td class="text-center ps-0 pe-0">
+                        <a class="btn-table btn-green rounded p-1" id="btnDelete"><i class="bi bi-trash-fill"></i></a> 
+                        <a class="btn-table btn-green rounded p-1" id="btnEdit"><i class="bi bi-pencil-square"></i></a>
+                    </td>
+                </tr>
+                <tr class="card-info-row">
+                    <td class="text-center">1</td>
+                    <td>Phường Cầu Ông Lãnh</td>
+                    <td class="text-center ps-0 pe-0">
+                        <a class="btn-table btn-green rounded p-1" id="btnDelete"><i class="bi bi-trash-fill"></i></a> 
+                        <a class="btn-table btn-green rounded p-1" id="btnEdit"><i class="bi bi-pencil-square"></i></a>
+                    </td>
+
+                </tr>
+                <tr class="card-info-row">
+                    <td class="text-center">1</td>
+                    <td>Phường Cầu Ông Lãnh</td>
+                    <td class="text-center ps-0 pe-0">
+                        <a class="btn-table btn-green rounded p-1" id="btnDelete"><i class="bi bi-trash-fill"></i></a> 
+                        <a class="btn-table btn-green rounded p-1" id="btnEdit"><i class="bi bi-pencil-square"></i></a>
+                    </td>
+                </tr>
+                  {{!-- {{/each}} --}}
+              </tbody>
+            </table>
+              {{!-- {{#if formQC}} --}}
+                {{!-- Render QC form --}}
+              {{!-- {{/if}} --}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="add-form-container container-fluid form-center p-5 d-none">
+    <div class="card-container shadow center w-50">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="blue-heading">Thêm mới</h5>
+                <span class="add-warning text-danger d-none">Không để trống tên phường</span>
+            </div>
+            <div class="card-body">
+                <form action="" id="addForm">
+                    <div class="row mb-3">
+                        <label for="wardName" class="col-sm-3 col-form-label fw-semibold">Tên phường</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="wardName" name="wardName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center fw-semibold">
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <a class="btn btn-outline-primary add-btn-close me-2">Thoát</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="edit-form-container container-fluid form-center p-5 d-none">
+    <div class="card-container shadow center w-50">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="blue-heading">Chỉnh sửa</h5>
+                <span class="edit-warning text-danger d-none">Không để trống tên phường</span>
+            </div>
+            <div class="card-body">
+                <form action="" id="editForm">
+                    <div class="row mb-3">
+                        <label for="wardID" class="col-sm-3 col-form-label fw-semibold">STT</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="wardID" name="wardID" value="1" disabled >
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="wardNewName" class="col-sm-3 col-form-label fw-semibold">Tên phường</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="wardNewName" name="wardNewName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center fw-semibold">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <a class="btn btn-outline-primary edit-btn-close me-2">Thoát</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success text-center center create-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+    <h5>Tạo phường mới thành công</h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-success">OK</a>
+</div>
+
+<div class="alert alert-primary text-center center update-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span></h4>
+    <h5>Cập nhật thông tin phường thành công</h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-primary">OK</a>
+</div>
+
+<div class="alert alert-warning text-center center delete-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-exclamation-diamond-fill"></i> <span>&nbsp;</span></h4>
+    <h5>Bạn có chắc chắn muốn xóa phường này?</h5>
+  </div>
+  <div>
+    <a role="button" class="btn btn-sm btn-warning btn-yes">Có</a>
+    <a role="button" class="btn btn-sm btn-danger btn-no">Không</a>
+  </div>
+</div>

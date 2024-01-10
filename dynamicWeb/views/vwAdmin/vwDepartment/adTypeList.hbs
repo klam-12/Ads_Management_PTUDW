@@ -1,0 +1,237 @@
+{{#section 'js'}}
+  <script>
+    $('a#btnEdit').click(function() {
+        $('div.edit-form-container').removeClass('d-none');
+    });
+
+    $('a#btnAdd').click(function() {
+        $('div.add-form-container').removeClass('d-none');
+    });
+
+    $('a#btnDelete').click(function() {
+        $('div.delete-confirm').removeClass('d-none');
+    });
+
+    $('div.edit-form-container form').submit(function(e){
+        e.preventDefault();
+        if($('#editForm').find('input[name="adTypeNewName"]').val().length === 0){
+            $('span.edit-warning').removeClass('d-none');
+        }
+        else{
+            $('div.update-confirm').removeClass('d-none');
+            if(!$('span.edit-warning').hasClass('d-none')){
+                $('span.edit-warning').addClass('d-none');
+            }
+        }
+    });
+
+    $('div.add-form-container form').submit(function(e){
+        e.preventDefault();
+        if($('#addForm').find('input[name="adTypeName"]').val().length === 0){
+            $('span.add-warning').removeClass('d-none');
+        }
+        else{
+            $('div.create-confirm').removeClass('d-none');
+            if(!$('span.add-warning').hasClass('d-none')){
+                $('span.add-warning').addClass('d-none');
+            }
+        }
+    });
+
+    $('a.edit-btn-close').click(function(){
+        $('div.edit-form-container').addClass('d-none');
+        $('div.edit-form-container form')[0].reset();
+    });
+
+    $('a.add-btn-close').click(function(){
+        $('div.add-form-container').addClass('d-none');
+        $('div.add-form-container form')[0].reset();
+    });
+
+    $('div.create-confirm a.btn').click(function() {
+        $('div.create-confirm').addClass('d-none');
+        //$('div.add-form-container form').submit();
+    });
+
+    $('div.update-confirm a.btn').click(function() {
+        $('div.update-confirm').addClass('d-none');
+        //$('div.edit-form-container form').submit();
+    });
+
+    $('a.btn-yes').click(function() {
+        $('div.delete-confirm').addClass('d-none');
+    });
+
+    $('a.btn-no').click(function() {
+        $('div.delete-confirm').addClass('d-none');
+    });
+  </script>
+{{/section}}
+
+<div class="container-sm p-5">
+    <div class="col">
+      <div class="card-container bg-green mt-4">
+        <div class="card">
+          <div class="card-header bg-green d-flex justify-content-between align-items-center">
+            <h5 class="green-heading">Danh sách các loại hình quảng cáo</h5>
+            <a class="btn btn-sm btn-table btn-green rounded" id="btnAdd"><i class="bi bi-plus"></i> Thêm</a>
+          </div>
+          <div class="ward-table">
+            {{#if this.empty}}
+            <div class="card-body">
+              Không có dữ liệu
+            </div>
+            {{else}}
+            <table class="table table-hover align-middle">
+              <thead class="align-middle">
+                  <tr>
+                    <th class="col-1 text-center" scope="col">STT</th>
+                    <th class="col-10" scope="col">Loại hình</th>
+                    <th class="col-1" scope="col"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {{!-- {{#each surfaceList}} --}}
+                    <tr class="card-info-row">
+                        <td class="text-center">1</td>
+                        <td>Cổ động chính trị</td>
+                        <td class="text-center ps-0 pe-0">
+                            <a class="btn-table btn-green rounded p-1" id="btnDelete"><i class="bi bi-trash-fill"></i></a> 
+                            <a class="btn-table btn-green rounded p-1" id="btnEdit"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="card-info-row">
+                        <td class="text-center">1</td>
+                        <td>Quảng cáo thương mại</td>
+                        <td class="text-center ps-0 pe-0">
+                            <a class="btn-table btn-green rounded p-1" id="btnDelete"><i class="bi bi-trash-fill"></i></a> 
+                            <a class="btn-table btn-green rounded p-1" id="btnEdit"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="card-info-row">
+                        <td class="text-center">1</td>
+                        <td>Xã hội hoá</td>
+                        <td class="text-center ps-0 pe-0">
+                            <a class="btn-table btn-green rounded p-1" id="btnDelete"><i class="bi bi-trash-fill"></i></a> 
+                            <a class="btn-table btn-green rounded p-1" id="btnEdit"><i class="bi bi-pencil-square"></i></a>
+                        </td>
+                    </tr>
+                  {{!-- {{/each}} --}}
+              </tbody>
+            </table>
+              {{!-- {{#if formQC}} --}}
+                {{!-- Render QC form --}}
+              {{!-- {{/if}} --}}
+            {{/if}}
+            <div class="card-footer text-muted d-flex align-items-center justify-content-between">
+                <p>
+                    Hiển thị {{limit}} trên {{totalPages}} mục
+                </p>
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="#">Trước</a></li>
+                  {{#each this.pageNumbers}}
+                  {{#if isActive}}
+                    <li class="page-item active" aria-current="page">
+                      <a class="page-link" href="#">{{value}}</a>
+                    </li>
+                    {{else}}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{value}}">{{value}}</a>
+                    </li>
+                    {{/if}}
+                  {{/each}}
+                  <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="add-form-container container center bg-none p-5 d-none">
+    <div class="card-container shadow center w-50">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="blue-heading">Thêm mới</h5>
+                <span class="add-warning text-danger d-none">Không để trống loại hình QC</span>
+            </div>
+            <div class="card-body">
+                <form action="" id="addForm">
+                    <div class="row mb-3">
+                        <label for="adTypeName" class="col-sm-3 col-form-label fw-semibold">Loại hình mới</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="adTypeName" name="adTypeName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center fw-semibold">
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <a class="btn btn-outline-primary add-btn-close me-2">Thoát</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="edit-form-container container center bg-none p-5 d-none">
+    <div class="card-container shadow center w-50">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="blue-heading">Chỉnh sửa</h5>
+                <span class="edit-warning text-danger d-none">Không để trống loại hình QC</span>
+            </div>
+            <div class="card-body">
+                <form action="" id="editForm">
+                    <div class="row mb-3">
+                        <label for="adTypeID" class="col-sm-3 col-form-label fw-semibold">STT</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="adTypeID" name="adTypeID" value="1" disabled >
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="adTypeNewName" class="col-sm-3 col-form-label fw-semibold">Loại hình</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="adTypeNewName" name="adTypeNewName">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center fw-semibold">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <a class="btn btn-outline-primary edit-btn-close me-2">Thoát</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-success text-center center create-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+    <h5>Tạo loại hình QC mới thành công</h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-success">OK</a>
+</div>
+
+<div class="alert alert-primary text-center center update-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span></h4>
+    <h5>Cập nhật loại hình QC thành công</h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-primary">OK</a>
+</div>
+
+<div class="alert alert-warning text-center center delete-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-exclamation-diamond-fill"></i> <span>&nbsp;</span></h4>
+    <h5>Bạn có chắc chắn muốn xóa loại hình QC này?</h5>
+  </div>
+  <div>
+    <a role="button" class="btn btn-sm btn-warning btn-yes">Có</a>
+    <a role="button" class="btn btn-sm btn-danger btn-no">Không</a>
+  </div>
+</div>

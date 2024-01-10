@@ -136,7 +136,7 @@ router.get('/district/license',async function (req, res) {
 
 
 //Department controller
-router.get('/department/space', async function (req, res) {
+router.get('/department/list/space', async function (req, res) {
     const page = req.query.page || 1;
     const offset = (page - 1) * limit;
 
@@ -154,6 +154,18 @@ router.get('/department/space', async function (req, res) {
         limit: limit,
         totalPages: total,
     });
+})
+
+router.get('/department/list/advertisementType', async function (req, res) {
+    res.render('vwAdmin/vwDepartment/adTypeList');
+})
+
+router.get('/department/list/districtWard', async function (req, res) {
+    res.render('vwAdmin/vwDepartment/districtWardList');
+})
+
+router.get('/department/list/reportType', async function (req, res) {
+    res.render('vwAdmin/vwDepartment/reportTypeList');
 })
 
 router.get('/department/report', async function (req, res) {
