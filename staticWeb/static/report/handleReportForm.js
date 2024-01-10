@@ -21,6 +21,8 @@
 // });
 
 //Get form information
+document.getElementById('address').value = "233 Đ. Lê Hồng Phong, Phường 4, Quận 5, Thành phố Hồ Chí Minh";
+
 const form = document.getElementById('reportForm');
 var reportType = document.getElementById('reportType');
 var fullName = document.getElementById('fullName');

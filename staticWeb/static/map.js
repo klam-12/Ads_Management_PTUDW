@@ -377,6 +377,14 @@ const reportInfo = (info) => {
 
             <div class="row">
                 <div class="report-info">
+                    <label class="mb-1" for="address">Địa chỉ</label>
+                    <span class="float-end"></span>
+                    <input type="text" name="address" id="address" value="227 Nguyễn Văn Cừ, phường 4, quận 5" readonly/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="report-info">
                     <label class="mb-1" for="fullName">Họ và tên</label>
                     <input
                         class="report-data-loaded"

@@ -17,6 +17,7 @@ var currentStatus = true;
 //Example
 const loadedData = {
     reportType : "Quảng cáo thương mại",
+    address : "227 Nguyễn Văn Cừ, phường 4, quận 5, TPHCM",
     fullName :"Tran Minh Anh",
     email : "tranminhanh1912@gmail.com",
     phoneNumber : "0387400741",
