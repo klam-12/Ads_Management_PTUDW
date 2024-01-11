@@ -24,7 +24,8 @@ const signIn = async (req, res, next) => {
 
 const createAccount = async (req, res, next) => {
   const { username, fullName,birthDate, phoneNumber, password, role, district, ward, email } = req.body;
-    const userInput = { username, fullName,birthDate, phoneNumber, password, role, district, ward, email };
+    let userInput = { username, fullName,birthDate, phoneNumber, password, role, district, ward, email };
+
     const { value, error } = validateCreateAccount(userInput);
     if (error) {
         throw new BadRequest(error);
@@ -33,11 +34,12 @@ const createAccount = async (req, res, next) => {
     if (existedUser) {
         throw new ConflictResponse('User already exists');
     }
+    // console.log(userInput)
     const hashedPassword = await bcrypt.hash(value.password, 10);
     console.log(hashedPassword)
     value.password = hashedPassword;
     await userService.createUser(value);
-    const response = new CreatedResponse({  metadata: value });
+    const response = new CreatedResponse({ message: 'User created successfully', metadata: value });
     return response.send(req, res);
 }
 const logout = async (req, res, next) => {

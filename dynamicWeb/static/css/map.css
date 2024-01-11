@@ -1,0 +1,484 @@
+#map {
+    /* Style for the map container */
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    
+}
+.container-fluid{
+    padding:  0;
+}
+.qc-icon {
+    width: 160px; /* Diameter of the circle */
+    height: 150px; /* Diameter of the circle */
+    border-radius: 50%; /* Ensures it's a circle */
+    display: flex;
+    justify-content: center;
+    color: #232323; /* Color of the 'QC' text */
+    text-align: center;
+    align-items: center;
+    /* font-weight: 500; */
+}
+.qc-planned {
+    background-color: #2f8fff;
+}
+.qc-planning {
+    background-color: #7e95e9;
+}
+.custom-svg-icon {
+    border-radius: 10%;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.report-icon {
+    border-radius: 12.5%;
+    display: flex;
+    justify-content: center;
+    color: #232323; /* Color of the 'QC' text */
+    text-align: center;
+    align-items: center;
+}
+.report-processing {
+    background-color: #ff9162;
+}
+.report-done {
+    background-color: #8c8c8c;
+}
+.report-icon-report {
+    height: 30px;
+    width: 30px;
+    background-color: #ff7272;
+}
+
+/* CSS cho phần tử bao quanh popup */
+.custom-popup-class {
+    display: none;
+    top: 100px;
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    z-index: 1000;
+    width: 258px;
+    border-radius: 10px;
+    gap: 10px;
+    flex-direction: column;
+}
+/* CSS cho tiêu đề trong popup */
+.popup-title {
+    font-size: 18px;
+    line-height: 21.78px;
+    font-weight: 600;
+}
+
+/* CSS cho văn bản trong popup */
+.popup-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: #8c8c8c;
+    line-height: 19.36px;
+}
+
+/* CSS cho trạng thái (status) trong popup */
+.popup-status {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 21.78px;
+    color: #2f8fff;
+}
+
+.leaflet-control-geosearch {
+    width: 35vw;
+    height: 3vh;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 3px;
+    border: none;
+    background: var(--white-color);
+    height: 4.5vh;
+}
+.leaflet-control-geosearch input[type='text'] {
+    width: 100%;
+    border-radius: 3px;
+    font-size: 14px;
+    outline: none;
+    padding: 0 -8px;
+}
+.leaflet-control-geosearch button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 100%;
+}
+.leaflet-control-geosearch button:hover {
+    background-color: #45a049;
+}
+
+.report-form-container {
+    width: 685px;
+    height: 550px;
+    padding: 20px 10px;
+    font-family: Inter;
+    border-radius: 10px;
+    border: 1px solid #ededed;
+    background: #fff7ed;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    z-index: 5;
+    overflow-y: auto;
+}
+.report-form-title {
+    margin: 5px 0px;
+    text-align: center;
+    font-weight: 600;
+    color: #e80000;
+}
+.report-status {
+    margin: 0px;
+    padding-bottom: 10px;
+    text-align: center;
+    font-weight: 600;
+}
+.report-info {
+    width: 100%;
+    margin: 7.5px 0px;
+    padding: 5px;
+    background-color: #ffffffcc;
+}
+.report-info input {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #d9d9d9;
+}
+.report-info select {
+    width: 100%;
+    border: none;
+    border-radius: 7px;
+    background-color: #d9d9d9;
+    cursor: pointer;
+}
+.report-info textarea {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #d9d9d9;
+}
+.report-image-upload {
+    width: 100%;
+    margin: 7.5px 0px;
+    padding: 5px;
+    background-color: #ffffffcc;
+}
+.report-image-upload input {
+    width: 100%;
+    margin: 2.5px 0px;
+    border-radius: 5px;
+    border: 1px solid #d7d7d7;
+    background: #fff0ca;
+    cursor: pointer;
+}
+.report-required {
+    color: red;
+}
+.report-submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.report-submit-button input {
+    padding: 10px 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background-color: #fb9090;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.center {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.half {
+    width: 50%;
+}
+.column-split {
+    border-right: 20px solid #fff7ed;
+}
+
+@media screen and (max-width: 768px) {
+    .report-form-container {
+        width: 453px;
+        height: auto;
+        overflow-y: visible;
+    }
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: flex !important;
+    animation: show_slide 1s ease forwards;
+}
+
+@keyframes show_slide {
+    0% {
+        transform: translateY(100%);
+    }
+    40% {
+        transform: translateY(-10%);
+    }
+    80% {
+        transform: translateY(0%);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+show-report {
+    display: block;
+    /* opacity: 0.2; */
+    background-color: red;
+}
+.report-component {
+    position: fixed;
+    z-index: 199;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.btn-close-report-form {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+.layout-container,
+.header-footer {
+    padding-left: 0px;
+    height: 100vh;
+    width: 100vw;
+}
+
+.header,
+.footer {
+    /* height: 10%; */
+    z-index: 2;
+}
+
+.header {
+    width: 0;
+    height: 0;
+}
+.bi {
+    font-size: 20px;
+}
+
+button {
+    border: none;
+    background-color: var(--white-color);
+}
+
+/* Header */
+.searchBar {
+    background-color: var(--white-color);
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.searchBar:hover {
+    border: 1px solid lightgrey;
+}
+
+.searchBar .bi-search {
+    font-size: 20px;
+}
+
+.searchBar input {
+    border: none;
+    width: 90%;
+}
+
+.searchBar input:focus {
+    outline: none;
+}
+
+.searchBtn {
+    padding-right: 5px;
+}
+
+.mapBtns {
+    border-radius: 10px;
+}
+
+.mapBtns .geology {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.mapBtns .geology:hover {
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Footer */
+.footer {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 0px 20px;
+    margin-bottom: 20px;
+}
+.footer i {
+    color: #bc5b5b;
+}
+
+#showQC,
+#showBC {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 5px;
+    border-radius: 10px;
+}
+
+#showQC:hover,
+#showBC:hover {
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+.bi-eye,
+.bi-eye-slash {
+    color: var(--red-color);
+}
+
+/* Modal */
+.modal {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    right: 0px;
+    left: inherit;
+    width: 30vw;
+    background: rgba(255, 255, 255, 0.8);
+    overflow-y: auto;
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    gap: 20px;
+}
+.modal-content {
+    width: 100%;
+    background: transparent;
+    border: none;
+    gap: 10px;
+    margin: 0;
+}
+
+.closeBtn {
+    align-self: flex-end;
+    position: relative;
+    left: 0px;
+    height: 25px;
+    width: 25px;
+}
+/* .modal button {
+    padding: 0px;
+    width: 100%;
+} */
+
+/* Component QC */
+.component-QC,
+.component-moreInfoQC,
+.component-location-qc,
+.component-location-info,
+.component-report-sm {
+    padding: 10px;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #f9fdff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.component-report-sm {
+    background: #fff7ed;
+    z-index: 5;
+}
+
+.qc-title {
+    color: var(--info-color);
+    font-weight: 600;
+}
+
+.qc-adr {
+    color: #8c8c8c;
+}
+
+.bi-info-circle-fill {
+    font-size: 27px;
+    color: var(--info-color);
+}
+
+.btn-report {
+    color: var(--report-color);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0px 5px;
+    border-radius: 10px;
+    border: 1px solid;
+    font-size: 14px;
+}
+
+.bi-exclamation-octagon-fill {
+    font-size: 23px;
+}
+
+/* Component location */
+.loc-qc-content,
+.loc-location-content {
+    flex-direction: column;
+}
+
+.loc-qc-content .title,
+.bi-info-circle {
+    color: var(--info-color);
+}
+
+.loc-location-content .title,
+.bi-check2-circle {
+    color: green;
+}
+
+.component-location-qc {
+    background: #ceeaff;
+    flex-direction: row;
+}
+
+.component-location-info {
+    background: #f5fff6;
+    flex-direction: row;
+}
+
+.bi-info-circle,
+.bi-check2-circle {
+    font-size: 27px;
+}
+nav{
+    z-index: 1;
+}

@@ -16,6 +16,8 @@ const AdvertisementSchema = new mongoose.Schema({
       'Trung tâm thương mại'
     ] 
   },
+  
+  id_setpoint: { type: mongoose.Schema.Types.ObjectId, ref: 'SetPoint' },
   width: Number,
   height: Number,
   quantity: Number,

@@ -10,7 +10,7 @@
     $('#typeAcc').change(function () {
         var selectedType = $(this).find("option:selected").text();
         
-        if(selectedType === "Cán bộ quận"){
+        if(selectedType === "Cán bộ Quận"){
             $("#ward-select").attr("disabled","disabled");
         } 
     });
@@ -18,7 +18,7 @@
     $('#district-select').change(function () {
         var selectedType = $("#typeAcc").find("option:selected").text();
 
-        if(selectedType == "Cán bộ phường"){
+        if(selectedType == "Cán bộ Phường"){
             var districtType = $(this).find("option:selected").text();
             if(districtType === "Quận 1"){
                 var district1 = {
@@ -39,7 +39,7 @@
 
                 $.each(district1, function(key, value) {
                     var $option = $("<option/>", {
-                        value: key,
+                        value: value,
                         text: value
                     });
                     $mySelect.append($option);
@@ -50,14 +50,13 @@
                 for (var i = 1; i <= 14; i++) {
                     district5[i.toString()] = "Phường " + i;
                 }
-                console.log(district5);
 
                 var $mySelect = $('#ward-select');
                 $mySelect.find('option').remove();
                 
                 $.each(district5, function(key, value) {
                     var $option = $("<option/>", {
-                        value: key,
+                        value: value,
                         text: value
                     });
                     $mySelect.append($option);
@@ -67,7 +66,38 @@
 
         }
     });
+    
+    $('.create-confirm .btn-success ').on('click', function() {
+  $('.create-confirm').addClass('d-none');
+});
+    $('.btn-danger').on('click', function() {
+      $('.error-noti').addClass('d-none');
+    });
 
+    $('#createAccForm').submit(function(event) {
+        event.preventDefault();
+    
+        $.ajax({
+        type: 'POST',
+        url: '/auth/create-account',
+        data: $(this).serialize(),
+        success: function(response) {
+            console.log(response);
+            $('#successMessage').text(response.message);
+            $('.create-confirm').removeClass('d-none').show();
+            $('#createAccForm')[0].reset();
+        },
+        error: function(xhr, status, error) {
+        var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
+            console.log(errorMessage)
+            $('#errorMessage').text(errorMessage);
+            $('.error-noti').removeClass('d-none').show();
+            console.log($('.error-noti'));
+            $('#createAccForm')[0].reset();
+        }
+  });
+});
+   
 </script>
 {{/section}}
 
@@ -79,32 +109,8 @@
 {{/section}}
 
 <div class="container-fluid p-5 d-flex justify-content-center">
-    <div id="errorContainer">
-        {{#if this.msg}}
-            {{#if this.is_err}}
-            <div class="alert alert-danger text-center center error-noti" role="alert">
-                <div class="d-inline-flex">
-                    <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
-                    <h5>{{this.msg}}</h5>
-                </div>
-                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
-            </div>
-            {{else}}
-            <div class="alert alert-success text-center center create-confirm" role="alert">
-                <div class="d-inline-flex">
-                    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
-                    <h5>{{this.msg}}</h5>
-                </div>
-                <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
-            </div>
-
-            {{/if}}
-        {{/if}}
-    </div>
-    <div class="position-relative">
-        
-
-        <form method="post" class="form-createAcc-width p-4 bg-light box-shadow" id="create-acc-form">
+  
+        <form method="post" id ="createAccForm" class="form-createAcc-width p-4 bg-light box-shadow">
             <div class="row text-center mb-3 info-color ">
                 <i class="bi bi-person-square heading-size" style="font-size: 34px;"></i>
             </div>
@@ -138,11 +144,7 @@
                     <input type="text" class="form-control form-control-sm mb-2" id="txtDob" name="birthDate">
                     
                     <label for="txtEmail" class="form-label black-color">Email</label>
-<<<<<<< HEAD
                     <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email" >
-=======
-                    <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email" value="email@gmail.com">
->>>>>>> origin/dynamic/update-form-UI
                     
                     <label for="txtPhone" class="form-label black-color">Số điện thoại</label>
                     <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phoneNumber">
@@ -157,25 +159,25 @@
                 </div>
                 <div class="col-8">
                     <label class="form-label">Cán bộ cấp</label>
-                    <select class="form-select form-select-sm mb-2" id="typeAcc" aria-label=".form-select-sm example">
+                    <select class="form-select form-select-sm mb-2" id="typeAcc" aria-label=".form-select-sm example" name="role">
                         <option >Phân loại</option>
-                        <option  value="1">Cán bộ phường</option>
-                        <option selected value="2">Cán bộ quận</option>
+                        <option  value="Cán bộ Phường">Cán bộ Phường</option>
+                        <option selected value="Cán bộ Quận">Cán bộ Quận</option>
                     </select>
                     
                     <div class="row mb-2">
                         <div class="col">
                             <label class="form-label">Quận</label>
-                            <select class="form-select form-select-sm" id="district-select" aria-label=".form-select-sm example">
+                            <select class="form-select form-select-sm" id="district-select" aria-label=".form-select-sm example" name="district">
                                 <option selected value="0">Phân loại</option>
-                                <option  value="1">Quận 1</option>
-                                <option  value="2">Quận 5</option>
+                                <option  value="Quận 1">Quận 1</option>
+                                <option  value="Quận 5">Quận 5</option>
                             </select>
                         </div>
                         
                         <div class="col">
                             <label class="form-label">Phường</label>
-                            <select class="form-select form-select-sm" id="ward-select" disabled aria-label=".form-select-sm example">
+                            <select class="form-select form-select-sm" id="ward-select" disabled aria-label=".form-select-sm example" name="ward">
                                 <option selected>Phân loại</option>
                             </select>
                         </div>
@@ -191,4 +193,18 @@
             </div>
         </form>
     </div>
+</div>
+<div class="alert alert-success text-center center create-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+    <h5 id="successMessage"></h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-success" >OK</a>
+</div>
+<div class="alert alert-danger text-center center error-noti d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+    <h5 id ="errorMessage"></h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-danger">OK</a>
 </div>

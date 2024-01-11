@@ -19,7 +19,7 @@ const validateInfoUser = Joi.object({
     const { district } = helpers.prefs.context;
     console.log(district);
     if (!WARDS[district].includes(value)) {
-      return helpers.message('Phường không hợp lệ cho quận');
+      return helpers.message('Phường không hợp lệ cho Quận');
     }
     return value;
   }),

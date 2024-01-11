@@ -5,9 +5,10 @@ const ReportSchema = new mongoose.Schema({
   fullName: String,
   phoneNumber: String,
   reportContent: String,
-  
+  email: String,
   image1: String,
   image2: String,
+  isHandled: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const Report = mongoose.model('Report', ReportSchema);
