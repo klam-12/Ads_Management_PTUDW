@@ -38,7 +38,7 @@
             <div class="blob topleft-pos"></div>
             <div class="blob botright-pos"></div>
             <div class="container ">
-                <form method="post" action="/users/me" class="profile-width position-absolute top-50 start-50 translate-middle p-4 custom-form box-shadow">
+                <form method="post" id="formProfile" action="/users/me" class="profile-width position-absolute top-50 start-50 translate-middle p-4 custom-form box-shadow">
                     <div class="row text-center mb-3 info-color ">
                         <i class="bi bi-person-square heading-size" style="font-size: 34px;"></i>
                     </div>
@@ -116,20 +116,49 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-        <script>
-            
-                $('#txtDob').datetimepicker({
-        timepicker: false,
-        format: 'd/m/Y',
-        mask: true
-    });
+        <script> 
+            $('#txtDob').datetimepicker({
+                timepicker: false,
+                format: 'd/m/Y',
+                mask: true
+            });
 
-    // Assuming authUser.birthDate is in the format 'yyyy-mm-dd'
-    const birthDate = new Date('{{authUser.birthDate}}'); // Replace '{{authUser.birthDate}}' with your server-side value
+            // Assuming authUser.birthDate is in the format 'yyyy-mm-dd'
+            const birthDate = new Date('{{authUser.birthDate}}'); // Replace '{{authUser.birthDate}}' with your server-side value
 
-    const formattedDate = `${('0' + birthDate.getDate()).slice(-2)}/${('0' + (birthDate.getMonth() + 1)).slice(-2)}/${birthDate.getFullYear()}`;
+            const formattedDate = `${('0' + birthDate.getDate()).slice(-2)}/${('0' + (birthDate.getMonth() + 1)).slice(-2)}/${birthDate.getFullYear()}`;
 
-    $('#txtDob').val(formattedDate);
-        </script>   
+            $('#txtDob').val(formattedDate);
+
+            $('#formProfile').on('submit', function (e) {
+                e.preventDefault();
+
+                var errorNoti = "";            
+                const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+                var dob = $('#txtDob').val();
+
+                if($('#txtName').val() === ""){
+                    errorNoti = "Họ và tên không được trống";
+                } else if(dob === "__/__/____" || dob.length===0){
+                    errorNoti = "Bạn chưa chọn ngày sinh";
+                } else if(! $('#txtPhone').val().match(regexPhoneNumber)){
+                    errorNoti = "Số điện thoại không hợp lệ";
+                } 
+
+                if(errorNoti.length !== 0){
+                    var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                            <div class="d-inline-flex">
+                                <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                                <h5>${errorNoti}</h5>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                        </div>`);
+                    $('#errorContainer').append(errComp);
+                    return;
+                }
+                
+                $('#formProfile').off('submit').submit();
+            })
+        </script>
     </body>
 </html>

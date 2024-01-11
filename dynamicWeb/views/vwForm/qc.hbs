@@ -14,17 +14,50 @@
         // language: 'vi',
     });
 
-    $('#txtDate').datetimepicker({
-        timepicker: false,
-        format: 'd/m/Y',
-        mask: true
-    });
+    var date = new Date();
+    var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
+    $('#txtDate').val(today);
 
     $('input[name^=dateExpired]').datetimepicker({
         timepicker: false,
         format: 'd/m/Y',
         mask: true
     });
+
+    $('#formEditQc').on('submit', function (e) {
+        e.preventDefault();
+
+        var errorNoti = "";
+        var typeAds = $("#typeAds").find("option:selected").text();
+        var typeBillboard = $("#typeBillboard").find("option:selected").text();
+        var dateQC = $('#txtDateQC').val();
+        
+        if ($('#reasonArea').val().length === 0) {
+            errorNoti = "Lí do chỉnh sửa không được trống";
+        } else if($('#txtHeight').val() === "" || $('#txtWidth').val() === "" || $('#txtQuantity').val() === "" ){
+            errorNoti = "Bạn chưa chọn đủ kích thước và số lượng";
+        } else if(typeAds === "Hình thức quảng cáo"){
+            errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+        } else if(typeBillboard === "Phân loại bảng quảng cáo"){
+            errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
+        } else if(dateQC === "__/__/____" || dateQC.length===0){
+            errorNoti = "Bạn chưa chọn ngày hết hạn bảng quảng cáo";
+        }
+
+        if(errorNoti.length !== 0){
+            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>${errorNoti}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>`);
+            $('#errorContainer').append(errComp);
+            return;
+        }
+          
+        $('#formEditQc').off('submit').submit();
+    })
 </script>
 {{/section}}
 
@@ -34,10 +67,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
 
 <link rel="stylesheet" href="/static/css/form.css">
+<link rel="stylesheet" href="/static/css/layout.css">
 {{/section}}
 
 <div class="position-relative mt-5">
-    <form method="post" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-qc box-shadow ">
+    <form method="post" id="formEditQc" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-qc box-shadow ">
         <div id="errorContainer">
             {{#if this.msg}}
                 {{#if this.is_err}}
@@ -85,7 +119,7 @@
             <div class="row">
                 <label for="txtDate" class="col-sm-3 col-form-label">Thời điểm chỉnh sửa</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="txtDate" name="dateReport">
+                    <input type="text" class="form-control" id="txtDate" name="dateReport" disabled>
                 </div>
             </div>
 
@@ -107,16 +141,16 @@
                 <div class="col-sm-9">
                     <div class="row">
                     <div class="col-sm-4">
-                            <label for="txtPhone" class="form-label fw-italic black-color">Chiều rộng (m)</label>
-                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                            <label for="txtHeight" class="form-label fw-italic black-color">Chiều rộng (m)</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
                     </div>
                     <div class="col-sm-4">
-                            <label for="txtPhone" class="form-label fw-italic black-color">Chiều dài (m)</label>
-                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                            <label for="txtWidth" class="form-label fw-italic black-color">Chiều dài (m)</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
                     </div>
                     <div class="col-sm-4">
-                            <label for="txtPhone" class="form-label fw-italic black-color">Số lượng (trụ/bảng)</label>
-                            <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                            <label for="txtQuantity" class="form-label fw-italic black-color">Số lượng (trụ/bảng)</label>
+                            <input type="text" class="form-control form-control-sm mb-2" id="txtQuantity" name="quantity">
                     </div>
                     </div>
                 </div>
@@ -125,7 +159,7 @@
             <div class="row mb-2">
                 <span class="col-sm-3 col-form-label">Hình thức</span>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option selected>Hình thức quảng cáo</option>
                         <option value="1">Cổ động chính trị</option>
                         <option value="2">Quảng cáo thương mại</option>
@@ -137,8 +171,8 @@
             <div class="row mb-2">
                 <span class="col-sm-3 col-form-label">Phân loại</span>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Phân loại</option>
+                    <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Phân loại bảng quảng cáo</option>
                         <option value="1">Trụ bảng hiflex</option>
                         <option value="2">Trụ màn hình điện tử LED</option>
                         <option value="3">Trụ hộp đèn</option>

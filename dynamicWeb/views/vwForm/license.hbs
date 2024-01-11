@@ -25,6 +25,64 @@
         format: 'd/m/Y',
         mask: true
     });
+
+    $('#formLicense').on('submit', function (e) {
+        e.preventDefault();
+
+        var errorNoti = "";
+        const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+        var typeAds = $("#typeAds").find("option:selected").text();
+        var typeLoc = $("#typeLoc").find("option:selected").text();
+        var typeBillboard = $("#typeBillboard").find("option:selected").text();
+        var dateStart = $('#txtDayStart').val();
+        var dateEnd = $('#txtDayEnd').val();
+        
+        if($('#txtHeight').val() === "" || $('#txtWidth').val() === "" ){
+            errorNoti = "Bạn chưa chọn đủ kích thước dài và rộng";
+        } 
+        else if(typeBillboard === "Phân loại bảng quảng cáo"){
+            errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
+        } 
+        else if(typeLoc === "Phân loại điểm đặt"){
+            errorNoti = "Bạn chưa chọn loại điểm đặt";
+        } 
+        else if(typeAds === "Hình thức quảng cáo"){
+            errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+        } 
+        else if($('#txtNameCompany').val() === ""){
+            errorNoti = "Tên công ty không được trống";
+        } 
+        else if($('#txtAdr').val() === ""){
+            errorNoti = "Địa chỉ không được trống";
+        } 
+        else if($('#txtEmail').val() === ""){
+            errorNoti = "Email không được trống";
+        } 
+        else if(! $('#txtPhone').val().match(regexPhoneNumber)){
+            errorNoti = "Số điện thoại không hợp lệ";
+        } 
+        else if(dateStart === "__/__/____" || dateStart.length===0){
+            errorNoti = "Bạn chưa chọn ngày bắt đầu hợp đồng";
+        } 
+        else if(dateEnd === "__/__/____" || dateEnd.length===0){
+            errorNoti = "Bạn chưa chọn ngày kết thúc hợp đồng";
+        }
+
+        if(errorNoti.length !== 0){
+            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>${errorNoti}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>`);
+            $('#errorContainer').append(errComp);
+            return;
+        }
+          
+        $('#formLicense').off('submit').submit();
+    })
 </script>
 {{/section}}
 
@@ -34,10 +92,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
 
 <link rel="stylesheet" href="/static/css/form.css">
+<link rel="stylesheet" href="/static/css/layout.css">
 {{/section}}
 
 <div class="position-relative">
-    <form method="post" class="container-fluid position-absolute top-50 start-50 translate-middle-x custom-form-license box-shadow ">
+    <form method="post" id="formLicense" class="container-fluid position-absolute top-50 start-50 translate-middle-x custom-form-license box-shadow ">
         <div id="errorContainer">
             {{#if this.msg}}
                 {{#if this.is_err}}
@@ -81,30 +140,30 @@
 
                     <div class="row mb-2">
                             <div class="col">
-                                    <label for="txtPhone" class="form-label fw-italic black-color">Kinh độ</label>
-                                    <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                                    <label for="txtLng" class="form-label fw-italic black-color">Kinh độ</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng" value="10.45666" disabled>
                             </div>
                             <div class="col">
-                                    <label for="txtPhone" class="form-label fw-italic black-color">Vĩ độ</label>
-                                    <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                                    <label for="txtLat" class="form-label fw-italic black-color">Vĩ độ</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat" value="11.2222" disabled>
                             </div>
                     </div>
 
                     <div class="row mb-2">
                         <div class="col">
-                                <label for="txtPhone" class="form-label fw-italic black-color">Chiều dài</label>
-                                <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                                <label for="txtWidth" class="form-label fw-italic black-color">Chiều dài</label>
+                                <input type="text" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
                         </div>
                         <div class="col">
-                                <label for="txtPhone" class="form-label fw-italic black-color">Chiều rộng</label>
-                                <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phone">
+                                <label for="txtHeight" class="form-label fw-italic black-color">Chiều rộng</label>
+                                <input type="text" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
                         </div>
                     </div>  
 
                     <div class="mb-2">
                         <label class="form-label">Loại bảng quảng cáo </label>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option selected>Phân loại</option>
+                        <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected>Phân loại bảng quảng cáo</option>
                             <option value="1">Trụ bảng hiflex</option>
                             <option value="2">Trụ màn hình điện tử LED</option>
                             <option value="3">Trụ hộp đèn</option>
@@ -119,9 +178,9 @@
                     </div>
 
                     <div class=" mb-2">
-                        <label class="form-label">Loại vị trí</label>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option selected>Phân loại</option>
+                        <label class="form-label">Loại điểm đặt</label>
+                        <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected>Phân loại điểm đặt</option>
                             <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
                             <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
                             <option value="3">Trung tâm thương mại</option>
@@ -134,8 +193,8 @@
                     
                     <div class=" mb-2">
                         <label class="form-label">Hình thức quảng cáo</label>
-                        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option selected>Phân loại</option>
+                        <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option selected>Hình thức quảng cáo</option>
                             <option value="1">Cổ động chính trị</option>
                             <option value="2">Quảng cáo thương mại</option>
                             <option value="3">Xã hội hoá</option>

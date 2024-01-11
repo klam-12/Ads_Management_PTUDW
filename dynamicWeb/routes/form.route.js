@@ -1,4 +1,5 @@
 import express from "express"
+import moment from "moment";
 
 const router = express.Router();
 
@@ -11,6 +12,9 @@ router.post('/location', function(req,res){
     // Nếu Có lỗi -> is_err: true + msg: Lỗi gì đó
     // Nếu thành công -> is_err: false + msg : Thành công
     // Các form khác tương tự
+    const raw_dateReport = req.body.dateReport;
+    const reportDate = moment(raw_dateReport, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
     res.render('vwForm/location', {
         msg: "Có lỗi xảy ra. Hãy kiểm tra lại",
         is_err: true,
@@ -23,6 +27,9 @@ router.get('/qc', function(req,res){
 });
 
 router.post('/qc', function(req,res){
+    const raw_dateReport = req.body.dateReport;
+    const reportDate = moment(raw_dateReport, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    
     res.render('vwForm/qc', {
         msg: "Có lỗi xảy ra. Hãy kiểm tra lại",
         is_err: true,
