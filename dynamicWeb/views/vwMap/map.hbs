@@ -78,138 +78,138 @@
         <link rel="stylesheet" href="./css/report.css" />
         <link rel="stylesheet" href="./css/map.css" /> --}}
 {{/section}}
+
 <div>
-<div class="layout-container">
-            <!-- Header and Footer -->
-            <div class="container-fluid d-flex flex-column justify-content-between header-footer">
-                <div class="row d-flex align-items-center justify-content-between header"></div>
-                <div id="map"></div>
-                <div class="row d-flex align-items-center footer">
-                    <div class="col-md-auto displayQC">
-                        <button title="showQC" id="showQC">
-                            <i class="bi bi-eye"></i>
-                            Bảng QC
-                        </button>
-                    </div>
+        <!-- Header and Footer -->
+            <div class="row d-flex align-items-center justify-content-between header"></div>
+            <div id="map"></div>
 
-                    <div class="col-md-auto displayBC">
-                        <button title="showBC" id="showBC">
-                            <i class="bi bi-eye"></i>
-                            Báo cáo vi phạm
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal" id="modal">
-                <div id="closeBtn" class="closeBtn">
-                    <button type="button">
-                        <i class="bi bi-x-lg"></i>
-                        &#8203;
+            <div class="row d-flex align-items-end footer">
+                <div class="col-md-auto displayQC">
+                    <button title="showQC" id="showQC">
+                        <i class="bi bi-eye"></i>
+                        Bảng QC
                     </button>
                 </div>
 
-                <div class="col-sm offset-md-5 modal-content"></div>
+                <div class="col-md-auto displayBC">
+                    <button title="showBC" id="showBC">
+                        <i class="bi bi-eye"></i>
+                        Báo cáo vi phạm
+                    </button>
+                </div>
             </div>
-            <div class="report-component hide" id="report">
-                <div class="report-form-container center">
-                    <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
-                    <form class="report-form" id="reportForm">
-                        <h4 class="report-form-title">
-                            <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
-                        </h4>
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="container report-info">
-                                    <div class="row">
-                                        <div class="col-sm-5 col-md-4">
-                                            <label class="align-middle" for="reportType">Hình thức báo cáo</label>
-                                        </div>
-                                        <div class="col-sm-7 col-md-8">
-                                            <select
-                                                class="form-select form-select-sm"
-                                                aria-label=".form-select-sm example"
-                                                name="reportType"
-                                                id="reportType"
-                                            >
-                                                <option value="" selected>Chọn hình thức báo cáo</option>
-                                                <option value="politicalReport">Cổ động chính trị</option>
-                                                <option value="adsReport">Quảng cáo thương mại</option>
-                                                <option value="socializedReport">Xã hội hoá</option>
-                                            </select>
-                                            <span class="report-required"></span>
-                                        </div>
+        <div class="modal" id="modal">
+            <div id="closeBtn" class="closeBtn">
+                <button type="button">
+                    <i class="bi bi-x-lg"></i>
+                    &#8203;
+                </button>
+            </div>
+
+            <div class="col-sm offset-md-5 modal-content"></div>
+        </div>
+        
+        <div class="report-component hide" id="report">
+            <div class="report-form-container center">
+                <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
+                <form class="report-form" id="reportForm">
+                    <h4 class="report-form-title">
+                        <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
+                    </h4>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="container report-info">
+                                <div class="row">
+                                    <div class="col-sm-5 col-md-4">
+                                        <label class="align-middle" for="reportType">Hình thức báo cáo</label>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-info">
-                                    <label class="mb-1" for="fullName">Họ và tên</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="text" name="fullName" id="fullName" />
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col report-info half column-split">
-                                    <label class="mb-1" for="email">Email</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="email" name="email" id="email" />
-                                </div>
-                                <div class="col report-info half">
-                                    <label class="mb-1" for="phoneNumber">Số điện thoại</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="tel" name="phoneNumber" id="phoneNumber" />
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-info">
-                                    <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
-                                    <span class="report-required float-end"></span>
-                                    <textarea
-                                        name="reportContent"
-                                        id="reportContent"
-                                        cols="30"
-                                        rows="10"
-                                        style="resize: none"
-                                    ></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-image-upload">
-                                    <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="file" id="img" name="img" accept="image/*" multiple />
-                                    <div id="imagesOutput"></div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-info">
-                                    <label for="captcha">Captcha</label>
-                                    <span class="report-required float-end"></span>
-                                    <div class="d-flex justify-content-center">
-                                        <div
-                                            class="g-recaptcha object-fit-fill"
-                                            data-sitekey="6LcAIR0pAAAAAPG1GImTO73xZ6rCXwKOLWsoDEBF"
-                                        ></div>
+                                    <div class="col-sm-7 col-md-8">
+                                        <select
+                                            class="form-select form-select-sm"
+                                            aria-label=".form-select-sm example"
+                                            name="reportType"
+                                            id="reportType"
+                                        >
+                                            <option value="" selected>Chọn hình thức báo cáo</option>
+                                            <option value="politicalReport">Cổ động chính trị</option>
+                                            <option value="adsReport">Quảng cáo thương mại</option>
+                                            <option value="socializedReport">Xã hội hoá</option>
+                                        </select>
+                                        <span class="report-required"></span>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-submit-button">
-                                    <input type="submit" id="submitBtn" value="Hoàn thành" />
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+
+                        <div class="row">
+                            <div class="report-info">
+                                <label class="mb-1" for="fullName">Họ và tên</label>
+                                <span class="report-required float-end"></span>
+                                <input type="text" name="fullName" id="fullName" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col report-info half column-split">
+                                <label class="mb-1" for="email">Email</label>
+                                <span class="report-required float-end"></span>
+                                <input type="email" name="email" id="email" />
+                            </div>
+                            <div class="col report-info half">
+                                <label class="mb-1" for="phoneNumber">Số điện thoại</label>
+                                <span class="report-required float-end"></span>
+                                <input type="tel" name="phoneNumber" id="phoneNumber" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-info">
+                                <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
+                                <span class="report-required float-end"></span>
+                                <textarea
+                                    name="reportContent"
+                                    id="reportContent"
+                                    cols="30"
+                                    rows="10"
+                                    style="resize: none"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-image-upload">
+                                <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
+                                <span class="report-required float-end"></span>
+                                <input type="file" id="img" name="img" accept="image/*" multiple />
+                                <div id="imagesOutput"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-info">
+                                <label for="captcha">Captcha</label>
+                                <span class="report-required float-end"></span>
+                                <div class="d-flex justify-content-center">
+                                    <div
+                                        class="g-recaptcha object-fit-fill"
+                                        data-sitekey="6LcAIR0pAAAAAPG1GImTO73xZ6rCXwKOLWsoDEBF"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-submit-button">
+                                <input type="submit" id="submitBtn" value="Hoàn thành" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+        </div>
 </div>
-       </div>
-        {{!-- <h1>Hello</h1> --}}
+
+    {{!-- <h1>Hello</h1> --}}
