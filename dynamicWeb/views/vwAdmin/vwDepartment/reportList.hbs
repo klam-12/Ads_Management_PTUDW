@@ -1,12 +1,224 @@
 {{#section 'js'}}
 <script>
-    $('button.btn-blue').click(function() {
-      $('div.report-container').removeClass('d-none');
+    $('button.btn-blue').click(function () {
+    $('div.report-container').removeClass('d-none');
+    const id = $(this).data('id');
+
+    $.getJSON(`/reports/getId/${id}`, function (data) {
+      console.log(data.reportType)
+        $('#reportType').val(data.reportType);
+        $('#fullName').val(data.fullName);
+        $('#email').val(data.email);
+        $('#phoneNumber').val(data.phoneNumber);
+        $('#reportContent').val(data.reportContent);
+
+        $('#imagesOutput').empty();
+        if (data.images && data.images.length > 0) {
+            data.images.forEach(image => {
+                $('#imagesOutput').append(`<img src="${image}" alt="Report Image" class="uploaded-image">`);
+            });
+        }
+        $('.report-status').text(data.ReportState);
     });
+});
 
     $('i.report-close-btn').click(function(){
       $('div.report-container').addClass('d-none');
     });
+     const District1 = [
+                'Phường Bến Nghé',
+                'Phường Bến Thành',
+                'Phường Cầu Kho',
+                'Phường Cầu Ông Lãnh',
+                'Phường Cô Giang',
+                'Phường Đa Kao',
+                'Phường Nguyễn Cư Trinh',
+                'Phường Nguyễn Thái Bình',
+                'Phường Phạm Ngũ Lão',
+                'Phường Tân Định'
+              ];
+          const District5 = [
+                'Phường 1   ',
+                'Phường 2',
+                'Phường 3',
+                'Phường 4',
+                'Phường 5',
+                'Phường 6',
+                'Phường 7',
+                'Phường 8',
+                'Phường 9',
+                'Phường 10',
+                'Phường 11',
+                'Phường 12',
+                'Phường 13',
+                'Phường 14',
+                'Phường 15',
+              ];  
+            
+   $(document).ready(function() {
+        const authUserRole = '{{authUser.role}}';
+        const authUserDistrict = '{{authUser.district}}';
+        const authUserWard = '{{authUser.ward}}';
+        if (authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường') {
+    $('#reportTable tbody tr').each(function() {
+        const isHandled = $(this).data('ishandled'); // Assuming you have isHandled data attribute in each tr
+        const newColumn = `
+            <td class="text-center">
+                <button class="btn btn-sm btn-readonly">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
+            </td>
+        `;
+        $(this).append(newColumn);
+    });
+}
+
+        function updateDropdownContent() {
+            const districtSelect = $('#districtSelect');
+            const wardSelect = $('#wardSelect');
+            console.log(authUserRole);
+            districtSelect.empty();
+            wardSelect.empty();
+           if (authUserRole === 'Cán bộ Sở') {
+                const allDistricts = ['Quận 1', 'Quận 5'];
+
+                const allWards = [...District1, ...District5];
+                 districtSelect.append(`<option selected>Quận</option>`);
+                allDistricts.forEach(district => {
+                    districtSelect.append(`<option value="${district}">${district}</option>`);
+                });
+                wardSelect.append(`<option selected>Phường</option>`);
+                
+            } else if (authUserRole === 'Cán bộ Quận') {
+                districtSelect.append(`<option value="${authUserDistrict}" selected>${authUserDistrict}</option>`);
+                let allWards;
+                if (authUserDistrict === 'Quận 1') {
+                     allWards = District1;
+                }
+                if (authUserDistrict === 'Quận 5') {
+                    allWards = District5;
+                }
+                wardSelect.append(`<option selected>Phường</option>`);
+                allWards.forEach(ward => {
+                    wardSelect.append(`<option value="${ward}">${ward}</option>`);
+                });
+            } else if (authUserRole === 'Cán bộ Phường') {
+              console.log(authUserWard);
+                districtSelect.append(`<option value="${authUserDistrict}" selected>${authUserDistrict}</option>`);
+                wardSelect.append(`<option value="${authUserWard}" selected>${authUserWard}</option>`);
+            }
+        }
+
+        
+        updateDropdownContent();
+   });
+    $('#districtSelect, #wardSelect').change(function() {
+         const authUserRole = '{{authUser.role}}';
+         if (authUserRole === 'Cán bộ Sở') {
+           const selectedDistrict = $('#districtSelect').val();
+           
+          if (selectedDistrict === 'Quận 1') {
+              populateWards(District1);
+          } else if (selectedDistrict === 'Quận 5') {
+              populateWards(District5);
+          } else {
+              populateWards([]);
+          }
+         }
+         function populateWards(wards) {
+    const wardSelect = $('#wardSelect');
+    
+    // Save the currently selected ward before clearing the options
+    const selectedWard = wardSelect.val();
+
+    wardSelect.empty();
+    wardSelect.append('<option selected>Phường</option>');
+
+    wards.forEach(ward => {
+        wardSelect.append(`<option value="${ward}">${ward}</option>`);
+    });
+
+    // Set the previously selected ward if it exists in the new options
+    if (wards.includes(selectedWard)) {
+        wardSelect.val(selectedWard);
+    }
+}
+
+        performAjaxQuery();
+
+
+    })
+    function performAjaxQuery(pageNumber = 1) {
+        const selectedDistrict = $('#districtSelect').val();
+        const selectedWard = $('#wardSelect').val();
+        console.log(selectedDistrict, selectedWard);
+        
+        $.ajax({
+            url: '/reports/filter', // Địa chỉ URL của máy chủ để thực hiện truy vấn
+            type: 'GET', 
+            data: {
+                district: selectedDistrict,
+                ward: selectedWard,
+                page: pageNumber,
+                limit: 5
+            },
+           success: function(data) {
+             const authUserRole = '{{authUser.role}}';
+           $('#reportTable tbody').empty();
+            $.each(data.list, function(index, report) {
+              const newRow = `<tr>
+                  <td class="text-center">${index + 1}</td>
+                  <td class="text-center">${report.createAt}</td>
+                  <td>
+                      <ul>
+                          <li>Họ tên: ${report.fullName}</li>
+                          <li>Email: ${report.email}</li>
+                          <li>SĐT: ${report.phoneNumber}</li>
+                      </ul>
+                  </td>
+                  <td>
+                      ${report.type === 'Advertisement' ?
+                          `<span class="fw-bold">Bảng QC</span>
+                          <ul>
+                              <li>Địa chỉ: ${report.address}</li>
+                              <li>Kích thước: 2.5m x 10m</li>
+                              <li>Số lượng: 1 trụ/bảng</li>
+                              <li>Hình thức: Cổ động chính trị</li>
+                              <li>Phân loại: ${report.classification}</li>
+                          </ul>` :
+                          `<span class="fw-bold">Điểm đặt</span>
+                          <ul>
+                              <li>Địa chỉ: ${report.address}</li>
+                              <li>Hình thức QC: Cổ động chính trị</li>
+                              <li>Phân loại: ${report.classification}</li>
+                              <li>Tình trạng: ${report.status}</li>
+                          </ul>`
+                      }
+                  </td>
+                  <td class="text-center">${report.reportType}</td>
+                  <td class="text-center">
+                      <button type="button" data-id="${report._id}" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+                  </td>
+                  <td class="text-center">
+                      ${authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường' ?
+                          `<button class="btn btn-sm btn-readonly">${report.ReportState}</button>` : '<p></p>'}
+                  </td>
+
+                  
+              </tr>`;
+
+              $('#reportTable tbody').append(newRow);
+          });
+
+
+            const paginationInfo = `Page ${data.page} of ${data.totalPages}, Showing ${data.pageSize} out of ${data.totalDocs} results`;
+            $('#paginationInfo').text(paginationInfo);
+        },
+        error: function(error) {
+                console.error('Lỗi truy vấn AJAX:', error);
+            }
+        });
+    };
+
+       
   </script>
 {{/section}}
 
@@ -24,16 +236,12 @@
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="blue-heading">Danh sách báo cáo</h5>
         <div class="d-flex">
-            <select class="form-select form-select-sm blue-sort-btn me-1" aria-label=".form-select-sm example">
+            <select id="districtSelect" class="form-select form-select-sm blue-sort-btn me-1" aria-label=".form-select-sm example">
               <option selected>Quận</option>
-              <option value="1">1</option>
-              <option value="2">5</option>
             </select>
-            <select class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
+
+            <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
               <option selected>Phường</option>
-              <option value="1">Cầu Ông Lãnh</option>
-              <option value="2">Bến Thành</option>
-              <option value="3">Nguyễn Thái Bình</option>
             </select>
         </div>
       </div>
@@ -42,68 +250,102 @@
         Không có dữ liệu
       </div>
       {{else}}
-      <table class="table table-hover align-middle">
-        <thead class="align-middle text-center">
-            <tr>
-                <th class="col-0.5" scope="col">STT</th>
-                <th class="col-2" scope="col">Thời điểm gửi</th>
-                <th class="col-2" scope="col">Thông tin người gửi</th>
-                <th class="col-4" scope="col">Thông tin quảng cáo</th>
-                <th class="col-2" scope="col">Loại hình quảng cáo</th>
-                <th class="col-2" scope="col">Cách thức xử lý</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each reportList}}
-                <tr class="card-info-row">
-                    <td class="text-center">{{ReportID}}</td>
-                    <td class="text-center">{{ReportDate}}</td>
-                    <td>
-                      <ul>
-                        <li>Họ tên: </li>
-                        <li>Email: </li>
-                        <li>SĐT: </li>
-                      </ul>
-                    </td>
-                    <td>
-                      <ul>
-                        <li>Địa chỉ: </li>
-                        <li>Kích thước: </li>
-                        <li>Số lượng: </li>
-                        <li>Hình thức: </li>
-                        <li>Phân loại: </li>
-                        <li><a href="">Link hình ảnh</a></li>
-                      </ul>
-                    </td>
-                    <td class="text-center">{{ReportType}}</td>
-                    <td class="text-center"><button type="button" class="btn btn-sm btn-table btn-blue">Xem thêm</button></td>
-                </tr>
-            {{/each}}
-        </tbody>
-      </table>
-      {{/if}}
-      <div class="card-footer text-muted d-flex align-items-center justify-content-between">
-          <p>
-            Hiển thị {{limit}} trên {{totalPages}} mục
-          </p>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-            {{#each this.pageNumbers}}
+      <table id="reportTable" class="table table-hover align-middle">
+    <thead class="align-middle text-center">
+        <tr>
+            <th class="col-0.5" scope="col">STT</th>
+            <th class="col-2" scope="col">Thời điểm gửi</th>
+            <th class="col-2" scope="col">Thông tin người gửi</th>
+            <th class="col-4" scope="col">Thông tin quảng cáo</th>
+            <th class="col-2" scope="col">Loại hình quảng cáo</th>
+            <th class="col-2" scope="col">Cách thức xử lý</th>
+            {{#ifEquals authUser.role 'Cán bộ Quận'}} 
+                <th class="col-2" scope="col">Trạng thái</th>
+            {{/ifEquals}}
+            {{#ifEquals authUser.role 'Cán bộ Phường'}} 
+                <th class="col-2" scope="col">Trạng thái</th>
+            {{/ifEquals}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each list}}
+            <tr class="card-info-row">
+    <td class="text-center">{{@index}}</td>
+    <td class="text-center">{{createAt}}</td>
+    <td>
+        <ul>
+            <li>Họ tên: {{fullName}} </li>
+            <li>Email: {{email}}</li>
+            <li>SĐT: {{phoneNumber}} </li>
+        </ul>
+    </td>
+    <td>
+        {{#ifEquals type 'Advertisement'}}
+            <span class="fw-bold">Bảng QC</span>
+            <ul>
+                <li>Địa chỉ: {{address}}</li>
+                <li>Kích thước: 2.5m x 10m</li>
+                <li>Số lượng: 1 trụ/bảng</li>
+                <li>Hình thức: Cổ động chính trị</li>
+                <li>Phân loại: Đất công/Công viên/Hành lang an toàn giao thông</li>
+            </ul>
+        {{else}}
+            <span class="fw-bold">Điểm đặt</span>
+            <ul>
+                <li>Địa chỉ: {{address}}</li>
+                <li>Hình thức QC: Cổ động chính trị</li>
+                <li>Phân loại: Đất công/Công viên/Hành lang an toàn giao thông</li>
+                <li>Tình trạng: Đã quy hoạch</li>
+            </ul>
+        {{/ifEquals}}
+    </td>
+    <td class="text-center">{{reportType}}</td>
+
+    <td class="text-center">
+        <button type="button" data-id="{{_id}}" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+        <p>{{authUser.role}}</p>
+    </td>
+    
+    {{#ifEquals authUser.role 'Cán bộ Quận'}} 
+        <td class="text-center">
+            <button class="btn btn-sm btn-readonly">{{#if isHandled}}Đã xử lí{{else}}Chưa xử lí{{/if}}</button>
+        </td>
+    {{/ifEquals}}
+
+    {{#ifEquals authUserRole 'Cán bộ Phường'}} 
+        <td class="text-center">
+            <button class="btn btn-sm btn-readonly">{{#if isHandled}}Đã xử lí{{else}}Chưa xử lí{{/if}}</button>
+        </td>
+    {{/ifEquals}}
+</tr>
+
+        {{/each}}
+    </tbody>
+</table>
+{{/if}}
+<div class="card-footer text-muted d-flex align-items-center justify-content-between">
+    <p>
+        Hiển thị {{limit}} trên {{totalPages}} mục
+    </p>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Trước</a></li>
+        {{#each this.pageNumbers}}
             {{#if isActive}}
-              <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">{{value}}</a>
-              </li>
-              {{else}}
-              <li class="page-item">
-                <a class="page-link" href="?page={{value}}">{{value}}</a>
-              </li>
-              {{/if}}
-            {{/each}}
-            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-          </ul>
-      </div>
-    </div>
-  </div>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">{{value}}</a>
+                </li>
+            {{else}}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{value}}">{{value}}</a>
+                </li>
+            {{/if}}
+        {{/each}}
+        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+    </ul>
+</div>
+</div>
+</div>
+
 </div>
 
 <div class="report-container container-fluid form-center p-4 d-none">
@@ -123,17 +365,13 @@
                                 <label class="align-middle" for="reportType">Hình thức báo cáo</label>
                             </div>
                             <div class="col-sm-7 col-md-8">
-                                <select
+                                <input
                                     class="form-select form-select-sm"
                                     aria-label=".form-select-sm example"
                                     name="reportType"
                                     id="reportType"
                                 >
-                                    <option value="" selected>Chọn hình thức báo cáo</option>
-                                    <option value="politicalReport">Cổ động chính trị</option>
-                                    <option value="adsReport">Quảng cáo thương mại</option>
-                                    <option value="socializedReport">Xã hội hoá</option>
-                                </select>
+                                </input>
                                 <span class="report-required"></span>
                             </div>
                         </div>
@@ -184,24 +422,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="report-info">
-                        <label for="captcha">Captcha</label>
-                        <span class="report-required float-end"></span>
-                        <div class="d-flex justify-content-center">
-                            <div
-                                class="g-recaptcha object-fit-fill"
-                                data-sitekey="6LcAIR0pAAAAAPG1GImTO73xZ6rCXwKOLWsoDEBF"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="report-submit-button">
-                        <input type="submit" id="submitBtn" value="Hoàn thành" />
-                    </div>
-                </div>
             </div>
         </form>
     </div>

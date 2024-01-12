@@ -4,7 +4,6 @@ import User from '../models/User.js';
 import { BadRequest } from '../common/error.response.js';
 
 const validateInfoUser = Joi.object({
-  //  username, fullName,birthDate, phoneNumber, password, role, dictrict, ward, email 
   username: Joi.string().min(USER.MIN_FULLNAME_LENGTH).max(USER.MAX_FULLNAME_LENGTH),
   fullName: Joi.string().min(USER.MIN_FULLNAME_LENGTH).max(USER.MAX_FULLNAME_LENGTH),
   birthDate: Joi.date().iso(),

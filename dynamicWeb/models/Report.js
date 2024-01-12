@@ -8,6 +8,12 @@ const ReportSchema = new mongoose.Schema({
   email: String,
   image1: String,
   image2: String,
+  type: {
+    type: String,
+    enum: ['Advertisement', 'SetPoint'],
+  },
+  lat: Number,
+  lng: Number,
   isHandled: { type: Boolean, default: false },
 }, { timestamps: true });
 
