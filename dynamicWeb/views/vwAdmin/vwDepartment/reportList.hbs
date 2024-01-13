@@ -124,33 +124,70 @@
           }
          }
          function populateWards(wards) {
-    const wardSelect = $('#wardSelect');
-    
-    // Save the currently selected ward before clearing the options
-    const selectedWard = wardSelect.val();
+            const wardSelect = $('#wardSelect');
+            
+            // Save the currently selected ward before clearing the options
+            const selectedWard = wardSelect.val();
 
-    wardSelect.empty();
-    wardSelect.append('<option selected>Phường</option>');
+            wardSelect.empty();
+            wardSelect.append('<option selected>Phường</option>');
 
-    wards.forEach(ward => {
-        wardSelect.append(`<option value="${ward}">${ward}</option>`);
-    });
+            wards.forEach(ward => {
+                wardSelect.append(`<option value="${ward}">${ward}</option>`);
+            });
 
-    // Set the previously selected ward if it exists in the new options
-    if (wards.includes(selectedWard)) {
-        wardSelect.val(selectedWard);
-    }
-}
+            // Set the previously selected ward if it exists in the new options
+            if (wards.includes(selectedWard)) {
+                wardSelect.val(selectedWard);
+            }
+        }
 
         performAjaxQuery();
 
 
     })
-    function performAjaxQuery(pageNumber = 1) {
+
+    var pageNumber = 1;
+    $('a.page-link').click(function() {
+        const totalPages = $('a.page-link').length - 2;
+
+        if(this.innerText === 'Trước'){
+            if(pageNumber > 1){
+                pageNumber--;
+                performAjaxQuery()
+            }
+        }
+        else if(this.innerText === 'Sau'){
+            if(pageNumber < totalPages){
+                pageNumber++;
+                performAjaxQuery()
+            }
+        }
+        else{
+            pageNumber = +this.innerText;
+            performAjaxQuery()
+        }
+
+        $('a.page-link').each(function(){
+            if(+this.innerText === pageNumber){
+                $(this).addClass('active');
+            }
+            else{
+                $(this).removeClass('active');
+            }
+        });
+    });
+
+
+    function performAjaxQuery() {
         const selectedDistrict = $('#districtSelect').val();
         const selectedWard = $('#wardSelect').val();
-        console.log(selectedDistrict, selectedWard);
-        
+        const pages = [];
+
+        for(let i in pageNumber){
+            
+        }
+
         $.ajax({
             url: '/reports/filter', // Địa chỉ URL của máy chủ để thực hiện truy vấn
             type: 'GET', 
@@ -158,7 +195,7 @@
                 district: selectedDistrict,
                 ward: selectedWard,
                 page: pageNumber,
-                limit: 5
+                limit: 5,
             },
            success: function(data) {
              const authUserRole = '{{authUser.role}}';
@@ -208,16 +245,14 @@
               $('#reportTable tbody').append(newRow);
           });
 
-
-            const paginationInfo = `Page ${data.page} of ${data.totalPages}, Showing ${data.pageSize} out of ${data.totalDocs} results`;
-            $('#paginationInfo').text(paginationInfo);
+            const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
+            $('p#paginationInfo').text(paginationInfo);
         },
         error: function(error) {
                 console.error('Lỗi truy vấn AJAX:', error);
             }
         });
     };
-
        
   </script>
 {{/section}}
@@ -324,12 +359,21 @@
 </table>
 {{/if}}
 <div class="card-footer text-muted d-flex align-items-center justify-content-between">
-    <p>
-        Hiển thị {{limit}} trên {{totalPages}} mục
+    <p id="paginationInfo">
+        Hiển thị {{pageSize}} trên {{totalDocs}} mục
     </p>
     <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-        {{#each this.pageNumbers}}
+        <li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>
+        <li class="page-item">
+            <a class="page-link active" style="cursor: pointer;">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" style="cursor: pointer;">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" style="cursor: pointer;">3</a>
+        </li>
+        {{#each pageNumbers}}
             {{#if isActive}}
                 <li class="page-item active" aria-current="page">
                     <a class="page-link" href="#">{{value}}</a>
@@ -340,7 +384,7 @@
                 </li>
             {{/if}}
         {{/each}}
-        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+        <li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>
     </ul>
 </div>
 </div>
@@ -370,9 +414,8 @@
                                     aria-label=".form-select-sm example"
                                     name="reportType"
                                     id="reportType"
-                                >
+                                disabled>
                                 </input>
-                                <span class="report-required"></span>
                             </div>
                         </div>
                     </div>
@@ -381,7 +424,6 @@
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="address">Địa chỉ</label>
-                        <span class="report-required float-end"></span>
                         <input type="text" name="address" id="address" value="227 Nguyễn Văn Cừ, phường 4, quận 5, TPHCM" disabled/>
                     </div>
                 </div>
@@ -389,43 +431,37 @@
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="fullName">Họ và tên</label>
-                        <span class="report-required float-end"></span>
-                        <input type="text" name="fullName" id="fullName" />
+                        <input type="text" name="fullName" id="fullName" disabled/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col report-info half column-split">
                         <label class="mb-1" for="email">Email</label>
-                        <span class="report-required float-end"></span>
-                        <input type="email" name="email" id="email" />
+                        <input type="email" name="email" id="email" disabled/>
                     </div>
                     <div class="col report-info half">
                         <label class="mb-1" for="phoneNumber">Số điện thoại</label>
-                        <span class="report-required float-end"></span>
-                        <input type="tel" name="phoneNumber" id="phoneNumber" />
+                        <input type="tel" name="phoneNumber" id="phoneNumber" disabled/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
-                        <span class="report-required float-end"></span>
                         <textarea
                             name="reportContent"
                             id="reportContent"
                             cols="30"
                             rows="10"
                             style="resize: none"
-                        ></textarea>
+                        disabled></textarea>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="report-image-upload">
                         <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
-                        <span class="report-required float-end"></span>
-                        <input type="file" id="img" name="img" accept="image/*" multiple />
                         <div id="imagesOutput"></div>
                     </div>
                 </div>
