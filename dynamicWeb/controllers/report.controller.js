@@ -63,8 +63,7 @@ const getReportFilter = async (req, res, next) => {
        type: data.type,
        reportContent: data.reportContent,
        isHandled: data.isHandled,
-       createAt: formatMongoDBDate(data.createAt),
-
+       createAt: formatMongoDBDate(data.createdAt),
         }
       }),
       page: result.page,
@@ -98,7 +97,7 @@ const getAllReports = async (req, res, next) => {
     }
     return res.render('vwAdmin/vwDepartment/reportList', {
       list: result.results.map(data => {
-        const date = new Date(data.createAt);
+        const date = new Date(data.createdAt);
         return {
           _id: data._id,
         fullName: data.fullName,
