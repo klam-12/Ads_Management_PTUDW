@@ -1,5 +1,8 @@
 {{#section 'js'}}
 <script>
+    performAjaxQuery();
+    var pageNumber = 1;
+
     $('button.btn-blue').click(function () {
     $('div.report-container').removeClass('d-none');
     const id = $(this).data('id');
@@ -142,30 +145,37 @@
             }
         }
 
+        pageNumber = 1;
+        $('a.page-link').each(function(){
+            if(+this.innerText === pageNumber){
+                $(this).addClass('active');
+            }
+            else{
+                $(this).removeClass('active');
+            }
+        });
         performAjaxQuery();
-
 
     })
 
-    var pageNumber = 1;
     $('a.page-link').click(function() {
         const totalPages = $('a.page-link').length - 2;
 
         if(this.innerText === 'Trước'){
             if(pageNumber > 1){
                 pageNumber--;
-                performAjaxQuery()
+                performAjaxQuery();
             }
         }
         else if(this.innerText === 'Sau'){
             if(pageNumber < totalPages){
                 pageNumber++;
-                performAjaxQuery()
+                performAjaxQuery();
             }
         }
         else{
             pageNumber = +this.innerText;
-            performAjaxQuery()
+            performAjaxQuery();
         }
 
         $('a.page-link').each(function(){
@@ -182,11 +192,6 @@
     function performAjaxQuery() {
         const selectedDistrict = $('#districtSelect').val();
         const selectedWard = $('#wardSelect').val();
-        const pages = [];
-
-        for(let i in pageNumber){
-            
-        }
 
         $.ajax({
             url: '/reports/filter', // Địa chỉ URL của máy chủ để thực hiện truy vấn
@@ -245,8 +250,18 @@
               $('#reportTable tbody').append(newRow);
           });
 
-            const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
-            $('p#paginationInfo').text(paginationInfo);
+        //$('ul#paginationList').empty();
+        //$('ul#paginationList').append('<li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>');
+        //for(let i = 1; i <= data.totalPages; i++){
+        //const page = `<li class="page-item">
+        //    <a class="page-link" style="cursor: pointer;">${i}</a>
+        //</li>`;
+        //$('ul#paginationList').append(page);
+        //}
+        //$('ul#paginationList').append('<li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>');
+
+        const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
+        $('p#paginationInfo').text(paginationInfo);
         },
         error: function(error) {
                 console.error('Lỗi truy vấn AJAX:', error);
@@ -362,8 +377,9 @@
     <p id="paginationInfo">
         Hiển thị {{pageSize}} trên {{totalDocs}} mục
     </p>
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>
+    <ul class="pagination" id="paginationList">
+       <li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>
+
         <li class="page-item">
             <a class="page-link active" style="cursor: pointer;">1</a>
         </li>
@@ -373,17 +389,7 @@
         <li class="page-item">
             <a class="page-link" style="cursor: pointer;">3</a>
         </li>
-        {{#each pageNumbers}}
-            {{#if isActive}}
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">{{value}}</a>
-                </li>
-            {{else}}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{value}}">{{value}}</a>
-                </li>
-            {{/if}}
-        {{/each}}
+
         <li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>
     </ul>
 </div>
