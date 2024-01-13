@@ -28,7 +28,6 @@ const createAds = async(req,res,next) =>{
   }
   console.log(ads)
   const result = await advertisementService.createAds(ads);
-  console.log(result)
   return res.json(result)
 }
 export {getAdsWithSetPoint,createAds}
