@@ -9,14 +9,25 @@
 
     $('#typeAcc').change(function () {
         var selectedType = $(this).find("option:selected").text();
-        
+        $('#ward-select').empty();
+        $('#ward-select').append('<option selected>Phân loại</option>');
+        $('#district-select').empty();
+        $('#district-select').append('<option selected>Phân loại</option>');
+        const allDistricts = ['Quận 1', 'Quận 5'];
+        allDistricts.forEach(district => {
+            $('#district-select').append(`<option>${district}</option>`);
+        });
+
         if(selectedType === "Cán bộ Quận"){
             $("#ward-select").attr("disabled","disabled");
-        } 
+        };
     });
 
     $('#district-select').change(function () {
         var selectedType = $("#typeAcc").find("option:selected").text();
+        $('#ward-select').empty();
+        $('#ward-select').append('<option selected>Phân loại</option>');
+
 
         if(selectedType == "Cán bộ Phường"){
             var districtType = $(this).find("option:selected").text();
@@ -35,8 +46,6 @@
                 };
 
                 var $mySelect = $('#ward-select');
-                $mySelect.find('option').remove();
-
                 $.each(district1, function(key, value) {
                     var $option = $("<option/>", {
                         value: value,
@@ -51,9 +60,7 @@
                     district5[i.toString()] = "Phường " + i;
                 }
 
-                var $mySelect = $('#ward-select');
-                $mySelect.find('option').remove();
-                
+                var $mySelect = $('#ward-select');                
                 $.each(district5, function(key, value) {
                     var $option = $("<option/>", {
                         value: value,
