@@ -9,5 +9,13 @@ import SetPointModel from '../models/SetPoint.js';
       throw new Error("Failed to fetch setpoints");
     }
   }
+  async findById(id) {
+    try {
+      const data = await SetPointModel.findById(id);
+      return data;
+    } catch (error) {
+      throw new Error("Failed to fetch setpoints");
+    }
+  }
 }
 export default new SetPoint;
