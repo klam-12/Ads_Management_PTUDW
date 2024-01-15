@@ -28,16 +28,13 @@
             <div class="blob topleft-pos"></div>
             <div class="blob botright-pos"></div>
             <div class="container">
-                <form method="post" class="position-absolute top-50 start-50 translate-middle p-5 custom-form box-shadow">
+                <form method="post" action="/auth/reset-password" class="position-absolute top-50 start-50 translate-middle p-5 custom-form box-shadow">
                     <div class="row mb-3 text-center fw-bold info-color heading-size">
                         <label for="form-title">Tạo mới mật khẩu</label>
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-12 d-flex justify-content-between">
-                            <label for="txtOldPass" class="form-label fw-semibold info-color">Mật khẩu cũ</label>
-                            <div id="errMess" class="form-text text-danger">Sai mật khẩu</div>
-                        </div>
+                        <label for="txtOldPass" class="form-label fw-semibold info-color">Mật khẩu cũ</label>
                         <input type="password" class="form-control" id="txtOldPass" name="oldPass">
                     </div>
 
@@ -47,10 +44,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-12 d-flex justify-content-between">
-                            <label for="txtNewPassConfirm" class="form-label fw-semibold info-color">Nhập lại mật khẩu</label>
-                            <div id="errMess" class="form-text text-danger">Mật khẩu không khớp</div>
-                        </div>
+                        <label for="txtNewPassConfirm" class="form-label fw-semibold info-color">Nhập lại mật khẩu</label>
                         <input type="password" class="form-control" id="txtNewPassConfirm" name="newPassConfirm">
                     </div>
 
@@ -66,5 +60,39 @@
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+        <script>
+            $('#formSetPass').on('submit', function (e) {
+                e.preventDefault();
+                var oldPass = $('#txtOldPass').val();
+                var newPass = $('#txtNewPass').val();
+                var newPassConf = $('#txtNewPassConfirm').val();
+
+                var errorNoti = "";            
+                if(oldPass === "" || newPass === "" || newPassConf === ""){
+                    errorNoti = "Vui lòng điền đủ các ô nhập liệu";
+                } else if(newPass.length < 8 || newPassConf.length < 8){
+                    errorNoti = "Mật khẩu tối thiểu 8 kí tự";
+                } else if(oldPass === newPass){
+                    errorNoti = "Mật khẩu mới giống mật khẩu cũ";
+                } else if(newPass !== newPassConf){
+                    errorNoti = "Mật khẩu xác nhận không giống mật khẩu mới";
+                }
+
+                if(errorNoti.length !== 0){
+                    var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                            <div class="d-inline-flex">
+                                <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                                <h5>${errorNoti}</h5>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                        </div>`);
+                    $('#errorContainer').append(errComp);
+                    return;
+                }
+                
+                $('#formSetPass').off('submit').submit();
+            })
+
+        </script>
     </body>
 </html>

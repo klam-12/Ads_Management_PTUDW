@@ -1,3 +1,4 @@
+// import { boolean } from 'joi';
 import mongoose from 'mongoose';
 
 const AdvertisementSchema = new mongoose.Schema({
@@ -28,7 +29,10 @@ const AdvertisementSchema = new mongoose.Schema({
     default: Date.now,
   },
   expireDate: Date,
-}, { timestamps: true });
+  isLicensed: Boolean,
+}, { 
+  timestamps: true ,
+  toJSON: {virtuals: true}});
 
 const Advertisement = mongoose.model('Advertisement', AdvertisementSchema);
 

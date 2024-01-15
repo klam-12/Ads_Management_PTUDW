@@ -1,11 +1,7 @@
 {{#section 'js'}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"
-        ></script>
+{{!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
         <script
             src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
@@ -28,22 +24,126 @@
         ></script>
         <script src="/static/js/map.js"></script>
         <script src="/static/js/report/handleReportForm.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+        <script>
+            //$('#fuMain').fileinput({
+                //dropZoneEnabled: false,
+                //maxFileCount: 5,
+                //allowedFileExtensions: ['jpg', 'png', 'gif'],
+                // language: 'vi',
+            //});
+
+            $('#txtDayStart').datetimepicker({
+                timepicker: false,
+                format: 'd/m/Y',
+                mask: true
+            });
+
+            $('input[name^=dayEnd]').datetimepicker({
+                timepicker: false,
+                format: 'd/m/Y',
+                mask: true
+            });
+
+            $('#formLicense').on('submit', function (e) {
+                e.preventDefault();
+
+                var errorNoti = "";
+                const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+                var typeAds = $("#typeAds").find("option:selected").text();
+                var typeLoc = $("#typeLoc").find("option:selected").text();
+                var typeBillboard = $("#typeBillboard").find("option:selected").text();
+                var dateStart = $('#txtDayStart').val();
+                var dateEnd = $('#txtDayEnd').val();
+                
+                if($('#txtHeight').val() === "" || $('#txtWidth').val() === "" ){
+                    errorNoti = "Bạn chưa chọn đủ kích thước dài và rộng";
+                } 
+                else if(typeBillboard === "Phân loại bảng quảng cáo"){
+                    errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
+                } 
+                else if(typeLoc === "Phân loại điểm đặt"){
+                    errorNoti = "Bạn chưa chọn loại điểm đặt";
+                } 
+                else if(typeAds === "Hình thức quảng cáo"){
+                    errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+                } 
+                else if($('#txtNameCompany').val() === ""){
+                    errorNoti = "Tên công ty không được trống";
+                } 
+                else if($('#txtAdr').val() === ""){
+                    errorNoti = "Địa chỉ không được trống";
+                } 
+                else if($('#txtEmail').val() === ""){
+                    errorNoti = "Email không được trống";
+                } 
+                else if(! $('#txtPhone').val().match(regexPhoneNumber)){
+                    errorNoti = "Số điện thoại không hợp lệ";
+                } 
+                else if(dateStart === "__/__/____" || dateStart.length===0){
+                    errorNoti = "Bạn chưa chọn ngày bắt đầu hợp đồng";
+                } 
+                else if(dateEnd === "__/__/____" || dateEnd.length===0){
+                    errorNoti = "Bạn chưa chọn ngày kết thúc hợp đồng";
+                }
+
+                if(errorNoti.length !== 0){
+                    var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                            <div class="d-inline-flex">
+                                <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                                <h5>${errorNoti}</h5>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                        </div>`);
+                    $('#errorContainer').append(errComp);
+                    return;
+                }
+                
+                $('#formLicense').off('submit').submit();
+            })
+        </script>
+
+        <script>
+                $('button#licenseRequest').click(function(){
+                    $('div.license-form-container').removeClass('d-none');
+                });
+
+                $('i#licenseFormClose').click(function(){
+                    $('div.license-form-container form')[0].reset();
+                    $('div.license-form-container').addClass('d-none');
+                });
+
+                $('button#addSetPoint').click(function(){
+                    $('div.add-point-confirm').removeClass('d-none');
+                });
+
+                $('a.btn-yes').click(function() {
+                    $('div.add-point-confirm').addClass('d-none');
+                    $('div.create-confirm').removeClass('d-none');
+                });
+
+                $('a.btn-no').click(function() {
+                    $('div.add-point-confirm').addClass('d-none');
+                });
+
+                $('a.create-confirm-btn').click(function(){
+                    $('div.create-confirm').addClass('d-none');
+                });
+        </script>
 {{/section}}
 
 {{#section 'css'}}
- <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
-        />
         <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
-        />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
         />
         <link href="https://fonts.googleapis.com/css?family=Inter" rel="stylesheet" />
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -73,143 +173,349 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
         <link rel="stylesheet" href="/static/css/map.css" />
-        {{!-- <link rel="stylesheet" href="./css/layout.css" />
-        <link rel="stylesheet" href="./css/report.css" />
-        <link rel="stylesheet" href="./css/map.css" /> --}}
+        <link rel="stylesheet" href="/static/css/layout.css">
+        <link rel="stylesheet" href="/static/css/form.css">
 {{/section}}
-<div>
-<div class="layout-container">
-            <!-- Header and Footer -->
-            <div class="container-fluid d-flex flex-column justify-content-between header-footer">
-                <div class="row d-flex align-items-center justify-content-between header"></div>
-                <div id="map"></div>
-                <div class="row d-flex align-items-center footer">
-                    <div class="col-md-auto displayQC">
-                        <button title="showQC" id="showQC">
-                            <i class="bi bi-eye"></i>
-                            Bảng QC
-                        </button>
-                    </div>
 
-                    <div class="col-md-auto displayBC">
-                        <button title="showBC" id="showBC">
-                            <i class="bi bi-eye"></i>
-                            Báo cáo vi phạm
-                        </button>
-                    </div>
-                </div>
+<div class="">
+        <!-- Header and Footer -->
+        <div class="row d-flex align-items-center justify-content-between header"></div>
+        <div id="map"></div>
+
+        <div class="row d-flex align-items-end footer">
+            <div class="col-md-auto displayQC">
+                <button title="showQC" id="showQC">
+                    <i class="bi bi-eye"></i>
+                    Bảng QC
+                </button>
             </div>
 
-            <div class="modal" id="modal">
-                <div id="closeBtn" class="closeBtn">
-                    <button type="button">
-                        <i class="bi bi-x-lg"></i>
-                        &#8203;
-                    </button>
-                </div>
-
-                <div class="col-sm offset-md-5 modal-content"></div>
+            <div class="col-md-auto displayBC">
+                <button title="showBC" id="showBC">
+                    <i class="bi bi-eye"></i>
+                    Báo cáo vi phạm
+                </button>
             </div>
-            <div class="report-component hide" id="report">
-                <div class="report-form-container center">
-                    <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
-                    <form class="report-form" id="reportForm">
-                        <h4 class="report-form-title">
-                            <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
-                        </h4>
+        </div>
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="container report-info">
-                                    <div class="row">
-                                        <div class="col-sm-5 col-md-4">
-                                            <label class="align-middle" for="reportType">Hình thức báo cáo</label>
-                                        </div>
-                                        <div class="col-sm-7 col-md-8">
-                                            <select
-                                                class="form-select form-select-sm"
-                                                aria-label=".form-select-sm example"
-                                                name="reportType"
-                                                id="reportType"
-                                            >
-                                                <option value="" selected>Chọn hình thức báo cáo</option>
-                                                <option value="politicalReport">Cổ động chính trị</option>
-                                                <option value="adsReport">Quảng cáo thương mại</option>
-                                                <option value="socializedReport">Xã hội hoá</option>
-                                            </select>
-                                            <span class="report-required"></span>
-                                        </div>
+        <div class="modal" id="modal" style="top: 45px;">
+            <div id="closeBtn" class="closeBtn">
+                <button type="button">
+                    <i class="bi bi-x-lg"></i>
+                    &#8203;
+                </button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-sm btn-outline-success padding-3" id="licenseRequest">
+                    <i class="bi bi-file-arrow-up-fill" style="font-size:16px;">
+                        Xin cấp phép
+                    </i>
+                </button>
+
+                <button type="button" class="btn btn-sm btn-outline-primary padding-3" id="addSetPoint">
+                    <i class="bi bi-plus-square-fill" style="font-size:16px;">
+                        Thêm điểm đặt
+                    </i>
+                </button>
+            </div>
+
+            <div class="col-sm offset-md-5 modal-content"></div>
+        </div>
+        
+        <div class="report-component hide" id="report">
+            <div class="report-form-container center">
+                <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
+                <form class="report-form" id="reportForm">
+                    <h4 class="report-form-title">
+                        <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
+                    </h4>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="container report-info">
+                                <div class="row">
+                                    <div class="col-sm-5 col-md-4">
+                                        <label class="align-middle" for="reportType">Hình thức báo cáo</label>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-info">
-                                    <label class="mb-1" for="fullName">Họ và tên</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="text" name="fullName" id="fullName" />
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col report-info half column-split">
-                                    <label class="mb-1" for="email">Email</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="email" name="email" id="email" />
-                                </div>
-                                <div class="col report-info half">
-                                    <label class="mb-1" for="phoneNumber">Số điện thoại</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="tel" name="phoneNumber" id="phoneNumber" />
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-info">
-                                    <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
-                                    <span class="report-required float-end"></span>
-                                    <textarea
-                                        name="reportContent"
-                                        id="reportContent"
-                                        cols="30"
-                                        rows="10"
-                                        style="resize: none"
-                                    ></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-image-upload">
-                                    <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
-                                    <span class="report-required float-end"></span>
-                                    <input type="file" id="img" name="img" accept="image/*" multiple />
-                                    <div id="imagesOutput"></div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-info">
-                                    <label for="captcha">Captcha</label>
-                                    <span class="report-required float-end"></span>
-                                    <div class="d-flex justify-content-center">
-                                        <div
-                                            class="g-recaptcha object-fit-fill"
-                                            data-sitekey="6LcAIR0pAAAAAPG1GImTO73xZ6rCXwKOLWsoDEBF"
-                                        ></div>
+                                    <div class="col-sm-7 col-md-8">
+                                        <select
+                                            class="form-select form-select-sm"
+                                            aria-label=".form-select-sm example"
+                                            name="reportType"
+                                            id="reportType"
+                                        >
+                                            <option value="" selected>Chọn hình thức báo cáo</option>
+                                            <option value="politicalReport">Cổ động chính trị</option>
+                                            <option value="adsReport">Quảng cáo thương mại</option>
+                                            <option value="socializedReport">Xã hội hoá</option>
+                                        </select>
+                                        <span class="report-required"></span>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="report-submit-button">
-                                    <input type="submit" id="submitBtn" value="Hoàn thành" />
                                 </div>
                             </div>
                         </div>
-                    </form>
+
+                        <div class="row">
+                            <div class="report-info">
+                                <label class="mb-1" for="fullName">Họ và tên</label>
+                                <span class="report-required float-end"></span>
+                                <input type="text" name="fullName" id="fullName" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col report-info half column-split">
+                                <label class="mb-1" for="email">Email</label>
+                                <span class="report-required float-end"></span>
+                                <input type="email" name="email" id="email" />
+                            </div>
+                            <div class="col report-info half">
+                                <label class="mb-1" for="phoneNumber">Số điện thoại</label>
+                                <span class="report-required float-end"></span>
+                                <input type="tel" name="phoneNumber" id="phoneNumber" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-info">
+                                <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
+                                <span class="report-required float-end"></span>
+                                <textarea
+                                    name="reportContent"
+                                    id="reportContent"
+                                    cols="30"
+                                    rows="10"
+                                    style="resize: none"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-image-upload">
+                                <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
+                                <span class="report-required float-end"></span>
+                                <input type="file" id="img" name="img" accept="image/*" multiple />
+                                <div id="imagesOutput"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-info">
+                                <label for="captcha">Captcha</label>
+                                <span class="report-required float-end"></span>
+                                <div class="d-flex justify-content-center">
+                                    <div
+                                        class="g-recaptcha object-fit-fill"
+                                        data-sitekey="6LcAIR0pAAAAAPG1GImTO73xZ6rCXwKOLWsoDEBF"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="report-submit-button">
+                                <input type="submit" id="submitBtn" value="Hoàn thành" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+
+<div class="license-form-container container-fluid form-center mt-4 p-4 d-none">
+    <div class="center" style="height: 80%; overflow-y: scroll;">
+        <form method="post" id="formLicense" class="container-fluid custom-form-license box-shadow">
+            <div id="errorContainer">
+                {{#if this.msg}}
+                    {{#if this.is_err}}
+                    <div class="alert alert-danger text-center center error-noti" role="alert">
+                        <div class="d-inline-flex">
+                            <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                            <h5>{{this.msg}}</h5>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                    </div>
+                    {{else}}
+                    <div class="alert alert-success text-center center create-confirm" role="alert">
+                        <div class="d-inline-flex">
+                            <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+                            <h5>{{this.msg}}</h5>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                    </div>
+
+                    {{/if}}
+                {{/if}}
+            </div>
+
+            <div class="row">
+                <i class="bi bi-x d-flex justify-content-end green-color" id="licenseFormClose" style="font-size: 34px;"></i>
+            </div>
+
+            <div class="row text-center my-3 ">
+                <span class="fw-bold heading-size green-color">
+                    ĐƠN XIN CẤP PHÉP QUẢNG CÁO
+                </span>
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                    <div class="col-6 col-md-5 rounded-1 p-3 me-4 white-bg border border-success">
+                        <div class="row mb-1 fs-5 fw-semibold ">
+                            <div class="col-12 form-label green-color">
+                                Thông tin quảng cáo
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                                <div class="col">
+                                        <label for="txtLng" class="form-label fw-italic black-color">Kinh độ</label>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng" value="10.45666" disabled>
+                                </div>
+                                <div class="col">
+                                        <label for="txtLat" class="form-label fw-italic black-color">Vĩ độ</label>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat" value="11.2222" disabled>
+                                </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                    <label for="txtWidth" class="form-label fw-italic black-color">Chiều dài</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
+                            </div>
+                            <div class="col">
+                                    <label for="txtHeight" class="form-label fw-italic black-color">Chiều rộng</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
+                            </div>
+                        </div>  
+
+                        <div class="mb-2">
+                            <label class="form-label">Loại bảng quảng cáo </label>
+                            <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Phân loại bảng quảng cáo</option>
+                                <option value="1">Trụ bảng hiflex</option>
+                                <option value="2">Trụ màn hình điện tử LED</option>
+                                <option value="3">Trụ hộp đèn</option>
+                                <option value="4">Bảng hiflex ốp tường</option>
+                                <option value="5">Màn hình điện tử ốp tường</option>
+                                <option value="6">Trụ treo băng rôn dọc</option>
+                                <option value="7">Trụ treo băng rôn ngang</option>
+                                <option value="8">Trụ/Cụm pano</option>
+                                <option value="9">Cổng chào</option>
+                                <option value="10">Trung tâm thương mại</option>
+                            </select>
+                        </div>
+
+                        <div class=" mb-2">
+                            <label class="form-label">Loại điểm đặt</label>
+                            <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Phân loại điểm đặt</option>
+                                <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                                <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
+                                <option value="3">Trung tâm thương mại</option>
+                                <option value="4">Chợ</option>
+                                <option value="5">Cây xăng</option>
+                                <option value="6">Nhà chờ xe buýt</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class=" mb-2">
+                            <label class="form-label">Hình thức quảng cáo</label>
+                            <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Hình thức quảng cáo</option>
+                                <option value="1">Cổ động chính trị</option>
+                                <option value="2">Quảng cáo thương mại</option>
+                                <option value="3">Xã hội hoá</option>
+                            </select>
+                        </div>
+
+                        <div class=" mb-2 form-group">
+                            <label for="fuMain" class="form-label">Hình ảnh minh họa</label>
+                            <input type="file" multiple id="fuMain" name="fuMain">
+                        </div>
+
+                    </div>
+
+
+                    {{!-- Part 2 --}}
+                    <div class="col-6 col-md-5 rounded-1 p-3 ms-4 white-bg border border-success">
+                        <div class="mb-1 fs-5 fw-semibold ">
+                            <div class="col-12 form-label green-color">
+                                Thông tin công ty
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtNameCompany" class="form-label">Tên công ty</label>
+                            <input type="text" class="form-control form-control-sm" id="txtNameCompany" name="nameCompany">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtAdr" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control form-control-sm" id="txtAdr" name="address">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-sm" id="txtEmail" name="email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtPhone" class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control form-control-sm" id="txtPhone" name="phone">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtDayStart" class="form-label">Ngày bắt đầu hợp đồng</label>
+                            <input type="text" class="form-control form-control-sm" id="txtDayStart" name="dayStart">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtDayEnd" class="form-label">Ngày kết thúc hợp đồng</label>
+                            <input type="text" class="form-control form-control-sm" id="txtDayEnd" name="dayEnd">
+                        </div>
+
+                    </div>
+
+
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12 text-center fw-semibold ">
+                    <button type="submit" class="btn btn-success box-shadow custom-btn-license">
+                        <i class="bi bi-file-earmark-plus-fill">
+                        </i>
+                        Tạo yêu cầu
+                    </button>
                 </div>
             </div>
+
+            <div class="row"></div>
+        </form>
+    </div>
 </div>
-       </div>
-        {{!-- <h1>Hello</h1> --}}
+
+<div class="alert alert-success text-center center add-point-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-exclamation-diamond-fill"></i> <span>&nbsp;</span></h4>
+    <h5>Bạn có muốn thêm điểm đặt ở vị trí này?</h5>
+  </div>
+  <div>
+    <a role="button" class="btn btn-sm btn-success btn-yes">Có</a>
+    <a role="button" class="btn btn-sm btn-danger btn-no">Không</a>
+  </div>
+</div>
+
+<div class="alert alert-success text-center center create-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+    <h5>Tạo điểm đặt mới thành công</h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-success create-confirm-btn">OK</a>
+</div>

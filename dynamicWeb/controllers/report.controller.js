@@ -2,7 +2,7 @@ import reportService from '../services/report.service.js';
 import {BadRequest,NotFoundResponse} from '../common/error.response.js';
 import {PAGE_SIZE} from '../common/index.js';
 import {SuccessResponse} from '../common/success.response.js';
-import {paginate} from '../utils/pagination.js';
+import {paginateReport} from '../utils/pagination.js';
 import Report from '../models/Report.js';
 import {formatMongoDBDate} from '../utils/datetime.js';
 const createReport = (req, res, next) => {
@@ -42,8 +42,8 @@ const getReportFilter = async (req, res, next) => {
     const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
     const district = req.query.district ? req.query.district : null
     const ward = req.query.ward? req.query.ward : null
-    console.log(district, ward)
-    const result = await paginate(Report, parseInt(page), parseInt(limit),"district", district, "ward", ward);
+    console.log(123, district, ward)
+    const result = await paginateReport(Report, parseInt(page), parseInt(limit),"district", district, "ward", ward);
     if (!result) {
         throw new NotFoundResponse('Product not found');
     }
@@ -63,8 +63,7 @@ const getReportFilter = async (req, res, next) => {
        type: data.type,
        reportContent: data.reportContent,
        isHandled: data.isHandled,
-       createAt: formatMongoDBDate(data.createAt),
-
+       createAt: formatMongoDBDate(data.createdAt),
         }
       }),
       page: result.page,
@@ -79,7 +78,6 @@ const getReportFilter = async (req, res, next) => {
   }
 }
 const getAllReports = async (req, res, next) => {
-  console.log('getAll')
   let district, ward
   const authUser = req.session.authUser
   if (authUser.role === 'Cán bộ Phường'){
@@ -92,13 +90,14 @@ const getAllReports = async (req, res, next) => {
     const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
     const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
 
-    const result = await paginate(Report, parseInt(page), parseInt(limit),"district", district, "ward", ward);
+    const result = await paginateReport(Report, parseInt(page), parseInt(limit),"district", district, "ward", ward);
     if (!result) {
         throw new NotFoundResponse('Product not found');
     }
     return res.render('vwAdmin/vwDepartment/reportList', {
       list: result.results.map(data => {
         const date = new Date(data.createAt);
+        console.log(date);
         return {
           _id: data._id,
         fullName: data.fullName,

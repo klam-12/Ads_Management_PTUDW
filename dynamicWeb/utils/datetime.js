@@ -7,7 +7,7 @@ function formatMongoDBDate(mongodbDatetimeString) {
 
   return `${day}/${month}/${year}`;
 }
-const mongodbDatetimeString = '2024-01-11T05:52:14.726+00:00';
-const formattedDate = formatMongoDBDate(mongodbDatetimeString);
-console.log(formattedDate);
+// const mongodbDatetimeString = '2024-01-11T05:52:14.726+00:00';
+// const formattedDate = formatMongoDBDate(mongodbDatetimeString);
+// console.log(formattedDate);
 export {formatMongoDBDate}

@@ -58,7 +58,7 @@
                 'Phường 15',
               ];  
             
-   $(document).ready(function() {
+    $(document).ready(function() {
         const authUserRole = '{{authUser.role}}';
         const authUserDistrict = '{{authUser.district}}';
         const authUserWard = '{{authUser.ward}}';
@@ -67,12 +67,12 @@
         const isHandled = $(this).data('ishandled'); // Assuming you have isHandled data attribute in each tr
         const newColumn = `
             <td class="text-center">
-                <button class="btn btn-sm btn-readonly">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
+                <button class="btn <btn-sm btn-readonly">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
             </td>
         `;
         $(this).append(newColumn);
     });
-}
+    }
 
         function updateDropdownContent() {
             const districtSelect = $('#districtSelect');
@@ -194,7 +194,7 @@
         const selectedWard = $('#wardSelect').val();
 
         $.ajax({
-            url: '/reports/filter', // Địa chỉ URL của máy chủ để thực hiện truy vấn
+            url: '/reports/filter', 
             type: 'GET', 
             data: {
                 district: selectedDistrict,
@@ -290,7 +290,7 @@
               <option selected>Quận</option>
             </select>
 
-            <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
+            <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1 w-100" aria-label=".form-select-sm example">
               <option selected>Phường</option>
             </select>
         </div>

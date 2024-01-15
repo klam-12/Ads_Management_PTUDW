@@ -1,47 +1,45 @@
 {{#section 'js'}}
   <script>
-    $('tr.space-row').click(function() {
+    $(document).on('click', ' .space-row', function() {
     const id_setpoint = $(this).data('id');
-  
-  // Clear previous data when clicking on a row
-  $('.surface-table-tbody').empty();
+    $('.surface-table-tbody').empty();
 
-  $.getJSON(`/ads?id_setpoint=${id_setpoint}`, function(data) {
-    if (data.length === 0) {
-      // Handle empty data
-      $('.surface-table-tbody').append('<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>');
-      return;
-    }
-    let index =-1
-    data.forEach(function(item) {
-      var newRow = $('<tr>').addClass('card-info-row');
-      newRow.append($('<td>').addClass('text-center').text(index + 1)); // STT
+    $.getJSON(`/ads?id_setpoint=${id_setpoint}`, function(data) {
+      if (data.length === 0) {
+        // Handle empty data
+        $('.surface-table-tbody').append('<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>');
+        return;
+      }
+      let index = -1
+      data.forEach(function(item) {
+        var newRow = $('<tr>').addClass('card-info-row');
+          index = index + 1;
+        newRow.append($('<td>').addClass('text-center').text(index)); // STT
+        var infoList = $('<ul>');
+        infoList.append($('<li>').text('Kích thước: ' + item.width)); // width
+        infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
+        infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
+        infoList.append($('<li>').append($('<a>').attr('href', item.image || '#').text('Link hình ảnh'))); // image link
 
-      var infoList = $('<ul>');
-      infoList.append($('<li>').text('Kích thước: ' + item.width)); // width
-      infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
-      infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
-      infoList.append($('<li>').append($('<a>').attr('href', item.image || '#').text('Link hình ảnh'))); // image link
+        newRow.append($('<td>').append(infoList));
+        newRow.append($('<td>').addClass('text-center').text(item.startDate)); // Ngày hết hạn
 
-      newRow.append($('<td>').append(infoList));
-      newRow.append($('<td>').addClass('text-center').text(item.startDate)); // Ngày hết hạn
+        var requestButton = $('<button>')
+          .attr('type', 'button')
+          .addClass('btn btn-sm btn-table btn-green')
+          .text('Gửi yêu cầu')
+          .attr('data-id', item._id);
+        newRow.append($('<td>').addClass('text-center').append(requestButton));
 
-      var requestButton = $('<button>')
-        .attr('type', 'button')
-        .addClass('btn btn-sm btn-table btn-green')
-        .text('Gửi yêu cầu')
-        .attr('data-id', item._id);
-      newRow.append($('<td>').addClass('text-center').append(requestButton));
-
-      $('.surface-table-tbody').append(newRow);
+        $('.surface-table-tbody').append(newRow);
+      });
     });
-  });
 
-  // Hide/show elements based on the click event
-  $('.surface-default').addClass('d-none');
-  $('.surface-table').removeClass('d-none');
-  $('tr.space-row').removeClass('row-active');
-  $(this).addClass('row-active');
+    // Hide/show elements based on the click event
+    $('.surface-default').addClass('d-none');
+    $('.surface-table').removeClass('d-none');
+    $('tr.space-row').removeClass('row-active');
+    $(this).addClass('row-active');
 });
 
     $('button.btn-blue').click(function() {
@@ -50,12 +48,11 @@
       $('div.space-form-container').removeClass('d-none');
     });
 
-   $(document).on('click', 'button.btn-green', function() {
+    $(document).on('click', 'button.btn-green', function() {
     const id = $(this).data('id');
     $('.btn-request-ads').val(id)
     $('.surface-form-container').removeClass('d-none');
 });
-
 
     $('i.space-close-btn').click(function(){
       $('div.space-form-container').addClass('d-none');
@@ -80,7 +77,7 @@
 
      $.ajax({
       type: 'POST',
-      url: '/request', // Replace with your server route
+      url: '/request', 
       data: formData,
       success: function(response) {
       console.log(response);
@@ -153,13 +150,200 @@
 });
 
     });
-    // Assuming the 'OK' button is within the create-confirm notification
-$('.create-confirm .btn-success ').on('click', function() {
-  $('.create-confirm').addClass('d-none');
-});
+    $('.create-confirm .btn-success ').on('click', function() {
+      $('.create-confirm').addClass('d-none');
+    });
     $('.btn-danger').on('click', function() {
       $('.error-noti').addClass('d-none');
     });
+      const District1 = [
+                'Phường Bến Nghé',
+                'Phường Bến Thành',
+                'Phường Cầu Kho',
+                'Phường Cầu Ông Lãnh',
+                'Phường Cô Giang',
+                'Phường Đa Kao',
+                'Phường Nguyễn Cư Trinh',
+                'Phường Nguyễn Thái Bình',
+                'Phường Phạm Ngũ Lão',
+                'Phường Tân Định'
+              ];
+          const District5 = [
+                'Phường 1   ',
+                'Phường 2',
+                'Phường 3',
+                'Phường 4',
+                'Phường 5',
+                'Phường 6',
+                'Phường 7',
+                'Phường 8',
+                'Phường 9',
+                'Phường 10',
+                'Phường 11',
+                'Phường 12',
+                'Phường 13',
+                'Phường 14',
+                'Phường 15',
+              ];  
+            
+    $(document).ready(function() {
+    const authUserRole = '{{authUser.role}}';
+    const authUserDistrict = '{{authUser.district}}';
+    const authUserWard = '{{authUser.ward}}';
+
+    function addLicenseColumn(setpointId) {
+        if (authUserRole === 'Cán bộ Sở') {
+            const newColumn = 
+            `<td class="text-center">
+                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+          </td>`
+            $(this).append(newColumn);
+        } else {
+            const newColumn = `<td class="text-center">
+                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+          </td>`;
+
+            $(this).append(newColumn);
+        }
+    }
+
+    function updateDropdownContent() {
+        const districtSelect = $('#districtSelect');
+        const wardSelect = $('#wardSelect');
+
+        districtSelect.empty();
+        wardSelect.empty();
+
+        if (authUserRole === 'Cán bộ Sở') {
+            const allDistricts = ['Quận 1', 'Quận 5'];
+            const allWards = [...District1, ...District5];
+
+            districtSelect.append(`<option selected>Quận</option>`);
+            allDistricts.forEach(district => {
+                districtSelect.append(`<option value="${district}">${district}</option>`);
+            });
+
+            wardSelect.append(`<option selected>Phường</option>`);
+        } else if (authUserRole === 'Cán bộ Quận') {
+            districtSelect.append(`<option value="${authUserDistrict}" selected>${authUserDistrict}</option>`);
+            let allWards;
+
+            if (authUserDistrict === 'Quận 1') {
+                allWards = District1;
+            }
+
+            if (authUserDistrict === 'Quận 5') {
+                allWards = District5;
+            }
+
+            wardSelect.append(`<option selected>Phường</option>`);
+            allWards.forEach(ward => {
+                wardSelect.append(`<option value="${ward}">${ward}</option>`);
+            });
+        } else if (authUserRole === 'Cán bộ Phường') {
+            console.log(authUserWard);
+            districtSelect.append(`<option value="${authUserDistrict}" selected>${authUserDistrict}</option>`);
+            wardSelect.append(`<option value="${authUserWard}" selected>${authUserWard}</option>`);
+        }
+    }
+
+    // Loop through each row in the table
+    $('#surface-table tbody tr').each(function(index) {
+        //const isLicensed = $(this).data('islicensed');
+        const setpointId = $(this).data('id');
+        console.log( $(this).data())
+        // Add the license column dynamically
+        addLicenseColumn.call(this, setpointId);
+    });
+
+    // Update dropdown content
+    updateDropdownContent();
+});
+
+    $('#districtSelect, #wardSelect').change(function() {
+         const authUserRole = '{{authUser.role}}';
+         if (authUserRole === 'Cán bộ Sở') {
+           const selectedDistrict = $('#districtSelect').val();
+           
+          if (selectedDistrict === 'Quận 1') {
+              populateWards(District1);
+          } else if (selectedDistrict === 'Quận 5') {
+              populateWards(District5);
+          } else {
+              populateWards([]);
+          }
+         }
+         function populateWards(wards) {
+        const wardSelect = $('#wardSelect');
+        
+        // Save the currently selected ward before clearing the options
+        const selectedWard = wardSelect.val();
+
+        wardSelect.empty();
+        wardSelect.append('<option selected>Phường</option>');
+
+        wards.forEach(ward => {
+            wardSelect.append(`<option value="${ward}">${ward}</option>`);
+        });
+
+        if (wards.includes(selectedWard)) {
+            wardSelect.val(selectedWard);
+        }
+}
+       $('.surface-table-tbody').empty();
+        performAjaxQuery();
+
+
+    })
+    function performAjaxQuery(pageNumber = 1) {
+        const selectedDistrict = $('#districtSelect').val();
+        const selectedWard = $('#wardSelect').val();
+        console.log(selectedDistrict, selectedWard);
+        
+        $.ajax({
+            url: '/setPoints/filter', 
+            type: 'GET', 
+            data: {
+                district: selectedDistrict,
+                ward: selectedWard,
+                page: pageNumber,
+                limit: 5
+            },
+           success: function(data) {
+            const authUserRole = '{{authUser.role}}';
+            console.log(data)
+            $('#setPointTable tbody').empty();
+            $.each(data.list, function(index, setpoint) {
+              console.log(123,setpoint)
+            const newRow = `
+            <tr class="space-row card-info-row green-hover" data-id="${setpoint._id}">
+                <td class="text-center">${index + 1}</td>
+                <td>${setpoint.address}</td>
+                <td>
+                    <ul>
+                        <li>Hình thức quảng cáo: ${setpoint.adsFormat}</li>
+                        <li>Phân loại: ${setpoint.typeofLocation}</li>
+                        <li>Đã quy hoạch: ${setpoint.isPlanned ? 'Có' : 'Không'}</li>
+                        <li><a href="${setpoint.image}">Link hình ảnh</a></li>
+                    </ul>
+                </td>
+                <td class="text-center">
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+                </td>
+            </tr>`;
+
+
+             $('#setPointTable tbody').append(newRow);
+            });
+
+            },
+            error: function(error) {
+                    console.error('Lỗi truy vấn AJAX:', error);
+                }
+            })
+    }
+
+    
 
   </script>
 {{/section}}
@@ -180,25 +364,21 @@ $('.create-confirm .btn-success ').on('click', function() {
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="blue-heading">Danh sách các điểm đặt</h5>
               <div class="d-flex">
-                <select class="form-select form-select-sm blue-sort-btn me-1" aria-label=".form-select-sm example">
-                  <option selected>Quận</option>
-                  <option value="1">1</option>
-                  <option value="2">5</option>
-                </select>
-                <select class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
-                  <option selected>Phường</option>
-                  <option value="1">Cầu Ông Lãnh</option>
-                  <option value="2">Bến Thành</option>
-                  <option value="3">Nguyễn Thái Bình</option>
-                </select>
-              </div>
+                    <select id="districtSelect" class="form-select form-select-sm blue-sort-btn me-1" aria-label=".form-select-sm example">
+                    <option selected>Quận</option>
+                    </select>
+
+                    <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
+                    <option selected>Phường</option>
+                    </select>
+                </div>
             </div>
             {{#if this.empty}}
             <div class="card-body">
               Không có dữ liệu
             </div>
             {{else}}
-            <table class="table table-hover align-middle">
+            <table id="setPointTable" class="table table-hover align-middle">
               <thead class="align-middle text-center">
                   <tr>
                   <th class="col-0.5" scope="col">STT</th>
@@ -207,7 +387,7 @@ $('.create-confirm .btn-success ').on('click', function() {
                   <th class="col-3" scope="col">Xử lý</th>
                   </tr>
               </thead>
-              <tbody>
+              <tbody >
                   {{#each list}}
                     <tr class="space-row card-info-row green-hover" data-id="{{this._id}}">
                         <td class="text-center">{{@index}}</td>
@@ -279,7 +459,7 @@ $('.create-confirm .btn-success ').on('click', function() {
                   <th class="col-3" scope="col">Xử lý</th>
                   </tr>
               </thead>
-              <tbody class ="surface-table-tbody">
+              <tbody id="surface-table" class ="surface-table-tbody">
               </tbody>
             </table>
             
