@@ -9,14 +9,25 @@
 
     $('#typeAcc').change(function () {
         var selectedType = $(this).find("option:selected").text();
-        
+        $('#ward-select').empty();
+        $('#ward-select').append('<option selected>Phân loại</option>');
+        $('#district-select').empty();
+        $('#district-select').append('<option selected>Phân loại</option>');
+        const allDistricts = ['Quận 1', 'Quận 5'];
+        allDistricts.forEach(district => {
+            $('#district-select').append(`<option>${district}</option>`);
+        });
+
         if(selectedType === "Cán bộ Quận"){
             $("#ward-select").attr("disabled","disabled");
-        } 
+        };
     });
 
     $('#district-select').change(function () {
         var selectedType = $("#typeAcc").find("option:selected").text();
+        $('#ward-select').empty();
+        $('#ward-select').append('<option selected>Phân loại</option>');
+
 
         if(selectedType == "Cán bộ Phường"){
             var districtType = $(this).find("option:selected").text();
@@ -35,8 +46,6 @@
                 };
 
                 var $mySelect = $('#ward-select');
-                $mySelect.find('option').remove();
-
                 $.each(district1, function(key, value) {
                     var $option = $("<option/>", {
                         value: value,
@@ -51,9 +60,7 @@
                     district5[i.toString()] = "Phường " + i;
                 }
 
-                var $mySelect = $('#ward-select');
-                $mySelect.find('option').remove();
-                
+                var $mySelect = $('#ward-select');                
                 $.each(district5, function(key, value) {
                     var $option = $("<option/>", {
                         value: value,
@@ -68,36 +75,74 @@
     });
     
     $('.create-confirm .btn-success ').on('click', function() {
-  $('.create-confirm').addClass('d-none');
-});
+        $('.create-confirm').addClass('d-none');
+    });
     $('.btn-danger').on('click', function() {
       $('.error-noti').addClass('d-none');
     });
 
-    $('#createAccForm').submit(function(event) {
-        event.preventDefault();
-    
-        $.ajax({
-        type: 'POST',
-        url: '/auth/create-account',
-        data: $(this).serialize(),
-        success: function(response) {
-            console.log(response);
-            $('#successMessage').text(response.message);
-            $('.create-confirm').removeClass('d-none').show();
-            $('#createAccForm')[0].reset();
-        },
-        error: function(xhr, status, error) {
-        var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
-            console.log(errorMessage)
-            $('#errorMessage').text(errorMessage);
-            $('.error-noti').removeClass('d-none').show();
-            console.log($('.error-noti'));
-            $('#createAccForm')[0].reset();
+    $('#createAccForm').submit(function(e) {
+        e.preventDefault();
+
+        var errorNoti = "";
+        const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+        var typeAcc = $("#typeAcc").find("option:selected").text();
+        var district = $("#district-select").find("option:selected").text();
+        var dob = $('#txtDob').val();
+        
+        if($('#txtTdn').val() === ""){
+            errorNoti = "Tên đăng nhập không được trống";
+        } else if($('#txtPass').val() === ""){
+            errorNoti = "Mật khẩu không được trống";
+        } else if($('#txtPass').val().length < 8){
+            errorNoti = "Mật khẩu tối thiểu 8 kí tự";
+        } else if($('#txtName').val() === ""){
+            errorNoti = "Họ và tên không được trống";
+        } else if(dob === "__/__/____" || dob.length===0){
+            errorNoti = "Bạn chưa chọn ngày sinh";
+        } else if($('#txtEmail').val() === ""){
+            errorNoti = "Email không được trống";
+        } else if(! $('#txtPhone').val().match(regexPhoneNumber)){
+            errorNoti = "Số điện thoại không hợp lệ";
+        } else if(district === "Phân loại" || typeAcc === "Phân loại"){
+            errorNoti = "Bạn chưa chọn khu vực quản lí cho tài khoản này";
         }
-  });
-});
-   
+
+        if(errorNoti.length !== 0){
+            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>${errorNoti}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>`);
+            $('#errorContainer').append(errComp);
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/auth/create-account',
+            data: $(this).serialize(),
+            success: function(response) {
+                console.log(response);
+                $('#successMessage').text(response.message);
+                $('.create-confirm').removeClass('d-none').show();
+                $('#createAccForm')[0].reset();
+            },
+            error: function(xhr, status, error) {
+            var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
+                console.log(errorMessage)
+                $('#errorMessage').text(errorMessage);
+                $('.error-noti').removeClass('d-none').show();
+                console.log($('.error-noti'));
+                $('#createAccForm')[0].reset();
+            }
+            
+        })
+
+        $('#formCreateAcc').off('submit').submit();
+    });
 </script>
 {{/section}}
 
@@ -106,11 +151,34 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
 
 <link rel="stylesheet" href="/static/css/form.css">
+<link rel="stylesheet" href="/static/css/layout.css">
 {{/section}}
 
 <div class="container-fluid p-5 d-flex justify-content-center">
-  
-        <form method="post" id ="createAccForm" class="form-createAcc-width p-4 bg-light box-shadow">
+    <div id="errorContainer">
+        {{#if this.msg}}
+            {{#if this.is_err}}
+            <div class="alert alert-danger text-center center error-noti" role="alert">
+                <div class="d-inline-flex">
+                    <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                    <h5>{{this.msg}}</h5>
+                </div>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+            </div>
+            {{else}}
+            <div class="alert alert-success text-center center create-confirm" role="alert">
+                <div class="d-inline-flex">
+                    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+                    <h5>{{this.msg}}</h5>
+                </div>
+                <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
+            </div>
+
+            {{/if}}
+        {{/if}}
+    </div>
+    <div class="position-relative">
+        <form method="post" id="createAccForm" class="form-createAcc-width p-4 bg-light box-shadow" >
             <div class="row text-center mb-3 info-color ">
                 <i class="bi bi-person-square heading-size" style="font-size: 34px;"></i>
             </div>
@@ -122,10 +190,10 @@
                     </i>
                 </div>
                 <div class="col-8">
-                    <label for="txtTdn" class="form-label black-color">Tên đăng nhập *</label>
+                    <label for="txtTdn" class="form-label black-color">Tên đăng nhập</label>
                     <input type="text" class="form-control form-control-sm mb-2" id="txtTdn" name="username">
 
-                    <label for="txtPass" class="form-label black-color">Mật khẩu *</label>
+                    <label for="txtPass" class="form-label black-color">Mật khẩu</label>
                     <input type="password" class="form-control form-control-sm mb-2" id="txtPass" name="password">
                 </div>
             </div>
@@ -138,13 +206,13 @@
                 </div>
                 <div class="col-8">
                     <label for="txtName" class="form-label black-color">Họ và tên</label>
-                    <input type="text" class="form-control form-control-sm mb-2" id="txtName" name="fullName" >
+                    <input type="text" class="form-control form-control-sm mb-2" id="txtName" name="fullName">
                     
                     <label for="txtDob" class="form-label black-color">Ngày sinh</label>
                     <input type="text" class="form-control form-control-sm mb-2" id="txtDob" name="birthDate">
                     
                     <label for="txtEmail" class="form-label black-color">Email</label>
-                    <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email" >
+                    <input type="email" class="form-control form-control-sm mb-2" id="txtEmail" name="email">
                     
                     <label for="txtPhone" class="form-label black-color">Số điện thoại</label>
                     <input type="text" class="form-control form-control-sm mb-2" id="txtPhone" name="phoneNumber">
@@ -193,18 +261,4 @@
             </div>
         </form>
     </div>
-</div>
-<div class="alert alert-success text-center center create-confirm d-none" role="alert">
-  <div class="d-inline-flex">
-    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
-    <h5 id="successMessage"></h5>
-  </div>
-  <a role="button" class="btn btn-sm btn-success" >OK</a>
-</div>
-<div class="alert alert-danger text-center center error-noti d-none" role="alert">
-  <div class="d-inline-flex">
-    <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
-    <h5 id ="errorMessage"></h5>
-  </div>
-  <a role="button" class="btn btn-sm btn-danger">OK</a>
 </div>

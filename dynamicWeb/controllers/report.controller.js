@@ -63,8 +63,7 @@ const getReportFilter = async (req, res, next) => {
        type: data.type,
        reportContent: data.reportContent,
        isHandled: data.isHandled,
-       createAt: formatMongoDBDate(data.createAt),
-
+       createAt: formatMongoDBDate(data.createdAt),
         }
       }),
       page: result.page,

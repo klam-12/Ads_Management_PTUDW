@@ -5,7 +5,9 @@ import { BadRequest,NotFoundResponse } from '../common/error.response.js';
 import {validateUpdateAccount} from '../validator/user.validator.js';
 
 const getMe = async (req, res, next) => {
-  res.render('vwAccount/profile');
+  res.render('vwAccount/profile',{
+    layout:false,
+  });
 }
 const editProfile = async (req, res, next) => {
   const data = req.body;

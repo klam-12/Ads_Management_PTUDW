@@ -14,11 +14,42 @@
         // language: 'vi',
     });
 
-    $('#txtDate').datetimepicker({
-        timepicker: false,
-        format: 'd/m/Y',
-        mask: true
-    });
+    var date = new Date();
+    var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
+    $('#txtDate').val(today);
+
+    $('#formEditLoc').on('submit', function (e) {
+        e.preventDefault();
+
+        var errorNoti = "";
+        var typeAds = $("#typeAds").find("option:selected").text();
+        var typeLoc = $("#typeLoc").find("option:selected").text();
+        var isPlanned = $("#isPlanned").find("option:selected").text();
+        if ($('#reasonArea').val().length === 0) {
+            errorNoti = "Lí do chỉnh sửa không được trống";
+        } else if(typeAds === "Hình thức quảng cáo"){
+            errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+        } else if(typeLoc === "Phân loại điểm đặt"){
+            errorNoti = "Bạn chưa chọn loại điểm đặt";
+        } else if(isPlanned === "Tình hình quy hoạch"){
+            errorNoti = "Bạn chưa chọn tình hình quy hoạch";
+        }
+
+        if(errorNoti.length !== 0){
+            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>${errorNoti}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>`);
+            $('#errorContainer').append(errComp);
+            return;
+        }
+          
+        $('#formEditLoc').off('submit').submit();
+    })
+
 </script>
 {{/section}}
 
@@ -28,10 +59,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
 
 <link rel="stylesheet" href="/static/css/form.css">
+<link rel="stylesheet" href="/static/css/layout.css">
+
 {{/section}}
 
 <div class="position-relative mt-5">
-    <form method="post" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-location box-shadow">
+    <form method="post" id="formEditLoc" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-location box-shadow">
         <div id="errorContainer">
             {{#if this.msg}}
                 {{#if this.is_err}}
@@ -79,7 +112,7 @@
             <div class="row">
                 <label for="txtDate" class="col-sm-3 col-form-label">Thời điểm chỉnh sửa</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="txtDate" name="dateReport">
+                    <input type="text" class="form-control" id="txtDate" name="dateReport" disabled>
                 </div>
             </div>
 
@@ -99,7 +132,7 @@
             <div class="row mb-2">
                 <span class="col-sm-3 col-form-label">Hình thức</span>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option selected>Hình thức quảng cáo</option>
                         <option value="1">Cổ động chính trị</option>
                         <option value="2">Quảng cáo thương mại</option>
@@ -111,8 +144,8 @@
             <div class="row mb-2">
                 <span class="col-sm-3 col-form-label">Phân loại</span>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Phân loại</option>
+                    <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                        <option selected>Phân loại điểm đặt</option>
                         <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
                         <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
                         <option value="3">Trung tâm thương mại</option>
@@ -126,7 +159,7 @@
             <div class="row mb-2">
                 <span class="col-sm-3 col-form-label">Tình trạng</span>
                 <div class="col-sm-9">
-                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <select id="isPlanned" class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option selected>Tình hình quy hoạch</option>
                         <option value="1">Đã quy hoạch</option>
                         <option value="2">Chưa quy hoạch</option>
