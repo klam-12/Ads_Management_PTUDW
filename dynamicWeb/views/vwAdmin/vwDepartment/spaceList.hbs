@@ -1,47 +1,45 @@
 {{#section 'js'}}
   <script>
-    $('tr.space-row').click(function() {
+    $(document).on('click', ' .space-row', function() {
     const id_setpoint = $(this).data('id');
-  
-  // Clear previous data when clicking on a row
-  $('.surface-table-tbody').empty();
+    $('.surface-table-tbody').empty();
 
-  $.getJSON(`/ads?id_setpoint=${id_setpoint}`, function(data) {
-    if (data.length === 0) {
-      // Handle empty data
-      $('.surface-table-tbody').append('<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>');
-      return;
-    }
-    let index =-1
-    data.forEach(function(item) {
-      var newRow = $('<tr>').addClass('card-info-row');
-      newRow.append($('<td>').addClass('text-center').text(index + 1)); // STT
+    $.getJSON(`/ads?id_setpoint=${id_setpoint}`, function(data) {
+      if (data.length === 0) {
+        // Handle empty data
+        $('.surface-table-tbody').append('<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>');
+        return;
+      }
+      let index = -1
+      data.forEach(function(item) {
+        var newRow = $('<tr>').addClass('card-info-row');
+          index = index + 1;
+        newRow.append($('<td>').addClass('text-center').text(index)); // STT
+        var infoList = $('<ul>');
+        infoList.append($('<li>').text('Kích thước: ' + item.width)); // width
+        infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
+        infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
+        infoList.append($('<li>').append($('<a>').attr('href', item.image || '#').text('Link hình ảnh'))); // image link
 
-      var infoList = $('<ul>');
-      infoList.append($('<li>').text('Kích thước: ' + item.width)); // width
-      infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
-      infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
-      infoList.append($('<li>').append($('<a>').attr('href', item.image || '#').text('Link hình ảnh'))); // image link
+        newRow.append($('<td>').append(infoList));
+        newRow.append($('<td>').addClass('text-center').text(item.startDate)); // Ngày hết hạn
 
-      newRow.append($('<td>').append(infoList));
-      newRow.append($('<td>').addClass('text-center').text(item.startDate)); // Ngày hết hạn
+        var requestButton = $('<button>')
+          .attr('type', 'button')
+          .addClass('btn btn-sm btn-table btn-green')
+          .text('Gửi yêu cầu')
+          .attr('data-id', item._id);
+        newRow.append($('<td>').addClass('text-center').append(requestButton));
 
-      var requestButton = $('<button>')
-        .attr('type', 'button')
-        .addClass('btn btn-sm btn-table btn-green')
-        .text('Gửi yêu cầu')
-        .attr('data-id', item._id);
-      newRow.append($('<td>').addClass('text-center').append(requestButton));
-
-      $('.surface-table-tbody').append(newRow);
+        $('.surface-table-tbody').append(newRow);
+      });
     });
-  });
 
-  // Hide/show elements based on the click event
-  $('.surface-default').addClass('d-none');
-  $('.surface-table').removeClass('d-none');
-  $('tr.space-row').removeClass('row-active');
-  $(this).addClass('row-active');
+    // Hide/show elements based on the click event
+    $('.surface-default').addClass('d-none');
+    $('.surface-table').removeClass('d-none');
+    $('tr.space-row').removeClass('row-active');
+    $(this).addClass('row-active');
 });
 
     $('button.btn-blue').click(function() {
@@ -50,12 +48,11 @@
       $('div.space-form-container').removeClass('d-none');
     });
 
-   $(document).on('click', 'button.btn-green', function() {
+    $(document).on('click', 'button.btn-green', function() {
     const id = $(this).data('id');
     $('.btn-request-ads').val(id)
     $('.surface-form-container').removeClass('d-none');
 });
-
 
     $('i.space-close-btn').click(function(){
       $('div.space-form-container').addClass('d-none');
@@ -153,10 +150,9 @@
 });
 
     });
-    // Assuming the 'OK' button is within the create-confirm notification
-$('.create-confirm .btn-success ').on('click', function() {
-  $('.create-confirm').addClass('d-none');
-});
+    $('.create-confirm .btn-success ').on('click', function() {
+      $('.create-confirm').addClass('d-none');
+    });
     $('.btn-danger').on('click', function() {
       $('.error-noti').addClass('d-none');
     });
@@ -290,12 +286,11 @@ $('.create-confirm .btn-success ').on('click', function() {
             wardSelect.append(`<option value="${ward}">${ward}</option>`);
         });
 
-        // Set the previously selected ward if it exists in the new options
         if (wards.includes(selectedWard)) {
             wardSelect.val(selectedWard);
         }
 }
-
+       $('.surface-table-tbody').empty();
         performAjaxQuery();
 
 
@@ -316,58 +311,29 @@ $('.create-confirm .btn-success ').on('click', function() {
             },
            success: function(data) {
             const authUserRole = '{{authUser.role}}';
-            $('#requestAdsTable tbody').empty();
-            $.each(data.licenseList, function(index, license) {
+            console.log(data)
+            $('#setPointTable tbody').empty();
+            $.each(data.list, function(index, setpoint) {
+              console.log(123,setpoint)
             const newRow = `
-            <tr class="card-info-row" data-id="${license._id}" data-isLicensed="${license.isLicensed}">
+            <tr class="space-row card-info-row green-hover" data-id="${setpoint._id}">
                 <td class="text-center">${index + 1}</td>
+                <td>${setpoint.address}</td>
                 <td>
                     <ul>
-                        <li>${license.typeofAds}</li>
-                        <li>Địa chỉ: ${license.setpointInfo.address}</li>
+                        <li>Hình thức quảng cáo: ${setpoint.adsFormat}</li>
+                        <li>Phân loại: ${setpoint.typeofLocation}</li>
+                        <li>Đã quy hoạch: ${setpoint.isPlanned ? 'Có' : 'Không'}</li>
+                        <li><a href="${setpoint.image}">Link hình ảnh</a></li>
                     </ul>
                 </td>
-                <td>
-                    <ul>
-                        <li>Kích thước: ${license.width} x ${license.height}</li>
-                        <li>Số lượng: ${license.quantity}</li>
-                        <li>Hình thức: ${license.setpointInfo.adsFormat}</li>
-                        <li>Phân loại: ${license.setpointInfo.typeofLocation}</li>
-                        <li><a href="${license.setpointInfo.image}" target="_blank">Link hình ảnh</a></li>
-                    </ul>
+                <td class="text-center">
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
                 </td>
-                <td>${license.companyInfo.name}</td>
-                <td>
-                    <ul>
-                        <li>Địa chỉ: ${license.companyInfo.address}</li>
-                        <li>Email: ${license.companyInfo.email}</li>
-                        <li>SĐT: ${license.companyInfo.phoneNumber}</li>
-                    </ul>
-                </td>
-                <td class="text-center">${license.startDate}</td>
-                <td class="text-center">${license.expireDate}</td>
-                        ${authUserRole === 'Cán bộ Sở' ?
-                    `<td class="text-center">
-                        <button type="button"  class="btn btn-sm btn-table btn-approve-license ">
-                            <a class="btn btn-sm btn-license ${license.isLicensed ? 'card-disabled' : 'btn-warning'}" data-id="${license._id}">
-                                ${license.isLicensed ? 'Đã cấp phép' : '<i class="bi bi-hand-index-fill"></i> Chờ cấp phép'}
-                            </a>
-                        </button>
-                    </td>`
-                    :
-                    `<td class="text-center">
-                        ${license.isLicensed ? '<a class="btn btn-sm btn-readonly">Đã cấp phép</a>' : '<a class="btn btn-sm btn-readonly">Chờ cấp phép</a>'}
-                    </td>
-                    <td class="text-center">
-                        ${license.isLicensed ? '<i class="bi bi-check-circle-fill h4" style="color: #8C8C8C"></i>' : 
-                        `<button type="button" class="btn btn-sm btn-table" data-id="${license._id}">
-                            <i class="bi bi-trash-fill h4" style="color: #8C8C8C"></i>
-                        </button>`}
-                    </td>
-        </tr>`};`
+            </tr>`;
 
 
-             $('#requestAdsTable tbody').append(newRow);
+             $('#setPointTable tbody').append(newRow);
             });
 
             },
@@ -398,25 +364,21 @@ $('.create-confirm .btn-success ').on('click', function() {
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="blue-heading">Danh sách các điểm đặt</h5>
               <div class="d-flex">
-                <select class="form-select form-select-sm blue-sort-btn me-1" aria-label=".form-select-sm example">
-                  <option selected>Quận</option>
-                  <option value="1">1</option>
-                  <option value="2">5</option>
-                </select>
-                <select class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
-                  <option selected>Phường</option>
-                  <option value="1">Cầu Ông Lãnh</option>
-                  <option value="2">Bến Thành</option>
-                  <option value="3">Nguyễn Thái Bình</option>
-                </select>
-              </div>
+                    <select id="districtSelect" class="form-select form-select-sm blue-sort-btn me-1" aria-label=".form-select-sm example">
+                    <option selected>Quận</option>
+                    </select>
+
+                    <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
+                    <option selected>Phường</option>
+                    </select>
+                </div>
             </div>
             {{#if this.empty}}
             <div class="card-body">
               Không có dữ liệu
             </div>
             {{else}}
-            <table class="table table-hover align-middle">
+            <table id="setPointTable" class="table table-hover align-middle">
               <thead class="align-middle text-center">
                   <tr>
                   <th class="col-0.5" scope="col">STT</th>
@@ -425,7 +387,7 @@ $('.create-confirm .btn-success ').on('click', function() {
                   <th class="col-3" scope="col">Xử lý</th>
                   </tr>
               </thead>
-              <tbody>
+              <tbody >
                   {{#each list}}
                     <tr class="space-row card-info-row green-hover" data-id="{{this._id}}">
                         <td class="text-center">{{@index}}</td>

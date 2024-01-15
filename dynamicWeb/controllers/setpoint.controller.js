@@ -7,9 +7,10 @@ import SetPoint from "../models/SetPoint.js";
 import {PAGE_SIZE} from '../common/index.js';
 const getSetPoint = async (req, res, next) => {
   const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
-  const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
+  const limit = PAGE_SIZE;
   let district, ward
   const authUser = req.session.authUser
+  console.log(authUser)
   if (authUser.role === 'Cán bộ Phường'){
     district = authUser.district
     ward = authUser.ward
@@ -22,9 +23,10 @@ const getSetPoint = async (req, res, next) => {
   if (!result) {
       throw new NotFoundResponse('Product not found');
   }
-  
+  console.log(result)
   return res.render('vwAdmin/vwDepartment/spaceList', {
     list:result.results.map(setpoint => {
+      setpoint = setpoint.toObject()
       return {
         _id: setpoint._id,
         address: setpoint.address,
@@ -32,6 +34,11 @@ const getSetPoint = async (req, res, next) => {
         adsFormat: setpoint.adsFormat,
         isPlanned: setpoint.isPlanned,
         image: setpoint.image,
+        address: setpoint.address,
+        ward: setpoint.ward,
+        district: setpoint.district,
+        lat: setpoint.lat,
+        lng: setpoint.lng
       };
     }),
     page: result.page,
@@ -52,6 +59,7 @@ const getSetPointFilter = async (req, res, next) => {
   
   return res.json({
     list: result.results.map(setpoint => {
+    setpoint = setpoint.toObject()
     return {
       _id: setpoint._id,
       address: setpoint.address,
@@ -59,6 +67,11 @@ const getSetPointFilter = async (req, res, next) => {
       adsFormat: setpoint.adsFormat,
       isPlanned: setpoint.isPlanned,
       image: setpoint.image,
+      address: setpoint.address,
+      ward: setpoint.ward,
+      district: setpoint.district,
+      lat: setpoint.lat,
+      lng: setpoint.lng
     };
   })})
 } 
