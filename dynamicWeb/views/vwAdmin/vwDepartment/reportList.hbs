@@ -24,7 +24,19 @@
 
     $('i.report-close-btn').click(function(){
       $('div.report-container').addClass('d-none');
+      $('div.report-container form#reportForm')[0].reset();
     });
+
+    $('input#submitBtn').click(function(e){
+      e.preventDefault();
+      if(!$('textarea#reportHandleContent').val()){
+        $('span#reportHandleRequired').removeClass('d-none');
+      }
+      else{
+        $('form#reportForm').submit();
+      }
+    });
+
      const District1 = [
                 'Phường Bến Nghé',
                 'Phường Bến Thành',
@@ -352,7 +364,7 @@
     <div class="report-form-container center">
         <i class="report-close-btn bi bi-x d-flex justify-content-end" style="font-size: 34px; cursor: pointer;"></i>
         
-        <form class="report-form" id="reportForm">
+        <form class="report-form" id="reportForm" method="post">
             <h4 class="report-form-title">
                 <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
             </h4>
@@ -370,9 +382,8 @@
                                     aria-label=".form-select-sm example"
                                     name="reportType"
                                     id="reportType"
-                                >
+                                disabled>
                                 </input>
-                                <span class="report-required"></span>
                             </div>
                         </div>
                     </div>
@@ -380,32 +391,57 @@
 
                 <div class="row">
                     <div class="report-info">
+                        <label class="mb-1" for="address">Địa chỉ</label>
+                        <input type="text" name="address" id="address" disabled/>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="report-info">
                         <label class="mb-1" for="fullName">Họ và tên</label>
-                        <span class="report-required float-end"></span>
-                        <input type="text" name="fullName" id="fullName" />
+                        <input type="text" name="fullName" id="fullName" disabled/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col report-info half column-split">
                         <label class="mb-1" for="email">Email</label>
-                        <span class="report-required float-end"></span>
-                        <input type="email" name="email" id="email" />
+                        <input type="email" name="email" id="email" disabled/>
                     </div>
                     <div class="col report-info half">
                         <label class="mb-1" for="phoneNumber">Số điện thoại</label>
-                        <span class="report-required float-end"></span>
-                        <input type="tel" name="phoneNumber" id="phoneNumber" />
+                        <input type="tel" name="phoneNumber" id="phoneNumber" disabled/>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="reportContent">Nội dung báo cáo</label>
-                        <span class="report-required float-end"></span>
                         <textarea
                             name="reportContent"
                             id="reportContent"
+                            cols="30"
+                            rows="10"
+                            style="resize: none"
+                        disabled></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-image-upload">
+                        <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
+                        <div id="imagesOutput"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-info">
+                        <label class="mb-1" for="reportHandleContent">Cách thức xử lý</label>
+                        <span class="report-required float-end d-none" id="reportHandleRequired">Vui lòng nhập cách thức xử lý</span>
+                        <textarea
+                            name="reportHandleContent"
+                            id="reportHandleContent"
                             cols="30"
                             rows="10"
                             style="resize: none"
@@ -414,11 +450,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="report-image-upload">
-                        <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
-                        <span class="report-required float-end"></span>
-                        <input type="file" id="img" name="img" accept="image/*" multiple />
-                        <div id="imagesOutput"></div>
+                    <div class="report-submit-button">
+                        <input type="submit" id="submitBtn" value="Gửi cách thức xử lý" />
                     </div>
                 </div>
 
