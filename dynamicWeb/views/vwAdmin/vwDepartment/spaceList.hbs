@@ -80,7 +80,7 @@
 
      $.ajax({
       type: 'POST',
-      url: '/request', // Replace with your server route
+      url: '/request', 
       data: formData,
       success: function(response) {
       console.log(response);
@@ -160,6 +160,224 @@ $('.create-confirm .btn-success ').on('click', function() {
     $('.btn-danger').on('click', function() {
       $('.error-noti').addClass('d-none');
     });
+      const District1 = [
+                'Phường Bến Nghé',
+                'Phường Bến Thành',
+                'Phường Cầu Kho',
+                'Phường Cầu Ông Lãnh',
+                'Phường Cô Giang',
+                'Phường Đa Kao',
+                'Phường Nguyễn Cư Trinh',
+                'Phường Nguyễn Thái Bình',
+                'Phường Phạm Ngũ Lão',
+                'Phường Tân Định'
+              ];
+          const District5 = [
+                'Phường 1   ',
+                'Phường 2',
+                'Phường 3',
+                'Phường 4',
+                'Phường 5',
+                'Phường 6',
+                'Phường 7',
+                'Phường 8',
+                'Phường 9',
+                'Phường 10',
+                'Phường 11',
+                'Phường 12',
+                'Phường 13',
+                'Phường 14',
+                'Phường 15',
+              ];  
+            
+    $(document).ready(function() {
+    const authUserRole = '{{authUser.role}}';
+    const authUserDistrict = '{{authUser.district}}';
+    const authUserWard = '{{authUser.ward}}';
+
+    function addLicenseColumn(setpointId) {
+        if (authUserRole === 'Cán bộ Sở') {
+            const newColumn = 
+            `<td class="text-center">
+                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+          </td>`
+            $(this).append(newColumn);
+        } else {
+            const newColumn = `<td class="text-center">
+                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+          </td>`;
+
+            $(this).append(newColumn);
+        }
+    }
+
+    function updateDropdownContent() {
+        const districtSelect = $('#districtSelect');
+        const wardSelect = $('#wardSelect');
+
+        districtSelect.empty();
+        wardSelect.empty();
+
+        if (authUserRole === 'Cán bộ Sở') {
+            const allDistricts = ['Quận 1', 'Quận 5'];
+            const allWards = [...District1, ...District5];
+
+            districtSelect.append(`<option selected>Quận</option>`);
+            allDistricts.forEach(district => {
+                districtSelect.append(`<option value="${district}">${district}</option>`);
+            });
+
+            wardSelect.append(`<option selected>Phường</option>`);
+        } else if (authUserRole === 'Cán bộ Quận') {
+            districtSelect.append(`<option value="${authUserDistrict}" selected>${authUserDistrict}</option>`);
+            let allWards;
+
+            if (authUserDistrict === 'Quận 1') {
+                allWards = District1;
+            }
+
+            if (authUserDistrict === 'Quận 5') {
+                allWards = District5;
+            }
+
+            wardSelect.append(`<option selected>Phường</option>`);
+            allWards.forEach(ward => {
+                wardSelect.append(`<option value="${ward}">${ward}</option>`);
+            });
+        } else if (authUserRole === 'Cán bộ Phường') {
+            console.log(authUserWard);
+            districtSelect.append(`<option value="${authUserDistrict}" selected>${authUserDistrict}</option>`);
+            wardSelect.append(`<option value="${authUserWard}" selected>${authUserWard}</option>`);
+        }
+    }
+
+    // Loop through each row in the table
+    $('#surface-table tbody tr').each(function(index) {
+        //const isLicensed = $(this).data('islicensed');
+        const setpointId = $(this).data('id');
+        console.log( $(this).data())
+        // Add the license column dynamically
+        addLicenseColumn.call(this, setpointId);
+    });
+
+    // Update dropdown content
+    updateDropdownContent();
+});
+
+    $('#districtSelect, #wardSelect').change(function() {
+         const authUserRole = '{{authUser.role}}';
+         if (authUserRole === 'Cán bộ Sở') {
+           const selectedDistrict = $('#districtSelect').val();
+           
+          if (selectedDistrict === 'Quận 1') {
+              populateWards(District1);
+          } else if (selectedDistrict === 'Quận 5') {
+              populateWards(District5);
+          } else {
+              populateWards([]);
+          }
+         }
+         function populateWards(wards) {
+        const wardSelect = $('#wardSelect');
+        
+        // Save the currently selected ward before clearing the options
+        const selectedWard = wardSelect.val();
+
+        wardSelect.empty();
+        wardSelect.append('<option selected>Phường</option>');
+
+        wards.forEach(ward => {
+            wardSelect.append(`<option value="${ward}">${ward}</option>`);
+        });
+
+        // Set the previously selected ward if it exists in the new options
+        if (wards.includes(selectedWard)) {
+            wardSelect.val(selectedWard);
+        }
+}
+
+        performAjaxQuery();
+
+
+    })
+    function performAjaxQuery(pageNumber = 1) {
+        const selectedDistrict = $('#districtSelect').val();
+        const selectedWard = $('#wardSelect').val();
+        console.log(selectedDistrict, selectedWard);
+        
+        $.ajax({
+            url: '/setPoints/filter', 
+            type: 'GET', 
+            data: {
+                district: selectedDistrict,
+                ward: selectedWard,
+                page: pageNumber,
+                limit: 5
+            },
+           success: function(data) {
+            const authUserRole = '{{authUser.role}}';
+            $('#requestAdsTable tbody').empty();
+            $.each(data.licenseList, function(index, license) {
+            const newRow = `
+            <tr class="card-info-row" data-id="${license._id}" data-isLicensed="${license.isLicensed}">
+                <td class="text-center">${index + 1}</td>
+                <td>
+                    <ul>
+                        <li>${license.typeofAds}</li>
+                        <li>Địa chỉ: ${license.setpointInfo.address}</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>Kích thước: ${license.width} x ${license.height}</li>
+                        <li>Số lượng: ${license.quantity}</li>
+                        <li>Hình thức: ${license.setpointInfo.adsFormat}</li>
+                        <li>Phân loại: ${license.setpointInfo.typeofLocation}</li>
+                        <li><a href="${license.setpointInfo.image}" target="_blank">Link hình ảnh</a></li>
+                    </ul>
+                </td>
+                <td>${license.companyInfo.name}</td>
+                <td>
+                    <ul>
+                        <li>Địa chỉ: ${license.companyInfo.address}</li>
+                        <li>Email: ${license.companyInfo.email}</li>
+                        <li>SĐT: ${license.companyInfo.phoneNumber}</li>
+                    </ul>
+                </td>
+                <td class="text-center">${license.startDate}</td>
+                <td class="text-center">${license.expireDate}</td>
+                        ${authUserRole === 'Cán bộ Sở' ?
+                    `<td class="text-center">
+                        <button type="button"  class="btn btn-sm btn-table btn-approve-license ">
+                            <a class="btn btn-sm btn-license ${license.isLicensed ? 'card-disabled' : 'btn-warning'}" data-id="${license._id}">
+                                ${license.isLicensed ? 'Đã cấp phép' : '<i class="bi bi-hand-index-fill"></i> Chờ cấp phép'}
+                            </a>
+                        </button>
+                    </td>`
+                    :
+                    `<td class="text-center">
+                        ${license.isLicensed ? '<a class="btn btn-sm btn-readonly">Đã cấp phép</a>' : '<a class="btn btn-sm btn-readonly">Chờ cấp phép</a>'}
+                    </td>
+                    <td class="text-center">
+                        ${license.isLicensed ? '<i class="bi bi-check-circle-fill h4" style="color: #8C8C8C"></i>' : 
+                        `<button type="button" class="btn btn-sm btn-table" data-id="${license._id}">
+                            <i class="bi bi-trash-fill h4" style="color: #8C8C8C"></i>
+                        </button>`}
+                    </td>
+        </tr>`};`
+
+
+             $('#requestAdsTable tbody').append(newRow);
+            });
+
+            },
+            error: function(error) {
+                    console.error('Lỗi truy vấn AJAX:', error);
+                }
+            })
+    }
+
+    
 
   </script>
 {{/section}}
@@ -279,7 +497,7 @@ $('.create-confirm .btn-success ').on('click', function() {
                   <th class="col-3" scope="col">Xử lý</th>
                   </tr>
               </thead>
-              <tbody class ="surface-table-tbody">
+              <tbody id="surface-table" class ="surface-table-tbody">
               </tbody>
             </table>
             

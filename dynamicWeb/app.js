@@ -12,11 +12,7 @@ import session from 'express-session';
 
 import numeral from 'numeral'
 
-import accountRoute from "./routes/account.route.js"
-import formService from "./routes/form.route.js";
 import connectMongoDBSession from 'connect-mongodb-session';
-import formRoute from "./routes/form.route.js"
-import adminRoute from "./routes/admin.route.js"
 
 const MongoDBStore = connectMongoDBSession(session);
 // Connect to MongoDB
@@ -102,9 +98,6 @@ app.use(function (req, res, next) {
 route(app);
 app.use(errorHandler);
 
-app.use('/account',accountRoute);
-app.use('/form',formRoute);
-app.use('/admin',adminRoute);
 
 app.listen(port, () => {
     console.log(`Blog app listening at http://localhost:${port}`);
