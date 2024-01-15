@@ -300,6 +300,40 @@ var popupTemplate = function (feature) {
           
 
   `;
+}
+
+const District1 = {
+    'Phường Bến Nghé': "Ben Nghe Ward",
+    'Phường Bến Thành': "Ben Thanh Ward",
+    'Phường Cầu Kho': "Cau Kho Ward",
+    'Phường Cầu Ông Lãnh': "Cau Ong Lanh Ward",
+    'Phường Cô Giang': "Co Giang Ward",
+    'Phường Đa Kao': "Da Kao Ward",
+    'Phường Nguyễn Cư Trinh': "Nguyen Cu Trinh Ward",
+    'Phường Nguyễn Thái Bình': "Nguyen Thai Binh Ward",
+    'Phường Phạm Ngũ Lão': "Pham Ngu Lao Ward",
+    'Phường Tân Định': "Tan Dinh Ward"
+};
+const District5 = [
+    { 'Phường 1': 'Ward 1' },
+    { 'Phường 2': 'Ward 2' },
+    { 'Phường 3': 'Ward 3' },
+    { 'Phường 4': 'Ward 4' },
+    { 'Phường 5': 'Ward 5' },
+    { 'Phường 6': 'Ward 6' },
+    { 'Phường 7': 'Ward 7' },
+    { 'Phường 8': 'Ward 8' },
+    { 'Phường 9': 'Ward 9' },
+    { 'Phường 10': 'Ward 10' },
+    { 'Phường 11': 'Ward 11' },
+    { 'Phường 12': 'Ward 12' },
+    { 'Phường 13': 'Ward 13' },
+    { 'Phường 14': 'Ward 14' },
+    { 'Phường 15': 'Ward 15' },
+];
+const district = {
+    'Quận 5': 'District 5',
+    'Quận 1': 'District 1'
 };
 var QCComponent = function (info) {
     return `
@@ -533,12 +567,38 @@ const locationInfo = (info) => {
                     </div>
 `;
 };
+// map.js
+
+const authUserRole = $('script[src="/static/js/map.js"]').data('authuserrole');
+const authUserDistrict = $('script[src="/static/js/map.js"]').data('authuserdistrict');
+const authUserWard = $('script[src="/static/js/map.js"]').data('authuserward');
+function initializeMap(authUser,district, ward) {
+    if (authUserRole === "Cán bộ Quận"){
+       if (authUserDistrict === district){
+        $('button#licenseRequest').removeClass('d-none');
+       }
+    }
+    else if (authUserRole === "Cán bộ Phường"){
+        if (authUserDistrict === district && authUserWard === ward){
+            $('button#licenseRequest').removeClass('d-none');
+        }
+    }
+}
+// Sử dụng các giá trị
+console.log(authUserRole, authUserDistrict, authUserWard);
+
+
 map.on('click', function (e) {
     const { lat, lng } = e.latlng;
 
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
         .then((response) => response.json())
         .then((data) => {
+            const authUserRole = '{{authUser.role}}';
+            console.log(data);
+            initializeMap(authUserRole, data.address.district, data.address.ward);
+            // console.log(`{{authUser}}`)
+            // console.log(authUserRole)
             $('.modal-content').empty();
 
             $('.modal-content').append(locationInfo(data));

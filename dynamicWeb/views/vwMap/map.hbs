@@ -22,7 +22,8 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         ></script>
-        <script src="/static/js/map.js"></script>
+        {{!-- <script src="/static/js/map.js" ></script> --}}
+        <script src="/static/js/map.js" data-authUserRole="{{authUser.role}}" data-authUserDistrict="{{authUser.district}}" data-authUserWard="{{authUser.ward}}"></script>
         <script src="/static/js/report/handleReportForm.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
@@ -33,13 +34,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
         <script>
-            //$('#fuMain').fileinput({
-                //dropZoneEnabled: false,
-                //maxFileCount: 5,
-                //allowedFileExtensions: ['jpg', 'png', 'gif'],
-                // language: 'vi',
-            //});
-
+            
             $('#txtDayStart').datetimepicker({
                 timepicker: false,
                 format: 'd/m/Y',
@@ -112,7 +107,17 @@
         </script>
 
         <script>
+             $(document).ready(function() {
+        const authUserRole = $('script[src="/static/js/map.js"]').data('authuser');
+  
+        console.log(123213, authUserRole);
+        // ...
+    });
+                let authUser = `{{authUser}}`;
+                console.log(123213, authUser.role);
+                saveInfoUser(authUser); 
                 $('button#licenseRequest').click(function(){
+                  
                     $('div.license-form-container').removeClass('d-none');
                 });
 
@@ -211,17 +216,19 @@
                 </button>
             </div>
             <div>
-                <button type="button" class="btn btn-sm btn-outline-success padding-3" id="licenseRequest">
+                {{!-- <h4 class="modal-title">{{authUser}}</h4> --}}
+                <button type="button" class="btn btn-sm btn-outline-success padding-3 d-none" id="licenseRequest">
                     <i class="bi bi-file-arrow-up-fill" style="font-size:16px;">
                         Xin cấp phép
                     </i>
                 </button>
-
+                {{#ifEquals authUser.role 'Cán bộ Sở'}}
                 <button type="button" class="btn btn-sm btn-outline-primary padding-3" id="addSetPoint">
                     <i class="bi bi-plus-square-fill" style="font-size:16px;">
                         Thêm điểm đặt
                     </i>
                 </button>
+                {{/ifEquals}}
             </div>
 
             <div class="col-sm offset-md-5 modal-content"></div>
