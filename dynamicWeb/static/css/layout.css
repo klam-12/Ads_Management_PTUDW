@@ -527,3 +527,18 @@
 .green-hover:hover{
     background-color: var(--table-green-bg);
 }
+.btn-license{
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+
+    color: #FF7272;
+    font-weight: 500;
+    border: 1px solid #FFB5B5;
+}
+.btn-license:hover{
+    color: #FF7272;
+    font-weight: 500;
+    border: 1px solid #FFB5B5;
+}

@@ -15,6 +15,9 @@ const ReportSchema = new mongoose.Schema({
   lat: Number,
   lng: Number,
   isHandled: { type: Boolean, default: false },
+  district: String,
+  ward: String,
+  address: String,
 }, { timestamps: true });
 
 const Report = mongoose.model('Report', ReportSchema);

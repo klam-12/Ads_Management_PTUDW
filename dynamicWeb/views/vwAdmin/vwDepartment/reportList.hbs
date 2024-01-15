@@ -1,5 +1,8 @@
 {{#section 'js'}}
 <script>
+    performAjaxQuery();
+    var pageNumber = 1;
+
     $('button.btn-blue').click(function () {
     $('div.report-container').removeClass('d-none');
     const id = $(this).data('id');
@@ -24,7 +27,19 @@
 
     $('i.report-close-btn').click(function(){
       $('div.report-container').addClass('d-none');
+      $('div.report-container form#reportForm')[0].reset();
     });
+
+    $('input#submitBtn').click(function(e){
+      e.preventDefault();
+      if(!$('textarea#reportHandleContent').val()){
+        $('span#reportHandleRequired').removeClass('d-none');
+      }
+      else{
+        $('form#reportForm').submit();
+      }
+    });
+
      const District1 = [
                 'Phường Bến Nghé',
                 'Phường Bến Thành',
@@ -55,7 +70,7 @@
                 'Phường 15',
               ];  
             
-   $(document).ready(function() {
+    $(document).ready(function() {
         const authUserRole = '{{authUser.role}}';
         const authUserDistrict = '{{authUser.district}}';
         const authUserWard = '{{authUser.ward}}';
@@ -64,12 +79,12 @@
         const isHandled = $(this).data('ishandled'); // Assuming you have isHandled data attribute in each tr
         const newColumn = `
             <td class="text-center">
-                <button class="btn btn-sm btn-readonly">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
+                <button class="btn <btn-sm btn-readonly">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
             </td>
         `;
         $(this).append(newColumn);
     });
-}
+    }
 
         function updateDropdownContent() {
             const districtSelect = $('#districtSelect');
@@ -142,30 +157,37 @@
             }
         }
 
+        pageNumber = 1;
+        $('a.page-link').each(function(){
+            if(+this.innerText === pageNumber){
+                $(this).addClass('active');
+            }
+            else{
+                $(this).removeClass('active');
+            }
+        });
         performAjaxQuery();
-
 
     })
 
-    var pageNumber = 1;
     $('a.page-link').click(function() {
         const totalPages = $('a.page-link').length - 2;
 
         if(this.innerText === 'Trước'){
             if(pageNumber > 1){
                 pageNumber--;
-                performAjaxQuery()
+                performAjaxQuery();
             }
         }
         else if(this.innerText === 'Sau'){
             if(pageNumber < totalPages){
                 pageNumber++;
-                performAjaxQuery()
+                performAjaxQuery();
             }
         }
         else{
             pageNumber = +this.innerText;
-            performAjaxQuery()
+            performAjaxQuery();
         }
 
         $('a.page-link').each(function(){
@@ -182,14 +204,9 @@
     function performAjaxQuery() {
         const selectedDistrict = $('#districtSelect').val();
         const selectedWard = $('#wardSelect').val();
-        const pages = [];
-
-        for(let i in pageNumber){
-            
-        }
 
         $.ajax({
-            url: '/reports/filter', // Địa chỉ URL của máy chủ để thực hiện truy vấn
+            url: '/reports/filter', 
             type: 'GET', 
             data: {
                 district: selectedDistrict,
@@ -245,8 +262,18 @@
               $('#reportTable tbody').append(newRow);
           });
 
-            const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
-            $('p#paginationInfo').text(paginationInfo);
+        //$('ul#paginationList').empty();
+        //$('ul#paginationList').append('<li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>');
+        //for(let i = 1; i <= data.totalPages; i++){
+        //const page = `<li class="page-item">
+        //    <a class="page-link" style="cursor: pointer;">${i}</a>
+        //</li>`;
+        //$('ul#paginationList').append(page);
+        //}
+        //$('ul#paginationList').append('<li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>');
+
+        const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
+        $('p#paginationInfo').text(paginationInfo);
         },
         error: function(error) {
                 console.error('Lỗi truy vấn AJAX:', error);
@@ -362,8 +389,9 @@
     <p id="paginationInfo">
         Hiển thị {{pageSize}} trên {{totalDocs}} mục
     </p>
-    <ul class="pagination">
-        <li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>
+    <ul class="pagination" id="paginationList">
+       <li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>
+
         <li class="page-item">
             <a class="page-link active" style="cursor: pointer;">1</a>
         </li>
@@ -373,17 +401,7 @@
         <li class="page-item">
             <a class="page-link" style="cursor: pointer;">3</a>
         </li>
-        {{#each pageNumbers}}
-            {{#if isActive}}
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">{{value}}</a>
-                </li>
-            {{else}}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{value}}">{{value}}</a>
-                </li>
-            {{/if}}
-        {{/each}}
+
         <li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>
     </ul>
 </div>
@@ -396,7 +414,7 @@
     <div class="report-form-container center">
         <i class="report-close-btn bi bi-x d-flex justify-content-end" style="font-size: 34px; cursor: pointer;"></i>
         
-        <form class="report-form" id="reportForm">
+        <form class="report-form" id="reportForm" method="post">
             <h4 class="report-form-title">
                 <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
             </h4>
@@ -424,9 +442,10 @@
                 <div class="row">
                     <div class="report-info">
                         <label class="mb-1" for="address">Địa chỉ</label>
-                        <input type="text" name="address" id="address" value="227 Nguyễn Văn Cừ, phường 4, quận 5, TPHCM" disabled/>
+                        <input type="text" name="address" id="address" disabled/>
                     </div>
                 </div>
+
 
                 <div class="row">
                     <div class="report-info">
@@ -463,6 +482,26 @@
                     <div class="report-image-upload">
                         <label for="reportImage">Hình ảnh minh hoạ (tối đa 02 hình)</label>
                         <div id="imagesOutput"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-info">
+                        <label class="mb-1" for="reportHandleContent">Cách thức xử lý</label>
+                        <span class="report-required float-end d-none" id="reportHandleRequired">Vui lòng nhập cách thức xử lý</span>
+                        <textarea
+                            name="reportHandleContent"
+                            id="reportHandleContent"
+                            cols="30"
+                            rows="10"
+                            style="resize: none"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="report-submit-button">
+                        <input type="submit" id="submitBtn" value="Gửi cách thức xử lý" />
                     </div>
                 </div>
 
