@@ -17,5 +17,21 @@ import SetPointModel from '../models/SetPoint.js';
       throw new Error("Failed to fetch setpoints");
     }
   }
+  async getSetPointWithlatlng(lat, lng) {
+    try {
+      const data = await SetPointModel.findOne({ lat, lng });
+      return data;
+    } catch (error) {
+      throw new Error("Failed to fetch setpoints");
+    }
+  }
+  async createSetpoint(setpoint) {
+    try {
+      const data = await SetPointModel.create(setpoint);
+      return data;
+    } catch (error) {
+      throw new Error("Failed to create setpoint");
+    }
+  }
 }
 export default new SetPoint;

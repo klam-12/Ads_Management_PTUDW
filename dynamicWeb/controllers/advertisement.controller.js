@@ -5,6 +5,10 @@ import {formatMongoDBDate} from '../utils/datetime.js';
 import {paginateAds} from '../utils/pagination.js';
 import Advertisement from '../models/Advertisement.js';
 import {PAGE_SIZE} from '../common/index.js';
+import Upload from '../utils/upload.js';
+import { SuccessResponse } from '../common/success.response.js';
+import { NotFoundResponse } from '../common/error.response.js';
+import {toAddress} from '../utils/map.js'
 const getAdsWithSetPoint = async (req, res) => {
   const id_setpoint = req.query.id_setpoint;
   const list = await advertisementService.getAdsWithSetPoint(id_setpoint);
@@ -14,26 +18,51 @@ const getAdsWithSetPoint = async (req, res) => {
 const createAds = async(req,res,next) =>{
   const body = req.body;
   // console.log(body)
-  const company = {
-    name: body.name,
-    address: body.address,
-    phoneNumber: body.phoneNumber,
-    email: body.email,
-  }
-  
-  const newCompany = await companyService.createCompany(company);
+  // const company = {
+  //   name: body.nameCompany,
+  //   address: body.address,
+  //   phoneNumber: body.phoneNumber,
+  //   email: body.email,
+  // }
+  // const newCompany = await companyService.createCompany(company);
+  // const setpoint  = setpointService.getSetPointWithlatlng(lat, lng);
+  // if (!setpoint) {
+    // const newSetpoint = await setpointService.createSetPoint({
+      // typeofLocation: body.typeofLocation,
+      // adsFormat: body.adsFormat,
+      // isPlanned: true,
+      // lat: body.lat,
+      // lng: body.lng,
+    // })
+  // }
   const ads = {
     typeofAds: body.typeofAds,
     width: body.width,
     height: body.height,
     quantity: body.quantity,
-    image:body.img || null,
-    companyId: newCompany._id,
-    startDate: body.startDate || Date.now(),
+    image: req.file?.filename || undefined,
+    companyId: body.company_id,
+    startDate: new Date(body.startDate) || Date.now(),
+    expireDate: new Date(body.expireDate) || null,
+    id_setpoint: body.id_setpoint,
+    isLicensed: body.isLicensed, 
+    
   }
-  console.log(ads)
-  const result = await advertisementService.createAds(ads);
-  return res.json(result)
+  console.log(ads.image)
+  if (ads.image) {
+    console.log(req.file)
+    const uploadedResponse = await Upload.uploadFile(req.file.path).catch((error) => {console.log(error)});
+    console.log(uploadedResponse)
+    ads.image = uploadedResponse.secure_url;
+    if (uploadedResponse.secure_url) {
+        const result = await advertisementService.createAds(ads);
+        return new SuccessResponse({
+            metadata: result,
+        }).send(req, res);
+    } else {
+    }
+  }
+  return res.json(ads)
 }
 
 const deleteAdsById = async (req, res, next) => {

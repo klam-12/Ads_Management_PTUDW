@@ -1,14 +1,15 @@
-const express = require('express');
+import express from 'express';
+import { v2 as cloudinaryModule } from 'cloudinary';
+import multer from 'multer';
 const app = express();
-const cloudinaryModule = require('cloudinary');
-const cloudinary = cloudinaryModule.v2;
-// const fs = require('fs');
+const cloudinary = cloudinaryModule;
+// import fs from 'fs';
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
 });
-const multer = require('multer');
+
 
 const storage = multer.diskStorage({
     filename: (req, file, cb) => {
@@ -20,4 +21,4 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 
-module.exports = { cloudinary, uploads };
+export { cloudinary, uploads };

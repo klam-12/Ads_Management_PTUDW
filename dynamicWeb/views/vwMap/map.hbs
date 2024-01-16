@@ -108,17 +108,35 @@
 
         <script>
              $(document).ready(function() {
-        const authUserRole = $('script[src="/static/js/map.js"]').data('authuser');
-  
-        console.log(123213, authUserRole);
-        // ...
-    });
+                const authUserRole = $('script[src="/static/js/map.js"]').data('authuserrole');
+        
+                console.log(123213, authUserRole);
+    
+             $('#formLicense').submit(function (event) {
+            // Prevent the default form submission
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            console.log(formData)
+             $.ajax({
+                type: 'POST',
+                url: '/ads',
+                data: formData,
+                processData: false,
+                contentType: false
+                });
+            });
+            });
                 let authUser = `{{authUser}}`;
                 console.log(123213, authUser.role);
-                saveInfoUser(authUser); 
                 $('button#licenseRequest').click(function(){
-                  
+                    var storedLat = $(this).data('lat');
+                    var storedLng = $(this).data('lng');
                     $('div.license-form-container').removeClass('d-none');
+                    $('div.license-form-container form')[0].reset();
+                    $('#txtLng').val(storedLng).prop('disabled', true);
+                    $('#txtLat').val(storedLat).prop('disabled', true);
+
                 });
 
                 $('i#licenseFormClose').click(function(){
@@ -337,7 +355,7 @@
 
 <div class="license-form-container container-fluid form-center mt-4 p-4 d-none">
     <div class="center" style="height: 80%; overflow-y: scroll;">
-        <form method="post" id="formLicense" class="container-fluid custom-form-license box-shadow">
+        <form id="formLicense" class="container-fluid custom-form-license box-shadow">
             <div id="errorContainer">
                 {{#if this.msg}}
                     {{#if this.is_err}}
@@ -382,52 +400,52 @@
                         <div class="row mb-2">
                                 <div class="col">
                                         <label for="txtLng" class="form-label fw-italic black-color">Kinh độ</label>
-                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng" value="10.45666" disabled>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng" value= disabled>
                                 </div>
                                 <div class="col">
                                         <label for="txtLat" class="form-label fw-italic black-color">Vĩ độ</label>
-                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat" value="11.2222" disabled>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat" value= disabled>
                                 </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col">
                                     <label for="txtWidth" class="form-label fw-italic black-color">Chiều dài</label>
-                                    <input type="text" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
+                                    <input type="number" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
                             </div>
                             <div class="col">
                                     <label for="txtHeight" class="form-label fw-italic black-color">Chiều rộng</label>
-                                    <input type="text" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
+                                    <input type="number" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
                             </div>
                         </div>  
 
                         <div class="mb-2">
                             <label class="form-label">Loại bảng quảng cáo </label>
-                            <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example" name="typeofAds">
                                 <option selected>Phân loại bảng quảng cáo</option>
-                                <option value="1">Trụ bảng hiflex</option>
-                                <option value="2">Trụ màn hình điện tử LED</option>
-                                <option value="3">Trụ hộp đèn</option>
-                                <option value="4">Bảng hiflex ốp tường</option>
-                                <option value="5">Màn hình điện tử ốp tường</option>
-                                <option value="6">Trụ treo băng rôn dọc</option>
-                                <option value="7">Trụ treo băng rôn ngang</option>
-                                <option value="8">Trụ/Cụm pano</option>
-                                <option value="9">Cổng chào</option>
-                                <option value="10">Trung tâm thương mại</option>
+                                <option value="Trụ bảng hiflex">Trụ bảng hiflex</option>
+                                <option value="Trụ màn hình điện tử LED">Trụ màn hình điện tử LED</option>
+                                <option value="Trụ hộp đèn">Trụ hộp đèn</option>
+                                <option value="Bảng hiflex ốp tường">Bảng hiflex ốp tường</option>
+                                <option value="Màn hình điện tử ốp tường">Màn hình điện tử ốp tường</option>
+                                <option value="Trụ treo băng rôn dọc">Trụ treo băng rôn dọc</option>
+                                <option value="Trụ treo băng rôn ngang">Trụ treo băng rôn ngang</option>
+                                <option value="Trụ/Cụm pano">Trụ/Cụm pano</option>
+                                <option value="Cổng chào">Cổng chào</option>
+                                <option value="Trung tâm thương mại">Trung tâm thương mại</option>
                             </select>
                         </div>
 
                         <div class=" mb-2">
                             <label class="form-label">Loại điểm đặt</label>
-                            <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example" name="typeofLocation">
                                 <option selected>Phân loại điểm đặt</option>
-                                <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
-                                <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
-                                <option value="3">Trung tâm thương mại</option>
-                                <option value="4">Chợ</option>
-                                <option value="5">Cây xăng</option>
-                                <option value="6">Nhà chờ xe buýt</option>
+                                <option value="Đất công/Công viên/Hành lang an toàn giao thông">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                                <option value="Đất tư nhân/Nhà ở riêng lẻ">Đất tư nhân/Nhà ở riêng lẻ</option>
+                                <option value="Trung tâm thương mại">Trung tâm thương mại</option>
+                                <option value="Chợ">Chợ</option>
+                                <option value="Cây xăng">Cây xăng</option>
+                                <option value="Nhà chờ xe buýt">Nhà chờ xe buýt</option>
                             </select>
                         </div>
 
@@ -436,9 +454,9 @@
                             <label class="form-label">Hình thức quảng cáo</label>
                             <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option selected>Hình thức quảng cáo</option>
-                                <option value="1">Cổ động chính trị</option>
-                                <option value="2">Quảng cáo thương mại</option>
-                                <option value="3">Xã hội hoá</option>
+                                <option value="Cổ động chính trị">Cổ động chính trị</option>
+                                <option value="Quảng cáo thương mại">Quảng cáo thương mại</option>
+                                <option value="Xã hội hoá">Xã hội hoá</option>
                             </select>
                         </div>
 
@@ -475,17 +493,17 @@
 
                         <div class="mb-3">
                             <label for="txtPhone" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control form-control-sm" id="txtPhone" name="phone">
+                            <input type="text" class="form-control form-control-sm" id="txtPhone" name="phoneNumber">
                         </div>
 
                         <div class="mb-3">
                             <label for="txtDayStart" class="form-label">Ngày bắt đầu hợp đồng</label>
-                            <input type="text" class="form-control form-control-sm" id="txtDayStart" name="dayStart">
+                            <input type="text" class="form-control form-control-sm" id="txtDayStart" name="startDate">
                         </div>
 
                         <div class="mb-3">
                             <label for="txtDayEnd" class="form-label">Ngày kết thúc hợp đồng</label>
-                            <input type="text" class="form-control form-control-sm" id="txtDayEnd" name="dayEnd">
+                            <input type="text" class="form-control form-control-sm" id="txtDayEnd" name="endDate">
                         </div>
 
                     </div>

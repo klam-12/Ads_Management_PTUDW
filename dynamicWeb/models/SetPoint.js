@@ -7,7 +7,9 @@ const SetPointSchema = new mongoose.Schema({
   adsFormat: { type: String, enum: ['Cổ động chính trị', 'Quảng cáo thương mại', 'Xã hội hoá'] },
   isPlanned: Boolean,
   image: String,
-  advertisements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Advertisement' }],
+  address: String,
+  district: String,
+  ward: String
 }, { timestamps: true });
 
 const SetPoint = mongoose.model('SetPoint', SetPointSchema);

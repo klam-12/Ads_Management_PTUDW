@@ -59,7 +59,14 @@
 
                             <div class="col-6">
                                 <label for="txtTdn" class="form-label fw-semibold black-color">Khu vực quản lí</label>
-                                <input type="text" class="form-control form-control-sm mb-2" id="txtTdn" name="tdn" value="Phường Cầu Ông Lãnh" disabled>
+                                {{!-- <input type="text" class="form-control form-control-sm mb-2" id="txtTdn" name="tdn" value={{authUser.district }} disabled> --}}
+                                {{#ifEquals authUser.role 'Cán bộ Quận'}}
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtTdn" name="tdn" value="{{ authUser.district }}" disabled>
+                                {{/ifEquals}}
+
+                                {{#ifEquals authUser.role 'Cán bộ Phường'}}
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtTdn" name="tdn" value="{{ authUser.district }} - {{ authUser.ward }}" disabled>
+                                {{/ifEquals}}
                             </div>
                             </div>
                         </div>

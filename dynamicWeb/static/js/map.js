@@ -303,37 +303,39 @@ var popupTemplate = function (feature) {
 }
 
 const District1 = {
-    'Phường Bến Nghé': "Ben Nghe Ward",
-    'Phường Bến Thành': "Ben Thanh Ward",
-    'Phường Cầu Kho': "Cau Kho Ward",
-    'Phường Cầu Ông Lãnh': "Cau Ong Lanh Ward",
-    'Phường Cô Giang': "Co Giang Ward",
-    'Phường Đa Kao': "Da Kao Ward",
-    'Phường Nguyễn Cư Trinh': "Nguyen Cu Trinh Ward",
-    'Phường Nguyễn Thái Bình': "Nguyen Thai Binh Ward",
-    'Phường Phạm Ngũ Lão': "Pham Ngu Lao Ward",
-    'Phường Tân Định': "Tan Dinh Ward"
-};
-const District5 = [
-    { 'Phường 1': 'Ward 1' },
-    { 'Phường 2': 'Ward 2' },
-    { 'Phường 3': 'Ward 3' },
-    { 'Phường 4': 'Ward 4' },
-    { 'Phường 5': 'Ward 5' },
-    { 'Phường 6': 'Ward 6' },
-    { 'Phường 7': 'Ward 7' },
-    { 'Phường 8': 'Ward 8' },
-    { 'Phường 9': 'Ward 9' },
-    { 'Phường 10': 'Ward 10' },
-    { 'Phường 11': 'Ward 11' },
-    { 'Phường 12': 'Ward 12' },
-    { 'Phường 13': 'Ward 13' },
-    { 'Phường 14': 'Ward 14' },
-    { 'Phường 15': 'Ward 15' },
-];
+    "Ben Nghe Ward": 'Phường Bến Nghé',
+    "Ben Thanh Ward": 'Phường Bến Thành',
+    "Cau Kho Ward": 'Phường Cầu Kho',
+    "Cau Ong Lanh Ward": 'Phường Cầu Ông Lãnh',
+    "Co Giang Ward": 'Phường Cô Giang',
+    "Da Kao Ward": 'Phường Đa Kao',
+    "Nguyen Cu Trinh Ward": 'Phường Nguyễn Cư Trinh',
+    "Nguyen Thai Binh Ward": 'Phường Nguyễn Thái Bình',
+    "Pham Ngu Lao Ward": 'Phường Phạm Ngũ Lão',
+    "Tan Dinh Ward": 'Phường Tân Định'
+}
+const District5 = 
+    {
+        'Ward 1': 'Phường 1',
+        'Ward 2': 'Phường 2',
+        'Ward 3': 'Phường 3',
+        'Ward 4': 'Phường 4',
+        'Ward 5': 'Phường 5',
+        'Ward 6': 'Phường 6',
+        'Ward 7': 'Phường 7',
+        'Ward 8': 'Phường 8',
+        'Ward 9': 'Phường 9',
+        'Ward 10': 'Phường 10',
+        'Ward 11': 'Phường 11',
+        'Ward 12': 'Phường 12',
+        'Ward 13': 'Phường 13',
+        'Ward 14': 'Phường 14',
+        'Ward 15': 'Phường 15'
+    }    
+
 const district = {
-    'Quận 5': 'District 5',
-    'Quận 1': 'District 1'
+    'District 5':'Quận 5',
+    'District 1':'Quận 1'
 };
 var QCComponent = function (info) {
     return `
@@ -572,16 +574,23 @@ const locationInfo = (info) => {
 const authUserRole = $('script[src="/static/js/map.js"]').data('authuserrole');
 const authUserDistrict = $('script[src="/static/js/map.js"]').data('authuserdistrict');
 const authUserWard = $('script[src="/static/js/map.js"]').data('authuserward');
-function initializeMap(authUser,district, ward) {
+function initializeMap(authUser,districtInput, wardInput, lat, lng) {
+    console.log(districtInput)
+    console.log(12323, districtInput,authUserDistrict)
     if (authUserRole === "Cán bộ Quận"){
-       if (authUserDistrict === district){
-        $('button#licenseRequest').removeClass('d-none');
+       if (authUserDistrict === districtInput){
+        $('button#licenseRequest').removeClass('d-none').data('lat', lat).data('lng', lng);
+
        }
     }
     else if (authUserRole === "Cán bộ Phường"){
-        if (authUserDistrict === district && authUserWard === ward){
-            $('button#licenseRequest').removeClass('d-none');
+        if (authUserDistrict === 'Quận 1' && authUserWard === wardInput){
+            $('button#licenseRequest').removeClass('d-none').data('lat', lat).data('lng', lng);
         }
+        else if (authUserDistrict === 'Quận 5' && authUserWard === wardInput){
+            $('button#licenseRequest').removeClass('d-none').data('lat', lat).data('lng', lng);
+        }
+       
     }
 }
 // Sử dụng các giá trị
@@ -594,11 +603,10 @@ map.on('click', function (e) {
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
         .then((response) => response.json())
         .then((data) => {
-            const authUserRole = '{{authUser.role}}';
-            console.log(data);
-            initializeMap(authUserRole, data.address.district, data.address.ward);
-            // console.log(`{{authUser}}`)
-            // console.log(authUserRole)
+            // const authUserRole = '{{authUser.role}}';
+            console.log(data.address)
+            console.log(data.address.suburb, data.address.quarter);
+            initializeMap(authUserRole, data.address.suburb, data.address.quarter, lat, lng);
             $('.modal-content').empty();
 
             $('.modal-content').append(locationInfo(data));

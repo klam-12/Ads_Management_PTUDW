@@ -23,7 +23,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-const port = 4000;
+const port = 3000;
 app.use(express.json());
 const store = new MongoDBStore({
   uri: 'mongodb+srv://ads_management:ads_management@adsmanagement.as0mvty.mongodb.net/Ads_Management?retryWrites=true&w=majority',

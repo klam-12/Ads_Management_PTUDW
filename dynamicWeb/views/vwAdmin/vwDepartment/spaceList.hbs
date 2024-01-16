@@ -16,13 +16,13 @@
           index = index + 1;
         newRow.append($('<td>').addClass('text-center').text(index)); // STT
         var infoList = $('<ul>');
-        infoList.append($('<li>').text('Kích thước: ' + item.width)); // width
+        infoList.append($('<li>').text('Kích thước: ' + item.width + " x " +item.height )); // width
         infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
         infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
         infoList.append($('<li>').append($('<a>').attr('href', item.image || '#').text('Link hình ảnh'))); // image link
 
         newRow.append($('<td>').append(infoList));
-        newRow.append($('<td>').addClass('text-center').text(item.startDate)); // Ngày hết hạn
+        newRow.append($('<td>').addClass('text-center').text(item.expireDate)); // Ngày hết hạn
 
         var requestButton = $('<button>')
           .attr('type', 'button')

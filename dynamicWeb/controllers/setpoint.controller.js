@@ -4,6 +4,7 @@ import { NotFoundResponse } from '../common/error.response.js';
 import {toAddress} from '../utils/map.js'
 import {paginateReport} from '../utils/pagination.js';
 import SetPoint from "../models/SetPoint.js";
+import Upload from '../utils/upload.js';
 import {PAGE_SIZE} from '../common/index.js';
 const getSetPoint = async (req, res, next) => {
   const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
@@ -76,5 +77,47 @@ const getSetPointFilter = async (req, res, next) => {
   })})
 } 
 
+const createSetPoint = async (req, res, next) => {
+  const body = req.body || {};
+    if (body && Object.keys(body).length === 0) {
+        // throw new BadRequest();
+    }
 
-export { getSetPoint,getSetPointFilter };
+
+
+    let setpoint = {
+        address: body.address || undefined,
+        typeofLocation: body.typeofLocation,
+        adsFormat: body.adsFormat,
+        isPlanned: body.isPlanned || false,
+        image: req.file?.filename || undefined,
+        district: body.district || undefined,
+        ward: body.ward || undefined,
+        lat: body.lat,
+        lng: body.lng
+    }
+    if (setpoint.image) {
+      console.log(req.file)
+      const uploadedResponse = await Upload.uploadFile(req.file.path).catch((error) => {console.log(error)});
+      console.log(uploadedResponse)
+      setpoint.image = uploadedResponse.secure_url;
+      if (uploadedResponse.secure_url) {
+          const {address,ward,district} = await toAddress(body.lat, body.lng)
+          console.log(address, ward, district)
+          setpoint.address = address
+          setpoint.ward = ward
+          setpoint.district = district
+          const product = await setpointService.createSetpoint(setpoint);
+          return new SuccessResponse({
+              metadata: product,
+          }).send(req, res);
+      } else {
+          // throw new UnprocessableContentResponse('Image is wrong');
+      }
+    }
+    return new SuccessResponse({
+        metadata: setpoint,
+    }).send(req,res)
+      
+}
+export { getSetPoint,getSetPointFilter,createSetPoint };
