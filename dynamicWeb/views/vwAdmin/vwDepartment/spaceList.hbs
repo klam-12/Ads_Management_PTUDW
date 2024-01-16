@@ -1,5 +1,6 @@
 {{#section 'js'}}
   <script>
+    performAjaxQuery();
     $(document).on('click', ' .space-row', function() {
     const id_setpoint = $(this).data('id');
     $('.surface-table-tbody').empty();
@@ -295,6 +296,38 @@
 
 
     })
+
+    function resetPages(attr){
+        const totalPages = $('a.page-link').length - 2;
+        console.log("Press page")
+        if(attr.innerText === 'Trước'){
+            if(pageNumber > 1){
+                pageNumber--;
+                performAjaxQuery(pageNumber);
+            }
+        }
+        else if(attr.innerText === 'Sau'){
+            if(pageNumber < totalPages){
+                pageNumber++;
+                performAjaxQuery(pageNumber);
+            }
+        }
+        else{
+            console.log("Press: " + attr.innerText );
+            pageNumber = +attr.innerText;
+            performAjaxQuery(pageNumber);
+        }
+
+        $('#paginationList a.page-link').each(function(){
+            if(+attr.innerText === pageNumber){
+                $(attr).addClass('active');
+            }
+            else{
+                $(attr).removeClass('active');
+            }
+        });
+    }
+
     function performAjaxQuery(pageNumber = 1) {
         const selectedDistrict = $('#districtSelect').val();
         const selectedWard = $('#wardSelect').val();
@@ -335,7 +368,35 @@
 
              $('#setPointTable tbody').append(newRow);
             });
+              const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
+              $('p#paginationInfo').text(paginationInfo);
 
+              $('#paginationList').empty();
+              $('#paginationList').append(`
+                          <li class="page-item">
+                              <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>Trước</a>
+                          </li>
+                      `);
+              for (let i = 0; i < data.totalPages; ++i) {
+                  if(i+1 == data.page){
+                      $('#paginationList').append(`
+                          <li class="page-item">
+                              <a class="page-link active" style="cursor: pointer;" onclick= resetPages(this)>${i + 1}</a>
+                          </li>
+                      `);
+                  } else {
+                      $('#paginationList').append(`
+                          <li class="page-item">
+                              <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>${i + 1}</a>
+                          </li>
+                      `);
+                  }
+              }
+              $('#paginationList').append(`
+                          <li class="page-item">
+                              <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>Sau</a>
+                          </li>
+                      `);
             },
             error: function(error) {
                     console.error('Lỗi truy vấn AJAX:', error);
@@ -412,11 +473,11 @@
             </div>
             {{/if}}
             <div class="card-footer text-muted d-flex align-items-center justify-content-between">
-                <p>
-                  Hiển thị {{limit}} trên {{totalPages}} mục
+                <p id="paginationInfo">
+                  Trang {{page}} trên {{totalPages}} trang, hiển thị {{pageSize}} trên {{totalDocs}} điểm đặt
                 </p>
-                <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#">Trước</a></li>
+                <ul class="pagination" id="paginationList">
+                  {{!-- <li class="page-item"><a class="page-link" href="#">Trước</a></li>
                   {{#each this.pageNumbers}}
                   {{#if isActive}}
                     <li class="page-item active" aria-current="page">
@@ -428,7 +489,7 @@
                     </li>
                     {{/if}}
                   {{/each}}
-                  <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Sau</a></li> --}}
                 </ul>
             </div>
           </div>
