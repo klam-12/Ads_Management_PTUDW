@@ -18,7 +18,7 @@
     var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
     $('#txtDate').val(today);
 
-    $('#formEditLoc').on('submit', function (e) {
+    $('#formAddSpace').on('submit', function (e) {
         e.preventDefault();
 
         var errorNoti = "";
@@ -47,7 +47,7 @@
             return;
         }
           
-        $('#formEditLoc').off('submit').submit();
+        $('#formAddSpace').off('submit').submit();
     })
 
 </script>
@@ -64,7 +64,7 @@
 {{/section}}
 
 <div class="position-relative mt-5">
-    <form method="post" id="formEditLoc" class="position-absolute top-50 start-50 translate-middle-x form-width p-2 custom-form-location box-shadow">
+    <form method="post" id="formAddSpace" class="center form-width p-2 custom-form-addSpace box-shadow">
         <div id="errorContainer">
             {{#if this.msg}}
                 {{#if this.is_err}}
@@ -89,96 +89,61 @@
         </div>
 
         <div class="row">
-            <i class="bi bi-x d-flex justify-content-end white-color" style="font-size: 34px;"></i>
+            <i class="bi bi-x d-flex justify-content-end purple-color" id="setPointClose" style="font-size: 34px; cursor:pointer"></i>
         </div>
 
-        <div class="row text-center mb-3 white-color ">
-            <i class="bi bi-geo-fill fw-bold heading-size">
-                Yêu cầu chỉnh sửa điểm đặt
+        <div class="row text-center mb-3 purple-color ">
+            <i class="bi bi-joystick fw-bold heading-size">
+                Thêm điểm đặt
             </i>
         </div>
 
-        <div class="row mb-2 bg-light rounded-1 p-2 mx-2">
-            <div class="row mb-1 fs-5 fw-semibold info-color">
-                Thông tin chung
-            </div>
-
-            <div class="row">
-                <label for="txtSender" class="col-sm-3 col-form-label">Người gửi</label>
-                <div class="col-sm-9">
-                    <input type="text" disabled class="form-control-plaintext" id="txtSender" value="Cán bộ Phường X">
-                </div>
-            </div>
-            <div class="row">
-                <label for="txtDate" class="col-sm-3 col-form-label">Thời điểm chỉnh sửa</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="txtDate" name="dateReport" disabled>
-                </div>
-            </div>
-
-            <div class="row">
-                <span class="col-sm-3 col-form-label">Lí do chỉnh sửa</span>
-                <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="reasonArea" style="height: 100px"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-2 bg-light rounded-1 p-2 mx-2">
-            <div class="row mb-1 fs-5 fw-semibold info-color">
-                Thông tin chỉnh sửa
+        <div class="row mb-2 white-bg rounded-1 p-2 mx-2">
+            <div class="row mb-2">
+                <label for="txtNameCompany" class="form-label fw-semibold">Địa chỉ</label>
+                <input type="text" class="form-control form-control-sm" 
+                    id="txtNameCompany" name="nameCompany" disabled value="235 Nguyễn Văn Cừ, phường 4, quận 5, TP HCM">
             </div>
 
             <div class="row mb-2">
-                <span class="col-sm-3 col-form-label">Hình thức</span>
-                <div class="col-sm-9">
-                    <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Hình thức quảng cáo</option>
-                        <option value="1">Cổ động chính trị</option>
-                        <option value="2">Quảng cáo thương mại</option>
-                        <option value="3">Xã hội hoá</option>
-                    </select>
-                </div>
+                <label class="form-label fw-semibold">Loại vị trí </label>
+                <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option selected>Phân loại điểm đặt</option>
+                    <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                    <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
+                    <option value="3">Trung tâm thương mại</option>
+                    <option value="4">Chợ</option>
+                    <option value="5">Cây xăng</option>
+                    <option value="6">Nhà chờ xe buýt</option>
+                </select>
             </div>
 
             <div class="row mb-2">
-                <span class="col-sm-3 col-form-label">Phân loại</span>
-                <div class="col-sm-9">
-                    <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Phân loại điểm đặt</option>
-                        <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
-                        <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
-                        <option value="3">Trung tâm thương mại</option>
-                        <option value="4">Chợ</option>
-                        <option value="5">Cây xăng</option>
-                        <option value="6">Nhà chờ xe buýt</option>
-                    </select>
-                </div>
+                <label class="form-label fw-semibold">Hình thức</label>
+                <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option selected>Hình thức quảng cáo</option>
+                    <option value="1">Cổ động chính trị</option>
+                    <option value="2">Quảng cáo thương mại</option>
+                    <option value="3">Xã hội hoá</option>
+                </select>
             </div>
 
             <div class="row mb-2">
-                <span class="col-sm-3 col-form-label">Tình trạng</span>
-                <div class="col-sm-9">
-                    <select id="isPlanned" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                        <option selected>Tình hình quy hoạch</option>
-                        <option value="1">Đã quy hoạch</option>
-                        <option value="2">Chưa quy hoạch</option>
-                    </select>
-                </div>
+                <label for="txtNameCompany" class="form-label fw-semibold">Tình trạng quy hoạch</label>
+                <input type="text" class="form-control form-control-sm" 
+                    id="txtNameCompany" name="nameCompany" disabled value="Chưa quy hoạch">
             </div>
 
             <div class="row mb-2 form-group">
-                <label for="fuMain" class="mb-2">Hình ảnh</label>
+                <label for="fuMain" class="mb-2 fw-semibold">Hình ảnh</label>
                 <input type="file" multiple id="fuMain" name="fuMain">
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-12 text-center fw-semibold">
-                <button type="submit" class="btn btn-outline-light btn-submit box-shadow">Hoàn thành</button>
+                <button type="submit" class="btn purple-btn box-shadow">Hoàn thành</button>
             </div>
         </div>
     </form>
-
-    <div class="row"></div>
 </div>
