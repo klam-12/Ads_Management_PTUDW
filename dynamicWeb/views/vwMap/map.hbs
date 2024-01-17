@@ -23,7 +23,7 @@
             referrerpolicy="no-referrer"
         ></script>
         {{!-- <script src="/static/js/map.js" ></script> --}}
-        <script src="/static/js/map.js" data-authUserRole="{{authUser.role}}" data-authUserDistrict="{{authUser.district}}" data-authUserWard="{{authUser.ward}}"></script>
+        <script type="module"import axios from 'axios'; src="/static/js/map.js" data-authUserRole="{{authUser.role}}" data-authUserDistrict="{{authUser.district}}" data-authUserWard="{{authUser.ward}}"></script>
         <script src="/static/js/report/handleReportForm.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
@@ -113,7 +113,6 @@
                 console.log(123213, authUserRole);
     
              $('#formLicense').submit(function (event) {
-            // Prevent the default form submission
             event.preventDefault();
 
             var formData = new FormData(this);

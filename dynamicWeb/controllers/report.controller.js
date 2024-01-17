@@ -8,7 +8,7 @@ import {formatMongoDBDate} from '../utils/datetime.js';
 const createReport = (req, res, next) => {
   try{
   const body = req.body;
-  const {reportType, fullName, email, phoneNumber, reportContent, type, lat, lng, isHandler} = body;
+  const {reportType, fullName, email, phoneNumber, reportContent, type, lat, lng, isHandler,address,ward,district} = body;
   const data = {
     reportType,
     fullName,
@@ -18,7 +18,10 @@ const createReport = (req, res, next) => {
     type,
     lat,
     lng,
-    isHandler
+    address: body.address || '',
+    ward,
+    district,
+    isHandler: isHandler || false
   }
   const report = reportService.createReport(data);
   if (!report) {
@@ -129,4 +132,22 @@ const getReportById = async (req, res, next) => {
   }
   return res.json(report);
 }
-export {createReport, getAllReports,getReportFilter,getReportById};
+
+const getReportForMap = async (req, res, next) => {
+  const reports = await reportService.getAllReports();
+  const result = reports.map((report) => {
+    return {
+        isProcess: report.isHandler,
+        reportType: report.reportType,
+        fullName: report.fullName,
+        email: report.email,
+        phoneNumber: report.phoneNumber,
+        reportContent: report.reportContent,
+        image1: report.image1 || null,
+        image2: report.image2 || null,
+        coordinates: [report.lng, report.lat]
+    }
+  })
+  return res.json(result);
+}
+export {createReport, getAllReports,getReportFilter,getReportById,getReportForMap};

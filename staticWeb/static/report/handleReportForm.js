@@ -111,7 +111,9 @@ form.addEventListener('submit', (e) => {
         const jsonString = JSON.stringify(jsonObject);
 
         console.log(jsonString);
-        
+        const infoData = $('#submitBtn').data('infoData');
+        console.log(formData)
+        console.log(infoData)
         //TODO: STORE DATA
     }
 });

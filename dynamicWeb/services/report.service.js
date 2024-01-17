@@ -9,6 +9,10 @@ class Report{
     const report = await ReportModel.findById(id);
     return report
   }
+  async getAllReports(){
+    const reports = await ReportModel.find({});
+    return reports
+  }
 }
 
 export default new Report()

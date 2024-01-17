@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/klam-12/Ads_Management_PTUDW#readme",
   "dependencies": {
+    "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
     "bootstrap-icons": "^1.11.2",
     "chalk": "^5.3.0",
