@@ -77,13 +77,13 @@ const getSetPointFilter = async (req, res, next) => {
   })})
 } 
 const createSetPoint = async (req, res, next) => {
-
+  console.log("Setpoint")
     const body = req.body || {};
 
     if (!body.address || !body.typeofLocation || !body.adsFormat || !body.lat || !body.lng) {
       // throw new BadRequest('Required fields are missing');
     }
-
+    console.log(req.file)
     let setpoint = {
       address: body.address,
       typeofLocation: body.typeofLocation,
@@ -95,32 +95,35 @@ const createSetPoint = async (req, res, next) => {
       lat: body.lat,
       lng: body.lng,
     };
-
+    console.log(124,setpoint)
     if (setpoint.image) {
       // Handle image upload
-      const uploadedResponse = await Upload.uploadFile(req.file.path);
+      const uploadedResponse = await Upload.uploadFile(req.file.path).catch((error) => {});
+      setpoint.image = uploadedResponse.secure_url;
       if (uploadedResponse.secure_url) {
         // Set additional location details based on coordinates
         const { address, ward, district } = await toAddress(body.lat, body.lng);
-        setpoint.address = address;
-        setpoint.ward = ward;
-        setpoint.district = district;
-
+        // setpoint.address = address;
+        // setpoint.ward = ward;
+        // setpoint.district = district;
+        console.log(setpoint)
         // Create setpoint in the database
         const createdSetpoint = await setpointService.createSetpoint(setpoint);
 
         // Respond with success and metadata
-        return new SuccessResponse({
-          metadata: createdSetpoint,
-        }).send(req, res);
+        // return new SuccessResponse({
+        //   metadata: createdSetpoint,
+        // }).send(req, res);
+        console.log(createdSetpoint)
+        return res.json(createdSetpoint ||{}) // createdSetpoint;
       } else {
         // throw new UnprocessableContentResponse('Image upload failed');
       }
     }
-
-    return new SuccessResponse({
-      metadata: setpoint,
-    }).send(req, res);
+    return res.json(setpoint ||{}) // setpoint;
+    // return new SuccessResponse({
+    //   metadata: setpoint,
+    // }).send(req, res);
 
 };
 

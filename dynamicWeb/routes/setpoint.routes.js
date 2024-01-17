@@ -4,9 +4,12 @@ import { getSetPoint,getSetPointFilter,createSetPoint,getAllSetPoint } from '../
 import { authentication } from '../middlewares/authorization.js';
 import {uploads} from '../utils/cloudinary.js';
 const router = Router();
-
+router.post('/create-setPoints', asyncHandler(uploads.single('image')), createSetPoint);
+// router.post('/create-setPoints', async function (req, res, next) {
+//   return res.json({})
+// })
 router.get('/',asyncHandler(authentication), getSetPoint);
 router.get('/filter', asyncHandler(getSetPointFilter));
-router.post('/', asyncHandler(authentication), uploads.single('image'), createSetPoint);
+
 router.get('/map',asyncHandler(authentication), getAllSetPoint);
 export default router;

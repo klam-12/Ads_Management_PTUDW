@@ -28,9 +28,10 @@ import SetPointModel from '../models/SetPoint.js';
   async createSetpoint(setpoint) {
     try {
       const data = await SetPointModel.create(setpoint);
+      console.log('hihi')
       return data;
     } catch (error) {
-      throw new Error("Failed to create setpoint");
+      // throw new Error("Failed to create setpoint");
     }
   }
 }

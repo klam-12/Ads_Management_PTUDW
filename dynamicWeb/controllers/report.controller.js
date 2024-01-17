@@ -150,4 +150,15 @@ const getReportForMap = async (req, res, next) => {
   })
   return res.json(result);
 }
-export {createReport, getAllReports,getReportFilter,getReportById,getReportForMap};
+
+const editReportStatus = async (req, res, next) => {
+  const id = req.params.id;
+  const report = await reportService.editReportStatus(id);
+  console.log(report)
+  if (!report) {
+    throw new NotFoundResponse('Report not found');
+  }
+  return res.json(report);
+}
+
+export {createReport, getAllReports,getReportFilter,getReportById,getReportForMap,editReportStatus};

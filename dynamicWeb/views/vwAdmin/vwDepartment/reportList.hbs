@@ -1,6 +1,6 @@
 {{#section 'js'}}
 <script>
-    //performAjaxQuery();
+    performAjaxQuery();
     var pageNumber = 1;
 
     $('button.btn-blue').click(function () {
@@ -167,7 +167,6 @@
             }
         });
         performAjaxQuery();
-
     })
 
     function resetPages(attr){
@@ -255,7 +254,7 @@
                   </td>
                   <td class="text-center">
                       ${authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường' ?
-                          `<button class="btn btn-sm btn-readonly">${report.ReportState}</button>` : '<p></p>'}
+                          `<button class="btn btn-sm btn-readonly">${report.isHandled ? 'Đã xử lý' : 'Chưa xử lý'} </button>` : '<p></p>'}
                   </td>
 
                   

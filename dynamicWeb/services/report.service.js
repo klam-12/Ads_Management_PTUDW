@@ -13,6 +13,10 @@ class Report{
     const reports = await ReportModel.find({});
     return reports
   }
+  async editReportStatus(id){
+    const report = await ReportModel.findByIdAndUpdate(id, {isHandled: true});
+    return report
+  }
 }
 
 export default new Report()

@@ -546,6 +546,7 @@ $('.modal-content').on('click', '.btn-report', function () {
    
     $('#submitBtn').data('infoData', infoData);
 });
+
 $('#reportForm').submit(function (e) {
     e.preventDefault();
 
@@ -558,7 +559,7 @@ $('#reportForm').submit(function (e) {
     console.log(formData)
     console.log(infoData)
     const imageFiles = $('#img')[0].files;
-    console.log(imageFiles)
+    
     // Combine formData and infoData
     const combinedData = { 
         fullName: formData[1].value,
@@ -663,8 +664,17 @@ map.on('click', function (e) {
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
         .then((response) => response.json())
         .then((data) => {
-            // const authUserRole = '{{authUser.role}}';
-            console.log(data.address)
+            console.log(data)
+            console.log(data.address.suburb, data.address.quarter)
+            const dataInfo = {
+                address: data.display_name,
+                lat: lat,
+                lng: lng,
+                district: data.address.suburb,
+                ward: data.address.quarter
+            }
+            $('button#addSetPoint').data('info', dataInfo);
+            console.log($('button#addSetPoint').data())
             initializeMap(authUserRole, data.address.suburb, data.address.quarter, lat, lng);
             $('.modal-content').empty();
 

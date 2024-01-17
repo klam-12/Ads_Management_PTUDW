@@ -241,7 +241,7 @@
     $(this).addClass('row-active');
 });
 
-    $('button.btn-edit-space-req').click(function() {
+    $(document).on('click', 'button.btn-edit-space-req', function() {
       const id = $(this).data('id');
       $('#btn-request-space').val(id)
       $('div.space-form-container').removeClass('d-none');
@@ -258,9 +258,9 @@
       });
 
       $('button#btn-request-space')[0].innerHTML = 'Gửi yêu cầu';
-    });
+});
 
-    $('button.btn-view-space-req').click(function() {
+    $(document).on('click', 'button.btn-view-space-req', function() {
       const id = $(this).data('id');
       $('#btn-request-space').val(id);
       $('div.space-form-container').removeClass('d-none');
@@ -277,7 +277,7 @@
       });
       
       $('button#btn-request-space')[0].innerHTML = 'Duyệt yêu cầu';
-    });
+});
 
     $('a.btn-yes').click(function() {
       $('div.delete-confirm').addClass('d-none');
@@ -664,7 +664,12 @@
                     </ul>
                 </td>
                 <td class="text-center">
-                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req">Chỉnh sửa</button>
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req mb-1">Chỉnh sửa</button>
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-license-green btn-list btn-license-req mb-1">Xin cấp phép</button>
+                            
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-view-space-req mb-1">Xem yêu cầu</button>
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-gray btn-list btn-delete-space-req">Xoá</button>
+
                 </td>
             </tr>`;
 
