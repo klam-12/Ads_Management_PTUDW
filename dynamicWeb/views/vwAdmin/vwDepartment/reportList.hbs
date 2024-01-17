@@ -170,35 +170,36 @@
 
     })
 
-    $('a.page-link').click(function() {
+    function resetPages(attr){
         const totalPages = $('a.page-link').length - 2;
-
-        if(this.innerText === 'Trước'){
+        console.log("Press page")
+        if(attr.innerText === 'Trước'){
             if(pageNumber > 1){
                 pageNumber--;
                 performAjaxQuery();
             }
         }
-        else if(this.innerText === 'Sau'){
+        else if(attr.innerText === 'Sau'){
             if(pageNumber < totalPages){
                 pageNumber++;
                 performAjaxQuery();
             }
         }
         else{
-            pageNumber = +this.innerText;
+            console.log("Press: " + attr.innerText );
+            pageNumber = +attr.innerText;
             performAjaxQuery();
         }
 
-        $('a.page-link').each(function(){
-            if(+this.innerText === pageNumber){
-                $(this).addClass('active');
+        $('#paginationList a.page-link').each(function(){
+            if(+attr.innerText === pageNumber){
+                $(attr).addClass('active');
             }
             else{
-                $(this).removeClass('active');
+                $(attr).removeClass('active');
             }
         });
-    });
+    }
 
 
     function performAjaxQuery() {
@@ -215,6 +216,7 @@
                 limit: 5,
             },
            success: function(data) {
+            console.log(data)
              const authUserRole = '{{authUser.role}}';
            $('#reportTable tbody').empty();
             $.each(data.list, function(index, report) {
@@ -260,20 +262,37 @@
               </tr>`;
 
               $('#reportTable tbody').append(newRow);
-          });
-
-        //$('ul#paginationList').empty();
-        //$('ul#paginationList').append('<li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>');
-        //for(let i = 1; i <= data.totalPages; i++){
-        //const page = `<li class="page-item">
-        //    <a class="page-link" style="cursor: pointer;">${i}</a>
-        //</li>`;
-        //$('ul#paginationList').append(page);
-        //}
-        //$('ul#paginationList').append('<li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>');
+            });
 
             const paginationInfo = `Trang ${data.page} trên ${data.totalPages} trang, hiển thị ${data.pageSize} trên ${data.totalDocs} báo cáo`;
             $('p#paginationInfo').text(paginationInfo);
+
+            $('#paginationList').empty();
+            $('#paginationList').append(`
+                        <li class="page-item">
+                            <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>Trước</a>
+                        </li>
+                    `);
+            for (let i = 0; i < data.totalPages; ++i) {
+                if(i+1 == data.page){
+                    $('#paginationList').append(`
+                        <li class="page-item">
+                            <a class="page-link active" style="cursor: pointer;" onclick= resetPages(this)>${i + 1}</a>
+                        </li>
+                    `);
+                } else {
+                    $('#paginationList').append(`
+                        <li class="page-item">
+                            <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>${i + 1}</a>
+                        </li>
+                    `);
+                }
+            }
+            $('#paginationList').append(`
+                        <li class="page-item">
+                            <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>Sau</a>
+                        </li>
+                    `);
         },
         error: function(error) {
                 console.error('Lỗi truy vấn AJAX:', error);
@@ -387,22 +406,22 @@
 {{/if}}
 <div class="card-footer text-muted d-flex align-items-center justify-content-between">
     <p id="paginationInfo">
-        Hiển thị {{pageSize}} trên {{totalDocs}} mục
+        Trang {{page}} trên {{totalPages}} trang, hiển thị {{pageSize}} trên {{totalDocs}} báo cáo
     </p>
     <ul class="pagination" id="paginationList">
-       <li class="page-item"><a class="page-link" style="cursor: pointer;">Trước</a></li>
+       {{!-- <li class="page-item"><a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>Trước</a></li>
 
         <li class="page-item">
-            <a class="page-link active" style="cursor: pointer;">1</a>
+            <a class="page-link active" style="cursor: pointer;" onclick= resetPages(this)>1</a>
         </li>
         <li class="page-item">
-            <a class="page-link" style="cursor: pointer;">2</a>
+            <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>2</a>
         </li>
         <li class="page-item">
-            <a class="page-link" style="cursor: pointer;">3</a>
+            <a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>3</a>
         </li>
 
-        <li class="page-item"><a class="page-link" style="cursor: pointer;">Sau</a></li>
+        <li class="page-item"><a class="page-link" style="cursor: pointer;" onclick= resetPages(this)>Sau</a></li> --}}
     </ul>
 </div>
 </div>

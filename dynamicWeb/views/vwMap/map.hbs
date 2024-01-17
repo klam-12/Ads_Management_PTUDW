@@ -33,6 +33,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+        
         <script>
             
             $('#txtDayStart').datetimepicker({
@@ -105,6 +106,44 @@
                 $('#formLicense').off('submit').submit();
             })
         </script>
+        
+        <script>
+            {{!-- $('#fuMain').fileinput({
+                dropZoneEnabled: false,
+                maxFileCount: 1,
+                allowedFileExtensions: ['jpg', 'png', 'gif'],
+                language: 'vi',
+            });  --}}
+
+            $('#formAddSpace').on('submit', function (e) {
+                e.preventDefault();
+
+                var errorNoti = "";
+                var typeSpace = $("#typeSpace").find("option:selected").text();
+                var typeAd = $("#typeSpaceAds").find("option:selected").text();
+
+                if(typeSpace === "Phân loại điểm đặt"){
+                    errorNoti = "Bạn chưa chọn loại vị trí";
+                } 
+                else if(typeAd === "Hình thức"){
+                    errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+                } 
+
+                if(errorNoti.length !== 0){
+                    var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                            <div class="d-inline-flex">
+                                <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                                <h5>${errorNoti}</h5>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                        </div>`);
+                    $('#errorContainerSpace').append(errComp);
+                    return;
+                }
+
+                $('#formAddSpace').off('submit').submit();
+            });
+        </script>
 
         <script>
              $(document).ready(function() {
@@ -144,7 +183,12 @@
                 });
 
                 $('button#addSetPoint').click(function(){
-                    $('div.add-point-confirm').removeClass('d-none');
+                    $('div.space-form-container').removeClass('d-none');
+                });
+
+                $('i#setPointClose').click(function(){
+                    $('div.space-form-container form')[0].reset();
+                    $('div.space-form-container').addClass('d-none');
                 });
 
                 $('a.btn-yes').click(function() {
@@ -379,7 +423,7 @@
             </div>
 
             <div class="row">
-                <i class="bi bi-x d-flex justify-content-end green-color" id="licenseFormClose" style="font-size: 34px;"></i>
+                <i class="bi bi-x d-flex justify-content-end green-color" id="licenseFormClose" style="font-size: 34px; cursor:pointer"></i>
             </div>
 
             <div class="row text-center my-3 ">
@@ -512,11 +556,11 @@
 
             <div class="row mb-3">
                 <div class="col-12 text-center fw-semibold ">
-                    <button type="submit" class="btn btn-success box-shadow custom-btn-license">
-                        <i class="bi bi-file-earmark-plus-fill">
-                        </i>
-                        Tạo yêu cầu
-                    </button>
+                        <button type="submit" class="btn btn-success box-shadow custom-btn-license">
+                            <i class="bi bi-file-earmark-plus-fill">
+                            </i>
+                            Tạo yêu cầu
+                        </button>
                 </div>
             </div>
 
@@ -525,15 +569,89 @@
     </div>
 </div>
 
-<div class="alert alert-success text-center center add-point-confirm d-none" role="alert">
-  <div class="d-inline-flex">
-    <h4><i class="bi bi-exclamation-diamond-fill"></i> <span>&nbsp;</span></h4>
-    <h5>Bạn có muốn thêm điểm đặt ở vị trí này?</h5>
-  </div>
-  <div>
-    <a role="button" class="btn btn-sm btn-success btn-yes">Có</a>
-    <a role="button" class="btn btn-sm btn-danger btn-no">Không</a>
-  </div>
+<div class="space-form-container container-fluid form-center mt-4 p-4 d-none ">
+    <form method="post" id="formAddSpace" class="center form-width p-2 custom-form-addSpace box-shadow">
+        <div id="errorContainerSpace">
+            {{#if this.msg}}
+                {{#if this.is_err}}
+                <div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>{{this.msg}}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>
+                {{else}}
+                <div class="alert alert-success text-center center create-confirm" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>{{this.msg}}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>
+
+                {{/if}}
+            {{/if}}
+        </div>
+
+        <div class="row">
+            <i class="bi bi-x d-flex justify-content-end purple-color" id="setPointClose" style="font-size: 34px; cursor:pointer"></i>
+        </div>
+
+        <div class="row text-center mb-3 purple-color ">
+            <i class="bi bi-joystick fw-bold heading-size">
+                Thêm điểm đặt
+            </i>
+        </div>
+
+        <div class="row mb-2 white-bg rounded-1 p-2 mx-2">
+            <div class="row mb-2">
+                <label for="txtSpaceAdress" class="form-label fw-semibold">Địa chỉ</label>
+                <input type="text" class="form-control form-control-sm" 
+                    id="txtSpaceAdress" name="spaceAddress" disabled value="235 Nguyễn Văn Cừ, phường 4, quận 5, TP HCM">
+            </div>
+
+            <div class="row mb-2">
+                <label class="form-label fw-semibold">Loại vị trí </label>
+                <select id="typeSpace" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option selected>Phân loại điểm đặt</option>
+                    <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                    <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
+                    <option value="3">Trung tâm thương mại</option>
+                    <option value="4">Chợ</option>
+                    <option value="5">Cây xăng</option>
+                    <option value="6">Nhà chờ xe buýt</option>
+                </select>
+            </div>
+
+            <div class="row mb-2">
+                <label class="form-label fw-semibold">Hình thức quảng cáo</label>
+                <select id="typeSpaceAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                    <option selected>Hình thức</option>
+                    <option value="1">Cổ động chính trị</option>
+                    <option value="2">Quảng cáo thương mại</option>
+                    <option value="3">Xã hội hoá</option>
+                </select>
+            </div>
+
+            <div class="row mb-2">
+                <label for="txtStatus" class="form-label fw-semibold">Tình trạng quy hoạch</label>
+                <input type="text" class="form-control form-control-sm" 
+                    id="txtStatus" name="status" disabled value="Chưa quy hoạch">
+            </div>
+
+            <div class="row mb-2 form-group">
+                <label for="fuMain" class="mb-2 fw-semibold">Hình ảnh</label>
+                <input type="file" id="fuMain" name="fuMain">
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-12 text-center fw-semibold">
+                <button type="submit" class="btn purple-btn box-shadow">Hoàn thành</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="alert alert-success text-center center create-confirm d-none" role="alert">
