@@ -311,6 +311,7 @@
     flex-direction: column;
     gap: 10px;
     z-index: 10;
+    animation: show_notification 0.5s ease forwards;
 }
 .alert a{
     color: var(--noti-text-light);
@@ -401,8 +402,16 @@
     z-index: 5;
     top: 0;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.80);}
-
+    background-color: rgba(255, 255, 255, 0.80);
+}
+@keyframes show_notification {
+    0% {
+        transform: translate(-50%, -80%);
+    }
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}
 
 /* Tables */
 .card-container{

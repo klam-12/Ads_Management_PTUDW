@@ -223,15 +223,24 @@
 
                 $('a.btn-yes').click(function() {
                     $('div.add-point-confirm').addClass('d-none');
-                    $('div.create-confirm').removeClass('d-none');
+                    $('div#successAddPoint').removeClass('d-none');
                 });
-
+                //report-component
                 $('a.btn-no').click(function() {
                     $('div.add-point-confirm').addClass('d-none');
                 });
 
-                $('a.create-confirm-btn').click(function(){
-                    $('div.create-confirm').addClass('d-none');
+                $('div#successAddPoint a.create-confirm-btn').click(function(){
+                    $('div#successAddPoint').addClass('d-none');
+                });
+
+                $('input#submitBtn').click(function(){
+                   $('.report-component').addClass('d-none');
+                    $('div#successSendReport').removeClass('d-none');
+                });
+
+                $('div#successSendReport a.create-confirm-btn').click(function(){
+                    $('div#successSendReport').addClass('d-none');
                 });
         </script>
 {{/section}}
@@ -684,10 +693,18 @@
     </form>
 </div>
 
-<div class="alert alert-success text-center center create-confirm d-none" role="alert">
+<div class="alert alert-success text-center center create-confirm d-none" id="successAddPoint" role="alert">
   <div class="d-inline-flex">
     <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
     <h5>Tạo điểm đặt mới thành công</h5>
+  </div>
+  <a role="button" class="btn btn-sm btn-success create-confirm-btn">OK</a>
+</div>
+
+<div class="alert alert-success text-center center create-confirm d-none" id="successSendReport" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+    <h5>Gửi báo cáo thành công</h5>
   </div>
   <a role="button" class="btn btn-sm btn-success create-confirm-btn">OK</a>
 </div>
