@@ -1,4 +1,90 @@
 {{#section 'js'}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+<script>
+    //$('div.license-form-container #fuMain').fileinput({
+        //dropZoneEnabled: false,
+        //maxFileCount: 5,
+        //allowedFileExtensions: ['jpg', 'png', 'gif'],
+        // language: 'vi',
+    //});
+
+    $('div.license-form-container #txtDayStart').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+
+    $('div.license-form-container input[name^=dayEnd]').datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y',
+        mask: true
+    });
+
+    $('#formLicense').on('submit', function (e) {
+        e.preventDefault();
+
+        var errorNoti = "";
+        const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+        var typeAds = $("div.license-form-container #typeAds").find("option:selected").text();
+        var typeLoc = $("div.license-form-container #typeLoc").find("option:selected").text();
+        var typeBillboard = $("div.license-form-container #typeBillboard").find("option:selected").text();
+        var dateStart = $('div.license-form-container #txtDayStart').val();
+        var dateEnd = $('div.license-form-container #txtDayEnd').val();
+        
+        if($('div.license-form-container #txtHeight').val() === "" || $('div.license-form-container #txtWidth').val() === "" ){
+            errorNoti = "Bạn chưa chọn đủ kích thước dài và rộng";
+        } 
+        else if(typeBillboard === "Phân loại bảng quảng cáo"){
+            errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
+        } 
+        else if(typeLoc === "Phân loại điểm đặt"){
+            errorNoti = "Bạn chưa chọn loại điểm đặt";
+        } 
+        else if(typeAds === "Hình thức quảng cáo"){
+            errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+        } 
+        else if($('div.license-form-container #txtNameCompany').val() === ""){
+            errorNoti = "Tên công ty không được trống";
+        } 
+        else if($('div.license-form-container #txtAdr').val() === ""){
+            errorNoti = "Địa chỉ không được trống";
+        } 
+        else if($('div.license-form-container #txtEmail').val() === ""){
+            errorNoti = "Email không được trống";
+        } 
+        else if(! $('div.license-form-container #txtPhone').val().match(regexPhoneNumber)){
+            errorNoti = "Số điện thoại không hợp lệ";
+        } 
+        else if(dateStart === "__/__/____" || dateStart.length===0){
+            errorNoti = "Bạn chưa chọn ngày bắt đầu hợp đồng";
+        } 
+        else if(dateEnd === "__/__/____" || dateEnd.length===0){
+            errorNoti = "Bạn chưa chọn ngày kết thúc hợp đồng";
+        }
+
+        if(errorNoti.length !== 0){
+            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>${errorNoti}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>`);
+            $('#errorContainer').append(errComp);
+            return;
+        }
+          
+        $('#formLicense').off('submit').submit();
+    })
+</script>
+
   <script>
     $(document).on('click', ' .space-row', function() {
     const id_setpoint = $(this).data('id');
@@ -26,14 +112,126 @@
 
         var requestButton = $('<button>')
           .attr('type', 'button')
-          .addClass('btn btn-sm btn-table btn-green')
-          .text('Gửi yêu cầu')
+          .addClass('btn btn-sm btn-table btn-list btn-outline-green btn-edit-ads mb-1')
+          .text('Chỉnh sửa')
           .attr('data-id', item._id);
-        newRow.append($('<td>').addClass('text-center').append(requestButton));
+
+        var viewRequestButton = $('<button>')
+          .attr('type', 'button')
+          .addClass('btn btn-sm btn-table btn-list btn-outline-green btn-view-ads mb-1')
+          .text('Xem yêu cầu')
+          .attr('data-id', item._id);
+
+        var deleteRequestButton = $('<button>')
+          .attr('type', 'button')
+          .addClass('btn btn-sm btn-table btn-list btn-gray btn-delete-ads')
+          .text('Xoá')
+          .attr('data-id', item._id);
+
+        newRow.append($('<td>').addClass('text-center').append(requestButton).append(viewRequestButton).append(deleteRequestButton));
 
         $('.surface-table-tbody').append(newRow);
       });
     });
+
+    function spaceFormValidate(){
+        //$('div.space-form-container #fuMain').fileinput({
+          //dropZoneEnabled: false,
+        // maxFileCount: 5,
+          //allowedFileExtensions: ['jpg', 'png', 'gif'],
+          // language: 'vi',
+      //});
+
+      var date = new Date();
+      var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
+      $('div.space-form-container #txtDate').val(today);
+
+      $('div.space-form-container #formEditLoc').on('submit', function (e) {
+          e.preventDefault();
+
+          var errorNoti = "";
+          var typeAds = $("div.space-form-container #typeAds").find("option:selected").text();
+          var typeLoc = $("div.space-form-container #typeLoc").find("option:selected").text();
+          var isPlanned = $("div.space-form-container #isPlanned").find("option:selected").text();
+          if ($('div.space-form-container #reasonArea').val().length === 0) {
+              errorNoti = "Lí do chỉnh sửa không được trống";
+          } else if(typeAds === "Hình thức quảng cáo"){
+              errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+          } else if(typeLoc === "Phân loại điểm đặt"){
+              errorNoti = "Bạn chưa chọn loại điểm đặt";
+          } else if(isPlanned === "Tình hình quy hoạch"){
+              errorNoti = "Bạn chưa chọn tình hình quy hoạch";
+          }
+
+          if(errorNoti.length !== 0){
+              var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                      <div class="d-inline-flex">
+                          <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                          <h5>${errorNoti}</h5>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                  </div>`);
+              $('#errorContainer').append(errComp);
+              return;
+          }
+            
+          $('#formEditLoc').off('submit').submit();
+      });
+    };
+
+    function surfaceFormValidate(){
+        //$('div.surface-form-container #fuMain').fileinput({
+          //dropZoneEnabled: false,
+          //maxFileCount: 5,
+          //allowedFileExtensions: ['jpg', 'png', 'gif'],
+          // language: 'vi',
+      //});
+
+      var date = new Date();
+      var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
+      $('div.surface-form-container #txtDate').val(today);
+
+      $('div.surface-form-container input[name^=dateExpired]').datetimepicker({
+          timepicker: false,
+          format: 'd/m/Y',
+          mask: true
+      });
+
+      $('div.surface-form-container #formEditQc').on('submit', function (e) {
+          e.preventDefault();
+
+          var errorNoti = "";
+          var typeAds = $("div.surface-form-container #typeAds").find("option:selected").text();
+          var typeBillboard = $("div.surface-form-container #typeBillboard").find("option:selected").text();
+          var dateQC = $('div.surface-form-container #txtDateQC').val();
+          
+          if ($('div.surface-form-container #reasonArea').val().length === 0) {
+              errorNoti = "Lí do chỉnh sửa không được trống";
+          } else if($('div.surface-form-container #txtHeight').val() === "" || $('div.surface-form-container #txtWidth').val() === "" || $('div.surface-form-container #txtQuantity').val() === "" ){
+              errorNoti = "Bạn chưa chọn đủ kích thước và số lượng";
+          } else if(typeAds === "Hình thức quảng cáo"){
+              errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+          } else if(typeBillboard === "Phân loại bảng quảng cáo"){
+              errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
+          } else if(dateQC === "__/__/____" || dateQC.length===0){
+              errorNoti = "Bạn chưa chọn ngày hết hạn bảng quảng cáo";
+          }
+
+          if(errorNoti.length !== 0){
+              var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                      <div class="d-inline-flex">
+                          <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                          <h5>${errorNoti}</h5>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                  </div>`);
+              $('#errorContainer').append(errComp);
+              return;
+          }
+            
+          $('#formEditQc').off('submit').submit();
+      })
+    };
 
     // Hide/show elements based on the click event
     $('.surface-default').addClass('d-none');
@@ -42,23 +240,128 @@
     $(this).addClass('row-active');
 });
 
-    $('button.btn-blue').click(function() {
+    $('button.btn-edit-space-req').click(function() {
       const id = $(this).data('id');
       $('#btn-request-space').val(id)
       $('div.space-form-container').removeClass('d-none');
+      $('div.space-form-container input').each(function(){
+        this.disabled = false;
+      });
+
+      $('div.space-form-container textarea').each(function(){
+        this.disabled = false;
+      });
+
+      $('div.space-form-container select').each(function(){
+        this.disabled = false;
+      });
+
+      $('button#btn-request-space')[0].innerHTML = 'Gửi yêu cầu';
     });
 
-    $(document).on('click', 'button.btn-green', function() {
+    $('button.btn-view-space-req').click(function() {
+      const id = $(this).data('id');
+      $('#btn-request-space').val(id);
+      $('div.space-form-container').removeClass('d-none');
+      $('div.space-form-container input').each(function(){
+        this.disabled = true;
+      });
+
+      $('div.space-form-container textarea').each(function(){
+        this.disabled = true;
+      });
+
+      $('div.space-form-container select').each(function(){
+        this.disabled = true;
+      });
+      
+      $('button#btn-request-space')[0].innerHTML = 'Duyệt yêu cầu';
+    });
+
+    $('a.btn-yes').click(function() {
+      $('div.delete-confirm').addClass('d-none');
+    });
+
+    $('a.btn-no').click(function() {
+      $('div.delete-confirm').addClass('d-none');
+    });
+
+    $('button.btn-license-req').click(function(){
+      $('div.license-form-container').removeClass('d-none');
+    });
+
+    $('i#licenseFormClose').click(function(){
+      $('div.license-form-container form')[0].reset();
+      $('div.license-form-container').addClass('d-none');
+    });
+
+    $(document).on('click', 'button.btn-edit-ads', function() {
     const id = $(this).data('id');
-    $('.btn-request-ads').val(id)
+    $('.btn-request-ads').val(id);
     $('.surface-form-container').removeClass('d-none');
+    $('div.surface-form-container input').each(function(){
+        this.disabled = false;
+      });
+
+      $('div.surface-form-container textarea').each(function(){
+        this.disabled = false;
+      });
+
+      $('div.surface-form-container select').each(function(){
+        this.disabled = false;
+      });
+    $('button.btn-request-ads')[0].innerHTML = 'Gửi yêu cầu';
 });
 
+    $(document).on('click', 'button.btn-view-ads', function() {
+    const id = $(this).data('id');
+    $('#btn-request-ads').val(id);
+    $('.surface-form-container').removeClass('d-none');
+    $('div.surface-form-container input').each(function(){
+        this.disabled = true;
+      });
+
+      $('div.surface-form-container textarea').each(function(){
+        this.disabled = true;
+      });
+
+      $('div.surface-form-container select').each(function(){
+        this.disabled = true;
+      });
+    $('button.btn-request-ads')[0].innerHTML = 'Duyệt yêu cầu';
+});
+
+  $(document).on('click', 'button#btn-request-space', function(e) {
+      if($('button#btn-request-space')[0].innerHTML === 'Duyệt yêu cầu'){
+          $('button.btn-view-space-req').addClass('d-none');
+          $('div.space-form-container').addClass('d-none');
+      }
+      else if($('button#btn-request-space')[0].innerHTML === 'Gửi yêu cầu'){
+        spaceFormValidate();
+      }
+  });
+
+  $(document).on('click', 'button.btn-request-ads', function(e) {
+     if($('button.btn-request-ads')[0].innerHTML === 'Duyệt yêu cầu'){
+        $('button.btn-view-ads').addClass('d-none');
+        $('div.surface-form-container').addClass('d-none');
+     }
+     else if($('button#btn-request-space')[0].innerHTML === 'Gửi yêu cầu'){
+        surfaceFormValidate();
+     }
+  });
+
+    $(document).on('click', 'button.btn-gray', function() {
+      $('div.delete-confirm').removeClass('d-none');
+    });
+
     $('i.space-close-btn').click(function(){
+      $('div.space-form-container form')[0].reset();
       $('div.space-form-container').addClass('d-none');
     });
 
     $('i.surface-close-btn').click(function(){
+      $('div.surface-form-container form')[0].reset();
       $('div.surface-form-container').addClass('d-none');
     });
     $('#requestSetPointForm').submit(function(event) {
@@ -195,12 +498,12 @@
         if (authUserRole === 'Cán bộ Sở') {
             const newColumn = 
             `<td class="text-center">
-                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-view-space-req">Xem yêu cầu</button>
           </td>`
             $(this).append(newColumn);
         } else {
             const newColumn = `<td class="text-center">
-                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+                            <button data-id="${setpointId}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req">Chỉnh sửa</button>
           </td>`;
 
             $(this).append(newColumn);
@@ -328,7 +631,7 @@
                     </ul>
                 </td>
                 <td class="text-center">
-                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req">Chỉnh sửa</button>
                 </td>
             </tr>`;
 
@@ -368,7 +671,7 @@
                     <option selected>Quận</option>
                     </select>
 
-                    <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1" aria-label=".form-select-sm example">
+                    <select id="wardSelect" class="form-select form-select-sm blue-sort-btn ms-1 w-100" aria-label=".form-select-sm example">
                     <option selected>Phường</option>
                     </select>
                 </div>
@@ -401,7 +704,11 @@
                             </ul>
                         </td>
                         <td class="text-center">
-                            <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-blue">Gửi yêu cầu</button>
+                            <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req mb-1">Chỉnh sửa</button>
+                            <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-license-green btn-list btn-license-req mb-1">Xin cấp phép</button>
+                            
+                            <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-view-space-req mb-1">Xem yêu cầu</button>
+                            <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-gray btn-list btn-delete-space-req">Xoá</button>
                         </td>
                     </tr>
                   {{/each}}
@@ -575,7 +882,7 @@
 
         <div class="row">
             <div class="col-12 text-center fw-semibold">
-                <button type="submit" id = "btn-request-space" class="btn btn-outline-light btn-submit box-shadow">Hoàn thành</button>
+                <button type="submit" id = "btn-request-space" class="btn btn-outline-light btn-submit box-shadow"></button>
             </div>
         </div>
 
@@ -678,12 +985,186 @@
 
         <div class="row">
             <div class="col-12 text-center fw-semibold">
-                <button type="submit" class="btn btn-outline-light btn-submit box-shadow btn-request-ads">Hoàn thành</button>
+                <button type="submit" class="btn btn-outline-light btn-submit box-shadow btn-request-ads"></button>
             </div>
         </div>
     </form>
 
 </div>
+
+<div class="license-form-container container-fluid form-center mt-4 p-4 d-none">
+    <div class="center" style="height: 80%; overflow-y: scroll;">
+        <form method="post" id="formLicense" class="container-fluid custom-form-license box-shadow">
+            <div id="errorContainer">
+                {{#if this.msg}}
+                    {{#if this.is_err}}
+                    <div class="alert alert-danger text-center center error-noti" role="alert">
+                        <div class="d-inline-flex">
+                            <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                            <h5>{{this.msg}}</h5>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                    </div>
+                    {{else}}
+                    <div class="alert alert-success text-center center create-confirm" role="alert">
+                        <div class="d-inline-flex">
+                            <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+                            <h5>{{this.msg}}</h5>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                    </div>
+
+                    {{/if}}
+                {{/if}}
+            </div>
+
+            <div class="row">
+                <i class="bi bi-x d-flex justify-content-end green-color" id="licenseFormClose" style="font-size: 34px; cursor: pointer;"></i>
+            </div>
+
+            <div class="row text-center my-3 ">
+                <span class="fw-bold heading-size green-color">
+                    ĐƠN XIN CẤP PHÉP QUẢNG CÁO
+                </span>
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                    <div class="col-6 col-md-5 rounded-1 p-3 me-4 white-bg border border-success">
+                        <div class="row mb-1 fs-5 fw-semibold ">
+                            <div class="col-12 form-label green-color">
+                                Thông tin quảng cáo
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                                <div class="col">
+                                        <label for="txtLng" class="form-label fw-italic black-color">Kinh độ</label>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng" value="10.45666" disabled>
+                                </div>
+                                <div class="col">
+                                        <label for="txtLat" class="form-label fw-italic black-color">Vĩ độ</label>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat" value="11.2222" disabled>
+                                </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                    <label for="txtWidth" class="form-label fw-italic black-color">Chiều dài</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
+                            </div>
+                            <div class="col">
+                                    <label for="txtHeight" class="form-label fw-italic black-color">Chiều rộng</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
+                            </div>
+                        </div>  
+
+                        <div class="mb-2">
+                            <label class="form-label">Loại bảng quảng cáo </label>
+                            <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Phân loại bảng quảng cáo</option>
+                                <option value="1">Trụ bảng hiflex</option>
+                                <option value="2">Trụ màn hình điện tử LED</option>
+                                <option value="3">Trụ hộp đèn</option>
+                                <option value="4">Bảng hiflex ốp tường</option>
+                                <option value="5">Màn hình điện tử ốp tường</option>
+                                <option value="6">Trụ treo băng rôn dọc</option>
+                                <option value="7">Trụ treo băng rôn ngang</option>
+                                <option value="8">Trụ/Cụm pano</option>
+                                <option value="9">Cổng chào</option>
+                                <option value="10">Trung tâm thương mại</option>
+                            </select>
+                        </div>
+
+                        <div class=" mb-2">
+                            <label class="form-label">Loại điểm đặt</label>
+                            <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Phân loại điểm đặt</option>
+                                <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                                <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
+                                <option value="3">Trung tâm thương mại</option>
+                                <option value="4">Chợ</option>
+                                <option value="5">Cây xăng</option>
+                                <option value="6">Nhà chờ xe buýt</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class=" mb-2">
+                            <label class="form-label">Hình thức quảng cáo</label>
+                            <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                <option selected>Hình thức quảng cáo</option>
+                                <option value="1">Cổ động chính trị</option>
+                                <option value="2">Quảng cáo thương mại</option>
+                                <option value="3">Xã hội hoá</option>
+                            </select>
+                        </div>
+
+                        <div class=" mb-2 form-group">
+                            <label for="fuMain" class="form-label">Hình ảnh minh họa</label>
+                            <input type="file" multiple id="fuMain" name="fuMain">
+                        </div>
+
+                    </div>
+
+
+                    {{!-- Part 2 --}}
+                    <div class="col-6 col-md-5 rounded-1 p-3 ms-4 white-bg border border-success">
+                        <div class="mb-1 fs-5 fw-semibold ">
+                            <div class="col-12 form-label green-color">
+                                Thông tin công ty
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtNameCompany" class="form-label">Tên công ty</label>
+                            <input type="text" class="form-control form-control-sm" id="txtNameCompany" name="nameCompany">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtAdr" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control form-control-sm" id="txtAdr" name="address">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-sm" id="txtEmail" name="email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtPhone" class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control form-control-sm" id="txtPhone" name="phone">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtDayStart" class="form-label">Ngày bắt đầu hợp đồng</label>
+                            <input type="text" class="form-control form-control-sm" id="txtDayStart" name="dayStart">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="txtDayEnd" class="form-label">Ngày kết thúc hợp đồng</label>
+                            <input type="text" class="form-control form-control-sm" id="txtDayEnd" name="dayEnd">
+                        </div>
+
+                    </div>
+
+
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12 text-center fw-semibold ">
+                    <button type="submit" class="btn btn-success box-shadow custom-btn-license">
+                        <i class="bi bi-file-earmark-plus-fill">
+                        </i>
+                        Tạo yêu cầu
+                    </button>
+                </div>
+            </div>
+
+            <div class="row"></div>
+        </form>
+    </div>
+</div>
+
 <div class="alert alert-success text-center center create-confirm d-none" role="alert">
   <div class="d-inline-flex">
     <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
@@ -691,10 +1172,22 @@
   </div>
   <a role="button" class="btn btn-sm btn-success" >OK</a>
 </div>
+
 <div class="alert alert-danger text-center center error-noti d-none" role="alert">
   <div class="d-inline-flex">
     <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
     <h5 id ="errorMessage"></h5>
   </div>
   <a role="button" class="btn btn-sm btn-danger">OK</a>
+</div>
+
+<div class="alert alert-warning text-center center delete-confirm d-none" role="alert">
+  <div class="d-inline-flex">
+    <h4><i class="bi bi-exclamation-diamond-fill"></i> <span>&nbsp;</span></h4>
+    <h5>Bạn có chắc chắn muốn xóa điểm đặt/bảng quảng cáo này?</h5>
+  </div>
+  <div>
+    <a role="button" class="btn btn-sm btn-warning btn-yes">Có</a>
+    <a role="button" class="btn btn-sm btn-danger btn-no">Không</a>
+  </div>
 </div>
