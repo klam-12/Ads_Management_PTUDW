@@ -21,7 +21,7 @@
                         $('.create-confirm').removeClass('d-none');
 
                         console.log(approveButton)
-                        approveButton.removeClass('btn-warning').addClass('card-disabled').text("Đã cấp phép");
+                        approveButton.removeClass('btn-readonly').addClass('btn-disabled').text("Đã cấp phép");
                         approveButton.find('i').remove();
                         
 
@@ -121,7 +121,7 @@
         if (authUserRole === 'Cán bộ Sở') {
             const newColumn = `<td class="text-center">
                 <button type="button" class="btn btn-sm btn-approve-license">
-                    <a class="btn btn-sm btn-license ${isLicensed ? 'card-disabled' : ' btn-warning'}"  data-id="${licenseId}">
+                    <a class="btn btn-sm btn-license ${isLicensed ? 'btn-disabled' : ' btn-readonly'}"  data-id="${licenseId}">
                         ${isLicensed ? 'Đã cấp phép' : '<i class="bi bi-hand-index-fill"></i> Chờ cấp phép'}
                     </a>
                 </button>
@@ -130,7 +130,7 @@
             $(this).append(newColumn);
         } else {
             const newColumn = `<td class="text-center">
-                 <a class="btn btn-sm btn-readonly">
+                 <a class="btn btn-sm ${isLicensed ? 'btn-disabled' : 'btn-readonly'}">
                     ${isLicensed ? 'Đã cấp phép' : 'Chờ cấp phép'}
                 </a>
             </td>
@@ -327,7 +327,7 @@
                                 ${authUserRole === 'Cán bộ Sở' ?
                             `<td class="text-center">
                                 <button type="button"  class="btn btn-sm btn-table btn-approve-license ">
-                                    <a class="btn btn-sm btn-license ${license.isLicensed ? 'card-disabled' : 'btn-warning'}" data-id="${license._id}">
+                                    <a class="btn btn-sm btn-license ${license.isLicensed ? 'btn-disabled' : 'btn-readonly'}" data-id="${license._id}">
                                         ${license.isLicensed ? 'Đã cấp phép' : '<i class="bi bi-hand-index-fill"></i> Chờ cấp phép'}
                                     </a>
                                 </button>
@@ -335,7 +335,7 @@
                             <td>&nbsp;</td>`
                             :
                             `<td class="text-center">
-                                ${license.isLicensed ? '<a class="btn btn-sm btn-readonly">Đã cấp phép</a>' : '<a class="btn btn-sm btn-readonly">Chờ cấp phép</a>'}
+                                ${license.isLicensed ? '<a class="btn btn-sm btn-disabled">Đã cấp phép</a>' : '<a class="btn btn-sm btn-readonly">Chờ cấp phép</a>'}
                             </td>
                             <td class="text-center">
                                 ${license.isLicensed ? '<i class="bi bi-check-circle-fill h4" style="color: #8C8C8C"></i>' : 
