@@ -118,6 +118,7 @@ const fetchDataAndCreateLayer = async () => {
             layer.on('click', function (e) {
                 $('.modal-content').empty();
                 feature.properties.qcInfo.map((qcInfo) => {
+                    console.log(qcInfo)
                     const content = QCComponent(feature.properties, qcInfo, feature.geometry);
                     $('.modal-content').append(content);
                 });
@@ -208,6 +209,7 @@ const district = {
 };
 
 var QCComponent = function (info, qcInfo,coordinates) {
+    console.log("qcinfo",info)
     const infoData ={
         type: 'Advertisement',
         id: qcInfo.id,
@@ -442,7 +444,7 @@ const handleReportBtn = (info) => {
     const infoData = {
         type: "SetPoint",
         name: info.name,
-        address: info.address,
+        address: info.display_name,
         district: info.address.suburb,
         ward:  info.address.quarter,
         lat: info.lat,
@@ -550,6 +552,9 @@ $('#reportForm').submit(function (e) {
         isHandled: false,
         image1: imageFiles[0],
         image2: imageFiles[1],
+        district: infoData.district,
+        ward: infoData.ward,
+        address: infoData.address
     };
     console.log(combinedData)
     const form = new FormData();
@@ -564,6 +569,9 @@ $('#reportForm').submit(function (e) {
     form.append('isHandled', combinedData.isHandled);
     form.append('image1', combinedData.image1);
     form.append('image2', combinedData.image2);
+    form.append('district', combinedData.district);
+    form.append('ward', combinedData.ward);
+    form.append('address', combinedData.address);
     console.log(form)
     fetch('http://localhost:3000/reports/', {
         method: 'POST',
@@ -590,6 +598,7 @@ const locationInfo = (info) => {
     } else {
         address = info.display_name; // If it's a road, keep the entire display name as the address
     }
+    console.log(124312,info)
     const reportBtn = handleReportBtn(info);
 
     return `

@@ -7,7 +7,7 @@ import {uploads} from '../utils/cloudinary.js';
 const router = Router();
 
 router.get('/', asyncHandler(getAdsWithSetPoint));
-router.post('/', asyncHandler(authentication), uploads.single('image'), asyncHandler(createAds))
+router.post('/', uploads.single('image'), asyncHandler(createAds))
 router.get('/request', asyncHandler(getAdsAll))
 router.get('/request/filter', asyncHandler(getAdsFilter))
 router.delete('/request/delete/:id', asyncHandler(deleteAdsById))

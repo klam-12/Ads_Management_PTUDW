@@ -13,7 +13,7 @@ router.get('/signIn', function(req,res){
 });
 
 router.post('/logout',asyncHandler(authentication), asyncHandler(logout))
-router.post('/create-account', asyncHandler(authentication),asyncHandler(checkRoles('Cán bộ Sở')),asyncHandler(createAccount));
+router.post('/create-account',asyncHandler(checkRoles('Cán bộ Sở')),asyncHandler(createAccount));
 router.get('/create-account',function(req,res){
   res.render('vwAdmin/vwDepartment/createAccount',{
       // layout: false,

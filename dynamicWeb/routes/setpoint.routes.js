@@ -8,8 +8,8 @@ router.post('/create-setPoints', asyncHandler(uploads.single('image')), createSe
 // router.post('/create-setPoints', async function (req, res, next) {
 //   return res.json({})
 // })
-router.get('/',asyncHandler(authentication), getSetPoint);
+router.get('/',getSetPoint);
 router.get('/filter', asyncHandler(getSetPointFilter));
 
-router.get('/map',asyncHandler(authentication), getAllSetPoint);
+router.get('/map',getAllSetPoint);
 export default router;
