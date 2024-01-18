@@ -25,7 +25,106 @@
         format: 'd/m/Y',
         mask: true
     });
+    $(document).ready(function() {
+     $('#formLicense').submit(function (e) {
+        e.preventDefault();
+        console.log("check jquery")
+        var errorNoti = "";
+        const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
+        var typeAds = $("div.license-form-container #typeAds").find("option:selected").text();
+        var typeLoc = $("div.license-form-container #typeLoc").find("option:selected").text();
+        var typeBillboard = $("div.license-form-container #typeBillboard").find("option:selected").text();
+        var dateStart = $('div.license-form-container #txtDayStart').val();
+        var dateEnd = $('div.license-form-container #txtDayEnd').val();
+        
+        if($('div.license-form-container #txtHeight').val() === "" || $('div.license-form-container #txtWidth').val() === "" ){
+            errorNoti = "Bạn chưa chọn đủ kích thước dài và rộng";
+        } 
+        else if(typeBillboard === "Phân loại bảng quảng cáo"){
+            errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
+        } 
+        else if(typeLoc === "Phân loại điểm đặt"){
+            errorNoti = "Bạn chưa chọn loại điểm đặt";
+        } 
+        else if(typeAds === "Hình thức quảng cáo"){
+            errorNoti = "Bạn chưa chọn hình thức quảng cáo";
+        } 
+        else if($('div.license-form-container #txtNameCompany').val() === ""){
+            errorNoti = "Tên công ty không được trống";
+        } 
+        else if($('div.license-form-container #txtAdr').val() === ""){
+            errorNoti = "Địa chỉ không được trống";
+        } 
+        else if($('div.license-form-container #txtEmail').val() === ""){
+            errorNoti = "Email không được trống";
+        } 
+        else if(! $('div.license-form-container #txtPhone').val().match(regexPhoneNumber)){
+            errorNoti = "Số điện thoại không hợp lệ";
+        } 
+        else if(dateStart === "__/__/____" || dateStart.length===0){
+            errorNoti = "Bạn chưa chọn ngày bắt đầu hợp đồng";
+        } 
+        else if(dateEnd === "__/__/____" || dateEnd.length===0){
+            errorNoti = "Bạn chưa chọn ngày kết thúc hợp đồng";
+        }
+
+        if(errorNoti.length !== 0){
+            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
+                    <div class="d-inline-flex">
+                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
+                        <h5>${errorNoti}</h5>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
+                </div>`);
+            $('div.license-form-container #errorContainer').append(errComp);
+            return;
+        }
+        const setPointData = $(this).data('id');
+        const formData = new FormData();
+    
+        formData.append('id_setpoint', setPointData);
+        formData.append('typeofAds', typeBillboard);
+        formData.append('startDate', dateStart);
+        formData.append('expireDate', dateEnd);
+        formData.append('height', $('div.license-form-container #txtHeight').val());
+        formData.append('width', $('div.license-form-container #txtWidth').val());
+        formData.append('quantity', $('div.license-form-container #txtQuantity').val());
+        formData.append('name', $('div.license-form-container #txtNameCompany').val());
+        formData.append('address', $('div.license-form-container #txtAdr').val());
+        formData.append('email', $('div.license-form-container #txtEmail').val());
+        formData.append('phoneNumber', $('div.license-form-container #txtPhone').val());
+
+        if ($('div.license-form-container #fuMain').get(0).files.length > 0) {
+            formData.append('image', $('div.license-form-container #fuMain').get(0).files[0]);
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/ads',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response) {
+                    $('div.license-form-container').addClass('d-none');
+                    $('div.license-form-container #errorContainer').empty();
+                    $('div.license-form-container #errorContainer').append('<h5 class="text-center text-success">Đăng ký thành cảnh công!</h5>');
+                    $('div.license-form-container #errorContainer').append('<p class="text-center text-success">Vui lý nếu bắt đầu đăng ký.</p>');
+                } 
+            },
+            error: function() {
+                    $('div.license-form-container #errorContainer').empty();
+                    $('div.license-form-container #errorContainer').append('<h5 class="text-center text-danger">Đăng ký thất bài!</h5>');
+                    $('div.license-form-container #errorContainer').append('<p class="text-center text-danger">Vui lý nếu bắt đầu đăng ký.</p>');
+
+                
+                
+            }
+        })
+
+    })
+    })
     // Validate form Xin cấp phép QC
     
     })
@@ -185,48 +284,40 @@
         $('div.space-form-container #errorContainer').empty();
         $('div.space-form-container #successMessage').text('Đã gửi yêu cầu');
         $('.create-confirm').removeClass('d-none');
-        $('#formLicense').submit(function (e) {
-        e.preventDefault();
-        console.log("check jquery")
+        $('#requestSetPointForm').submit(function(event) {
+      event.preventDefault(); // Prevent default form submission
+      
+     
         var errorNoti = "";
-        const regexPhoneNumber = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
-
-        var typeAds = $("div.license-form-container #typeAds").find("option:selected").text();
-        var typeLoc = $("div.license-form-container #typeLoc").find("option:selected").text();
-        var typeBillboard = $("div.license-form-container #typeBillboard").find("option:selected").text();
-        var dateStart = $('div.license-form-container #txtDayStart').val();
-        var dateEnd = $('div.license-form-container #txtDayEnd').val();
-        
-        if($('div.license-form-container #txtHeight').val() === "" || $('div.license-form-container #txtWidth').val() === "" ){
-            errorNoti = "Bạn chưa chọn đủ kích thước dài và rộng";
-        } 
-        else if(typeBillboard === "Phân loại bảng quảng cáo"){
-            errorNoti = "Bạn chưa chọn loại bảng quảng cáo";
-        } 
-        else if(typeLoc === "Phân loại điểm đặt"){
-            errorNoti = "Bạn chưa chọn loại điểm đặt";
-        } 
-        else if(typeAds === "Hình thức quảng cáo"){
+        var typeAds = $("div.space-form-container #typeAds").find("option:selected").text();
+        var typeLoc = $("div.space-form-container #typeLoc").find("option:selected").text();
+        var isPlanned = $("div.space-form-container #isPlanned").find("option:selected").text();
+        if ($('div.space-form-container #reasonArea').val().length === 0) {
+            errorNoti = "Lí do chỉnh sửa không được trống";
+        } else if(typeAds === "Hình thức quảng cáo"){
             errorNoti = "Bạn chưa chọn hình thức quảng cáo";
-        } 
-        else if($('div.license-form-container #txtNameCompany').val() === ""){
-            errorNoti = "Tên công ty không được trống";
-        } 
-        else if($('div.license-form-container #txtAdr').val() === ""){
-            errorNoti = "Địa chỉ không được trống";
-        } 
-        else if($('div.license-form-container #txtEmail').val() === ""){
-            errorNoti = "Email không được trống";
-        } 
-        else if(! $('div.license-form-container #txtPhone').val().match(regexPhoneNumber)){
-            errorNoti = "Số điện thoại không hợp lệ";
-        } 
-        else if(dateStart === "__/__/____" || dateStart.length===0){
-            errorNoti = "Bạn chưa chọn ngày bắt đầu hợp đồng";
-        } 
-        else if(dateEnd === "__/__/____" || dateEnd.length===0){
-            errorNoti = "Bạn chưa chọn ngày kết thúc hợp đồng";
+        } else if(typeLoc === "Phân loại điểm đặt"){
+            errorNoti = "Bạn chưa chọn loại điểm đặt";
+        } else if(isPlanned === "Tình hình quy hoạch"){
+            errorNoti = "Bạn chưa chọn tình hình quy hoạch";
         }
+      
+         const formData = {
+            reason: $('#reasonArea').val(), // Read value from textarea
+            adsFormat: typeAds, // Read value from select field
+            typeofLocation: typeLoc,
+            isPlanned: isPlanned, 
+            objectId: $('#btn-request-space').val(),
+            objectToEdit: 'SetPoint',
+        };
+
+        const form = new FormData();
+        form.append('reason', formData.reason);
+        form.append('adsFormat', formData.adsFormat);
+        form.append('typeofLocation', formData.typeofLocation);
+        form.append('isPlanned', formData.isPlanned);
+        form.append('objectId', formData.objectId);
+        form.append('objectToEdit', formData.objectToEdit);
 
         if(errorNoti.length !== 0){
             var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
@@ -236,53 +327,39 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
                 </div>`);
-            $('div.license-form-container #errorContainer').append(errComp);
+            $('#errorContainer').append(errComp);
             return;
         }
-        const setPointData = $(this).data('id');
-        const formData = new FormData();
-    
-        formData.append('id_setpoint', setPointData);
-        formData.append('typeofAds', typeBillboard);
-        formData.append('startDate', dateStart);
-        formData.append('expireDate', dateEnd);
-        formData.append('height', $('div.license-form-container #txtHeight').val());
-        formData.append('width', $('div.license-form-container #txtWidth').val());
-        formData.append('quantity', $('div.license-form-container #txtQuantity').val());
-        formData.append('name', $('div.license-form-container #txtNameCompany').val());
-        formData.append('address', $('div.license-form-container #txtAdr').val());
-        formData.append('email', $('div.license-form-container #txtEmail').val());
-        formData.append('phoneNumber', $('div.license-form-container #txtPhone').val());
-
-        if ($('div.license-form-container #fuMain').get(0).files.length > 0) {
-            formData.append('image', $('div.license-form-container #fuMain').get(0).files[0]);
-        }
-
-        $.ajax({
+            console.log(form)
+            $.ajax({
             type: 'POST',
-            url: '/ads',
-            data: formData,
+            url: '/request', 
+            data: form,
+            contentType: false, // Set to false for FormData
             processData: false,
-            contentType: false,
             success: function(response) {
-                if (response) {
-                    $('div.license-form-container').addClass('d-none');
-                    $('div.license-form-container #errorContainer').empty();
-                    $('div.license-form-container #errorContainer').append('<h5 class="text-center text-success">Đăng ký thành cảnh công!</h5>');
-                    $('div.license-form-container #errorContainer').append('<p class="text-center text-success">Vui lý nếu bắt đầu đăng ký.</p>');
-                } 
+            console.log(response);
+            $('#successMessage').text(response.message);
+            $('.create-confirm').show();
+            $('#requestSetPointForm')[0].reset();
+            $('div.space-form-container').addClass('d-none');
+
+            $('.create-confirm').removeClass('d-none');
+         
             },
-            error: function() {
-                    $('div.license-form-container #errorContainer').empty();
-                    $('div.license-form-container #errorContainer').append('<h5 class="text-center text-danger">Đăng ký thất bài!</h5>');
-                    $('div.license-form-container #errorContainer').append('<p class="text-center text-danger">Vui lý nếu bắt đầu đăng ký.</p>');
+            error: function(xhr, status, error) {
+                // Show error notification
+                var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
+                console.log(errorMessage)
+                $('#errorMessage').text(errorMessage);
+                $('.error-noti').removeClass('d-none').show();
+                console.log($('.error-noti'));
+                // Reset form fields if needed
+                $('#requestSetPointForm')[0].reset();
+    }
+});
 
-                
-                
-            }
-        })
-
-    })
+    });
     
       }
     })
@@ -455,82 +532,6 @@
     });
     
     // Duyệt yêu cầu chỉnh sửa điểm đặt 
-    $('#requestSetPointForm').submit(function(event) {
-      event.preventDefault(); // Prevent default form submission
-      
-     
-        var errorNoti = "";
-        var typeAds = $("div.space-form-container #typeAds").find("option:selected").text();
-        var typeLoc = $("div.space-form-container #typeLoc").find("option:selected").text();
-        var isPlanned = $("div.space-form-container #isPlanned").find("option:selected").text();
-        if ($('div.space-form-container #reasonArea').val().length === 0) {
-            errorNoti = "Lí do chỉnh sửa không được trống";
-        } else if(typeAds === "Hình thức quảng cáo"){
-            errorNoti = "Bạn chưa chọn hình thức quảng cáo";
-        } else if(typeLoc === "Phân loại điểm đặt"){
-            errorNoti = "Bạn chưa chọn loại điểm đặt";
-        } else if(isPlanned === "Tình hình quy hoạch"){
-            errorNoti = "Bạn chưa chọn tình hình quy hoạch";
-        }
-      
-         const formData = {
-            reason: $('#reasonArea').val(), // Read value from textarea
-            adsFormat: typeAds, // Read value from select field
-            typeofLocation: typeLoc,
-            isPlanned: isPlanned, 
-            objectId: $('#btn-request-space').val(),
-            objectToEdit: 'SetPoint',
-        };
-
-        const form = new FormData();
-        form.append('reason', formData.reason);
-        form.append('adsFormat', formData.adsFormat);
-        form.append('typeofLocation', formData.typeofLocation);
-        form.append('isPlanned', formData.isPlanned);
-        form.append('objectId', formData.objectId);
-        form.append('objectToEdit', formData.objectToEdit);
-
-        if(errorNoti.length !== 0){
-            var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
-                    <div class="d-inline-flex">
-                        <h4><i class="bi bi-x-circle-fill"></i> <span>&nbsp;</span> </h4>
-                        <h5>${errorNoti}</h5>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="alert" aria-label="Close">OK</button>
-                </div>`);
-            $('#errorContainer').append(errComp);
-            return;
-        }
-            console.log(form)
-            $.ajax({
-            type: 'POST',
-            url: '/request', 
-            data: form,
-            contentType: false, // Set to false for FormData
-            processData: false,
-            success: function(response) {
-            console.log(response);
-            $('#successMessage').text(response.message);
-            $('.create-confirm').show();
-            $('#requestSetPointForm')[0].reset();
-            $('div.space-form-container').addClass('d-none');
-
-            $('.create-confirm').removeClass('d-none');
-         
-            },
-            error: function(xhr, status, error) {
-                // Show error notification
-                var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
-                console.log(errorMessage)
-                $('#errorMessage').text(errorMessage);
-                $('.error-noti').removeClass('d-none').show();
-                console.log($('.error-noti'));
-                // Reset form fields if needed
-                $('#requestSetPointForm')[0].reset();
-    }
-});
-
-    });
     
     // Duyệt yêu cầu chỉnh sửa QC 
     $('#requestAdsForm').submit(function(event) {

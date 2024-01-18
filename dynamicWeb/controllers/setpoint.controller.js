@@ -123,11 +123,7 @@ const createSetPoint = async (req, res, next) => {
         // throw new UnprocessableContentResponse('Image upload failed');
       }
     }
-    return res.json(setpoint ||{}) // setpoint;
-    // return new SuccessResponse({
-    //   metadata: setpoint,
-    // }).send(req, res);
-
+    return res.json(setpoint ||{}) 
 };
 
 const getAllSetPoint = async (req, res, next) => {
