@@ -1,6 +1,6 @@
 {{#section 'js'}}
 <script>
-    performAjaxQuery();
+    //performAjaxQuery();
     var pageNumber = 1;
     $(document).on('click', 'button.btn-view-report', function () {
     $('button.btn-view-report').click(function () {
@@ -113,8 +113,9 @@
         const authUserDistrict = '{{authUser.district}}';
         const authUserWard = '{{authUser.ward}}';
         if (authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường') {
-    $('#reportTable tbody tr').each(function() {
-        const isHandled = $(this).data('ishandled'); // Assuming you have isHandled data attribute in each tr
+        $('#reportTable tbody tr').each(function() {
+        const isHandled = $(this).data('ishandled');
+        console.log($(this).data())
         const newColumn = `
             <td class="text-center">
                 <button class="btn btn-sm ${isHandled ? 'btn-disabled' : 'btn-readonly'}">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
@@ -274,17 +275,13 @@
                           `<span class="fw-bold">Bảng QC</span>
                           <ul>
                               <li>Địa chỉ: ${report.address}</li>
-                              <li>Kích thước: ${report.heigh}m x ${report.width}m</li>
-                              <li>Số lượng: ${report.quantity} trụ/bảng</li>
-                              <li>Hình thức: ${report.type}</li>
-                              <li>Phân loại: ${report.classification}</li>
-                          </ul>` :
+                              <li>Nội dung báo cáo: ${report.reportContent}</li>
+                          </ul>` 
+                          :
                           `<span class="fw-bold">Điểm đặt</span>
                           <ul>
                               <li>Địa chỉ: ${report.address}</li>
-                              <li>Hình thức QC: ${report.type}</li>
-                              <li>Phân loại: ${report.classification}</li>
-                              <li>Tình trạng: ${report.status}</li>
+                              <li>Nội dung báo cáo: ${report.reportContent}</li>
                           </ul>`
                       }
                   </td>
@@ -292,7 +289,7 @@
                   <td class="text-center">
                       <button type="button" data-id="${report._id}" class="btn btn-sm btn-table btn-blue btn-view-report">Xem thêm</button>
                   </td>
-                  <td class="text-center">
+                  <td class="text-center data-isHandled="${report.isHandled}">
                       ${authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường' ?
                           `<button class="btn btn-sm ${report.isHandled ? 'btn-disabled' : 'btn-readonly'}">${report.isHandled ? 'Đã xử lý' : 'Chưa xử lý'} </button>` : '<p></p>'}
                   </td>
@@ -370,8 +367,8 @@
         Không có dữ liệu
       </div>
       {{else}}
-      <table id="reportTable" class="table table-hover align-middle">
-    <thead class="align-middle text-center">
+      <table id="reportTable" class="table table-hover align-middle"  >
+        <thead class="align-middle text-center">
         <tr>
             <th class="col-0.5" scope="col">STT</th>
             <th class="col-2" scope="col">Thời điểm gửi</th>
@@ -389,10 +386,10 @@
     </thead>
     <tbody>
         {{#each list}}
-            <tr class="card-info-row">
-    <td class="text-center">{{@index}}</td>
-    <td class="text-center">{{createAt}}</td>
-    <td>
+    <tr class="card-info-row" data-isHandled= {{isHandled}}>
+        <td class="text-center">{{@index}}</td>
+        <td class="text-center">{{createAt}}</td>
+        <td>
         <ul>
             <li>Họ tên: {{fullName}} </li>
             <li>Email: {{email}}</li>
@@ -404,48 +401,43 @@
             <span class="fw-bold">Bảng QC</span>
             <ul>
                 <li>Địa chỉ: {{address}}</li>
-                <li>Kích thước: 2.5m x 10m</li>
-                <li>Số lượng: 1 trụ/bảng</li>
-                <li>Hình thức: Cổ động chính trị</li>
-                <li>Phân loại: Đất công/Công viên/Hành lang an toàn giao thông</li>
+                <li>Nội dung báo cáo: {{reportContent}}</li>
             </ul>
         {{else}}
             <span class="fw-bold">Điểm đặt</span>
             <ul>
                 <li>Địa chỉ: {{address}}</li>
-                <li>Hình thức QC: Cổ động chính trị</li>
-                <li>Phân loại: Đất công/Công viên/Hành lang an toàn giao thông</li>
-                <li>Tình trạng: Đã quy hoạch</li>
+                <li>Nội dung báo cáo: {{reportContent}}</li>
             </ul>
         {{/ifEquals}}
-    </td>
-    <td class="text-center">{{reportType}}</td>
-
-    <td class="text-center">
-        <button type="button" data-id="{{_id}}" class="btn btn-sm btn-table btn-blue btn-view-report">Xem thêm</button>
-        <p>{{authUser.role}}</p>
-    </td>
-    
-    {{#ifEquals authUser.role 'Cán bộ Quận'}} 
-        <td class="text-center">
-            {{#if isHandled}}
-                <button class="btn btn-sm btn-disabled">Đã xử lí</button>
-            {{else}}
-                <button class="btn btn-sm btn-readonly">Chưa xử lí</button>
-            {{/if}}
         </td>
-    {{/ifEquals}}
+        <td class="text-center">{{reportType}}</td>
 
-    {{#ifEquals authUserRole 'Cán bộ Phường'}} 
         <td class="text-center">
-            {{#if isHandled}}
-                <button class="btn btn-sm btn-disabled">Đã xử lí</button>
-            {{else}}
-                <button class="btn btn-sm btn-readonly">Chưa xử lí</button>
-            {{/if}}
+            <button type="button" data-id="{{_id}}" class="btn btn-sm btn-table btn-blue btn-view-report">Xem thêm</button>
+
         </td>
-    {{/ifEquals}}
-</tr>
+        
+        {{#ifEquals authUser.role 'Cán bộ Quận'}} 
+            <td class="text-center">
+                {{#if isHandled}}
+                    <button data-isHandled="{{isHandled}}" class="btn btn-sm btn-disabled">Đã xử lí</button>
+                {{else}}
+                    <button  data-isHandled="{{isHandled}}" class="btn btn-sm btn-readonly">Chưa xử lí</button>
+                {{/if}}
+            </td>
+        {{/ifEquals}}
+
+        {{#ifEquals authUserRole 'Cán bộ Phường'}} 
+            <td class="text-center">
+                {{#if isHandled}}
+                    <button class="btn btn-sm btn-disabled">Đã xử lí</button>
+                {{else}}
+                    <button class="btn btn-sm btn-readonly">Chưa xử lí</button>
+                {{/if}}
+            </td>
+        {{/ifEquals}}
+    </tr>   
 
         {{/each}}
     </tbody>

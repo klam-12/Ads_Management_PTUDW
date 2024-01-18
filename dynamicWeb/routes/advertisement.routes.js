@@ -11,5 +11,7 @@ router.post('/', uploads.single('image'), asyncHandler(createAds))
 router.get('/request', asyncHandler(getAdsAll))
 router.get('/request/filter', asyncHandler(getAdsFilter))
 router.delete('/request/delete/:id', asyncHandler(deleteAdsById))
+
 router.patch('/request/approve-license/:id', asyncHandler(changeAdsStatus))
+
 export default router;

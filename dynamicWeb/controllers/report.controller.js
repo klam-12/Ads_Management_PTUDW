@@ -173,8 +173,8 @@ const getReportForMap = async (req, res, next) => {
 }
 const handleReport = async (req, res, next) => {
   const id = req.params.id;
-  const {content,email,address,fullName} = req.body
-  const report = await reportService.handleReport(id,content);
+  const {handleContent,email,address,fullName} = req.body
+  const report = await reportService.handleReport(id,handleContent);
   console.log(report)
   const subject = '[Ads Management System)_G5] Your report has been handled'
   const text = `<p>Chào ${fullName},</p>
@@ -183,7 +183,7 @@ const handleReport = async (req, res, next) => {
 
   <p>Sau đây là cách thức xử lý cho báo cáo của bạn:</p>
 
-  <p >Nội dung: <strong> ${content}</strong></p>
+  <p >Nội dung: <strong> ${handleContent}</strong></p>
 
   <p>Cảm ơn bạn đã cung cấp thông tin này.</p>
 

@@ -81,8 +81,48 @@
             $('div.license-form-container #errorContainer').append(errComp);
             return;
         }
-          
-        $('#formLicense').off('submit').submit();
+        const setPointData = $(this).data('id');
+        const formData = new FormData();
+
+        formData.append('id_setpoint', setPointData);
+        formData.append('typeofAds', typeAds);
+        formData.append('startDate', dateStart);
+        formData.append('expireDate', dateEnd);
+        formData.append('height', $('div.license-form-container #txtHeight').val());
+        formData.append('width', $('div.license-form-container #txtWidth').val());
+        formData.append('quantity', $('div.license-form-container #txtQuantity').val());
+        formData.append('name', $('div.license-form-container #txtNameCompany').val());
+        formData.append('address', $('div.license-form-container #txtAdr').val());
+        formData.append('email', $('div.license-form-container #txtEmail').val());
+        formData.append('phoneNumber', $('div.license-form-container #txtPhone').val());
+
+        if ($('div.license-form-container #fuMain').get(0).files.length > 0) {
+            formData.append('image', $('div.license-form-container #fuMain').get(0).files[0]);
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/ads',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response) {
+                    $('div.license-form-container').addClass('d-none');
+                    $('div.license-form-container #errorContainer').empty();
+                    $('div.license-form-container #errorContainer').append('<h5 class="text-center text-success">Đăng ký thành cảnh công!</h5>');
+                    $('div.license-form-container #errorContainer').append('<p class="text-center text-success">Vui lý nếu bắt đầu đăng ký.</p>');
+                } ,
+            error: function() {
+                    $('div.license-form-container #errorContainer').empty();
+                    $('div.license-form-container #errorContainer').append('<h5 class="text-center text-danger">Đăng ký thất bài!</h5>');
+                    $('div.license-form-container #errorContainer').append('<p class="text-center text-danger">Vui lý nếu bắt đầu đăng ký.</p>');
+
+                
+                }
+            }
+        })
+        //$('#formLicense').off('submit').submit();
     })
 </script>
 
@@ -182,6 +222,7 @@
       $('div.space-form-container select').each(function(){
         this.disabled = true;
       });
+      fetch(`/ads?id_setpoint=${id}`)
       $('button#btn-request-space')[0].innerHTML = 'Duyệt yêu cầu';
 });
 
@@ -194,7 +235,12 @@
     });
 
     $(document).on('click', 'button.btn-license-req', function(){
+     $('#txtLng').val($(this).data('lng'));
+       $("#txtLat").val($(this).data('lat'));
       $('div.license-form-container').removeClass('d-none');
+       $('#formLicense').data('id', $(this).data('id'));
+       console.log($(this).data('lng'));
+       
     });
 
     $('i#licenseFormClose').click(function(){
@@ -281,16 +327,7 @@
     $('#requestSetPointForm').submit(function(event) {
       event.preventDefault(); // Prevent default form submission
       
-      const formData = {
-        reason: $('#reasonArea').val(), // Read value from textarea
-        adsFormat: $('[name="adsFormat"]').val(), // Read value from select field
-        typeofLocation: $('[name="typeofLocation"]').val(), // Read value from select field
-        isPlanned: $('[name="isPlanned"]').val(), 
-        objectId: $('#btn-request-space').val(),
-        objectToEdit: 'SetPoint',
-        image : ""
-      };
-      
+     
         var errorNoti = "";
         var typeAds = $("div.space-form-container #typeAds").find("option:selected").text();
         var typeLoc = $("div.space-form-container #typeLoc").find("option:selected").text();
@@ -304,6 +341,28 @@
         } else if(isPlanned === "Tình hình quy hoạch"){
             errorNoti = "Bạn chưa chọn tình hình quy hoạch";
         }
+      
+         const formData = {
+            reason: $('#reasonArea').val(), // Read value from textarea
+            adsFormat: typeAds, // Read value from select field
+            typeofLocation: typeLoc,
+            isPlanned: isPlanned, 
+            objectId: $('#btn-request-space').val(),
+            objectToEdit: 'SetPoint',
+        };
+
+        const form = new FormData();
+        form.append('reason', formData.reason);
+        form.append('adsFormat', formData.adsFormat);
+        form.append('typeofLocation', formData.typeofLocation);
+        form.append('isPlanned', formData.isPlanned);
+        form.append('objectId', formData.objectId);
+        form.append('objectToEdit', formData.objectToEdit);
+
+        const fileInput = $('#fuMain')[0].files[0];
+        if (fileInput) {
+            form.append('image', fileInput);
+        }
 
         if(errorNoti.length !== 0){
             var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
@@ -316,33 +375,33 @@
             $('#errorContainer').append(errComp);
             return;
         }
+            console.log(form)
+            $.ajax({
+            type: 'POST',
+            url: '/request', 
+            data: form,
+            contentType: false, // Set to false for FormData
+            processData: false,
+            success: function(response) {
+            console.log(response);
+            $('#successMessage').text(response.message);
+            $('.create-confirm').show();
+            $('#requestSetPointForm')[0].reset();
+            $('div.space-form-container').addClass('d-none');
 
-     $.ajax({
-      type: 'POST',
-      url: '/request', 
-      data: formData,
-      success: function(response) {
-      console.log(response);
-      $('#successMessage').text(response.message);
-      $('.create-confirm').show();
-      $('#requestSetPointForm')[0].reset();
-
-      // Close the form
-      $('div.space-form-container').addClass('d-none');
-
-      // Show the success message by removing the 'display: none' style
-      $('.create-confirm').removeClass('d-none');
-    },
-      error: function(xhr, status, error) {
-        // Show error notification
-        var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
-        console.log(errorMessage)
-        $('#errorMessage').text(errorMessage);
-        $('.error-noti').removeClass('d-none').show();
-        console.log($('.error-noti'));
-        // Reset form fields if needed
-        $('#requestSetPointForm')[0].reset();
-  }
+            $('.create-confirm').removeClass('d-none');
+         
+            },
+            error: function(xhr, status, error) {
+                // Show error notification
+                var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
+                console.log(errorMessage)
+                $('#errorMessage').text(errorMessage);
+                $('.error-noti').removeClass('d-none').show();
+                console.log($('.error-noti'));
+                // Reset form fields if needed
+                $('#requestSetPointForm')[0].reset();
+    }
 });
 
     });
@@ -362,8 +421,7 @@
         image : "",
 
       };
-      
-        // Validate form using Jquery
+     
         var errorNoti = "";
         var typeBillboard = $("div.surface-form-container #typeBillboard").find("option:selected").text();
         var dateQC = $('div.surface-form-container #txtDateQC').val();
@@ -395,27 +453,26 @@
       url: '/request', // Replace with your server route
       data: formData,
       success: function(response) {
-      console.log(response);
-      $('#successMessage').text(response.message);
-      $('.create-confirm').show();
-      $('#requestAdsForm')[0].reset();
-
-      // Close the form
-      $('div.surface-form-container').addClass('d-none');
-
-      // Show the success message by removing the 'display: none' style
-      $('.create-confirm').removeClass('d-none');
-    },
-      error: function(xhr, status, error) {
-        // Show error notification
-        var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
-        console.log(errorMessage)
-        $('#errorMessage').text(errorMessage);
-        $('.error-noti').removeClass('d-none').show();
-        console.log($('.error-noti'));
-        // Reset form fields if needed
+        console.log(response);
+        $('#successMessage').text(response.message);
+        $('.create-confirm').show();
         $('#requestAdsForm')[0].reset();
-  }
+
+        // Close the form
+        $('div.surface-form-container').addClass('d-none');
+
+        
+    },
+     error: function(xhr, status, error) {
+            // Show error notification
+            var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Error occurred!';
+            console.log(errorMessage)
+            $('#errorMessage').text(errorMessage);
+            $('.error-noti').removeClass('d-none').show();
+            console.log($('.error-noti'));
+            // Reset form fields if needed
+            $('#requestAdsForm')[0].reset();
+    }
 });
 
     });
@@ -526,11 +583,10 @@
         addLicenseColumn.call(this, setpointId);
     });
 
-    // Update dropdown content
-    updateDropdownContent();
-});
+        updateDropdownContent();
+    });
 
-    // Xử lý dropdown filter và trả về kết quả
+
     $('#districtSelect, #wardSelect').change(function() {
          const authUserRole = '{{authUser.role}}';
          if (authUserRole === 'Cán bộ Sở') {
@@ -612,7 +668,7 @@
                 page: pageNumber,
                 limit: 5
             },
-           success: function(data) {
+            success: function(data) {
             const authUserRole = '{{authUser.role}}';
             console.log(data)
             $('#setPointTable tbody').empty();
@@ -631,11 +687,14 @@
                     </ul>
                 </td>
                 <td class="text-center">
-                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req mb-1">Chỉnh sửa</button>
-                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-license-green btn-list btn-license-req mb-1">Xin cấp phép</button>
-                            
-                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-view-space-req mb-1">Xem yêu cầu</button>
-                    <button data-id="${setpoint._id}" type="button" class="btn btn-sm btn-table btn-gray btn-list btn-delete-space-req">Xoá</button>
+                    ${authUserRole === 'Cán bộ Sở' ? 
+                    `<button data-id="${setpoint._id}" data-lat =${setpoint.lat} data-lng=${setpoint.lng} type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-view-space-req mb-1">Xem yêu cầu</button>
+                    <button data-id="${setpoint._id}" data-lat =${setpoint.lat} data-lng=${setpoint.lng} type="button" class="btn btn-sm btn-table btn-gray btn-list btn-delete-space-req">Xoá</button>
+                    `
+                    : `
+                    <button data-id="${setpoint._id}" data-lat =${setpoint.lat} data-lng=${setpoint.lng} type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req mb-1">Chỉnh sửa</button>
+                    <button data-id="${setpoint._id}" data-lat =${setpoint.lat} data-lng=${setpoint.lng} type="button" class="btn btn-sm btn-table btn-license-green btn-list btn-license-req mb-1">Xin cấp phép</button>
+                    `}
 
                 </td>
             </tr>`;
@@ -736,11 +795,13 @@
                             </ul>
                         </td>
                         <td class="text-center">
+                            {{#ifEquals authUser.role 'Cán bộ Sở'}}i
                             <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-edit-space-req mb-1">Chỉnh sửa</button>
                             <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-license-green btn-list btn-license-req mb-1">Xin cấp phép</button>
-                            
+                            {{else}}
                             <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-outline-blue btn-list btn-view-space-req mb-1">Xem yêu cầu</button>
                             <button data-id="{{this._id}}" type="button" class="btn btn-sm btn-table btn-gray btn-list btn-delete-space-req">Xoá</button>
+                             {{/ifEquals}}
                         </td>
                     </tr>
                   {{/each}}
@@ -818,7 +879,7 @@
 
 {{!-- yêu cầu chỉnh sửa điểm đặt --}}
 <div class="space-form-container container-fluid form-center p-4 d-none">
-    <form method="post" id ="requestSetPointForm" class="form-width center p-2 custom-form-location box-shadow">
+    <form method="post" id ="requestSetPointForm" class="form-width center p-2 custom-form-location box-shadow" enctype="multipart/form-data">
         <div id="errorContainer"></div>
 
         <div class="row">
@@ -867,9 +928,9 @@
                 <div class="col-sm-9">
                     <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option selected>Hình thức quảng cáo</option>
-                        <option value="1">Cổ động chính trị</option>
-                        <option value="2">Quảng cáo thương mại</option>
-                        <option value="3">Xã hội hoá</option>
+                        <option value="Cổ động chính trị">Cổ động chính trị</option>
+                        <option value="Quảng cáo thương mại">Quảng cáo thương mại</option>
+                        <option value="Xã hội hoá">Xã hội hoá</option>
                     </select>
                 </div>
             </div>
@@ -879,12 +940,12 @@
                 <div class="col-sm-9">
                     <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option selected>Phân loại điểm đặt</option>
-                        <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
-                        <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
-                        <option value="3">Trung tâm thương mại</option>
-                        <option value="4">Chợ</option>
-                        <option value="5">Cây xăng</option>
-                        <option value="6">Nhà chờ xe buýt</option>
+                        <option value="Đất công/Công viên/Hành lang an toàn giao thông">Đất công/Công viên/Hành lang an toàn giao thông</option>
+                        <option value="Đất tư nhân/Nhà ở riêng lẻ">Đất tư nhân/Nhà ở riêng lẻ</option>
+                        <option value="Trung tâm thương mại">Trung tâm thương mại</option>
+                        <option value="Chợ">Chợ</option>
+                        <option value="Cây xăng">Cây xăng</option>
+                        <option value="Nhà chờ xe buýt">Nhà chờ xe buýt</option>
                     </select>
                 </div>
             </div>
@@ -894,8 +955,8 @@
                 <div class="col-sm-9">
                     <select id="isPlanned" class="form-select form-select-sm" aria-label=".form-select-sm example">
                         <option selected>Tình hình quy hoạch</option>
-                        <option value="1">Đã quy hoạch</option>
-                        <option value="2">Chưa quy hoạch</option>
+                        <option value="Đã quy hoạch">Đã quy hoạch</option>
+                        <option value="Chưa quy hoạch">Chưa quy hoạch</option>
                     </select>
                 </div>
             </div>
@@ -988,16 +1049,16 @@
                 <div class="col-sm-9">
                     <select class="form-select form-select-sm" id="typeBillboard" aria-label=".form-select-sm example" name="typeofLocation">
                         <option selected>Phân loại bảng quảng cáo</option>
-                        <option value="1">Trụ bảng hiflex</option>
-                        <option value="2">Trụ màn hình điện tử LED</option>
-                        <option value="3">Trụ hộp đèn</option>
-                        <option value="4">Bảng hiflex ốp tường</option>
-                        <option value="5">Màn hình điện tử ốp tường</option>
-                        <option value="6">Trụ treo băng rôn dọc</option>
-                        <option value="7">Trụ treo băng rôn ngang</option>
-                        <option value="8">Trụ/Cụm pano</option>
-                        <option value="9">Cổng chào</option>
-                        <option value="10">Trung tâm thương mại</option>
+                        <option value="Trụ bảng hiflex">Trụ bảng hiflex</option>
+                        <option value="Trụ màn hình điện tử LED">Trụ màn hình điện tử LED</option>
+                        <option value="Trụ hộp đèn">Trụ hộp đèn</option>
+                        <option value="Bảng hiflex ốp tường">Bảng hiflex ốp tường</option>
+                        <option value="Màn hình điện tử ốp tường">Màn hình điện tử ốp tường</option>
+                        <option value="Trụ treo băng rôn dọc">Trụ treo băng rôn dọc</option>
+                        <option value="Trụ treo băng rôn ngang">Trụ treo băng rôn ngang</option>
+                        <option value="Trụ/Cụm pano">Trụ/Cụm pano</option>
+                        <option value="Cổng chào">Cổng chào</option>
+                        <option value="Trung tâm thương mại">Trung tâm thương mại</option>
                     </select>
                 </div>
             </div>
@@ -1023,7 +1084,7 @@
 {{!-- Đơn xin cấp phép quảng cáo --}}
 <div class="license-form-container container-fluid form-center mt-4 p-4 d-none">
     <div class="center" style="height: 80%; overflow-y: scroll;">
-        <form method="post" id="formLicense" class="container-fluid custom-form-license box-shadow">
+        <form  id="formLicense" class="container-fluid custom-form-license box-shadow" enctype="multipart/form-data">
             <div id="errorContainer"></div>
 
             <div class="row">
@@ -1047,63 +1108,42 @@
                         <div class="row mb-2">
                                 <div class="col">
                                         <label for="txtLng" class="form-label fw-italic black-color">Kinh độ</label>
-                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng" value="10.45666" disabled>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLng" name="lng"  disabled>
                                 </div>
                                 <div class="col">
                                         <label for="txtLat" class="form-label fw-italic black-color">Vĩ độ</label>
-                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat" value="11.2222" disabled>
+                                        <input type="text" class="form-control form-control-sm mb-2" id="txtLat" name="lat"  disabled>
                                 </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col">
                                     <label for="txtWidth" class="form-label fw-italic black-color">Chiều dài</label>
-                                    <input type="text" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
+                                    <input type="number" class="form-control form-control-sm mb-2" id="txtWidth" name="width">
                             </div>
                             <div class="col">
                                     <label for="txtHeight" class="form-label fw-italic black-color">Chiều rộng</label>
-                                    <input type="text" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
+                                    <input type="number" class="form-control form-control-sm mb-2" id="txtHeight" name="height">
                             </div>
                         </div>  
-
+                        <div class="mb-2">
+                            <label for="txtQuantity" class="form-label">Số lượng</label>
+                            <input type="number" class="form-control form-control-sm" id="txtQuantity" name="quantity">
+                        </div>
                         <div class="mb-2">
                             <label class="form-label">Loại bảng quảng cáo </label>
                             <select id="typeBillboard" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option selected>Phân loại bảng quảng cáo</option>
-                                <option value="1">Trụ bảng hiflex</option>
-                                <option value="2">Trụ màn hình điện tử LED</option>
-                                <option value="3">Trụ hộp đèn</option>
-                                <option value="4">Bảng hiflex ốp tường</option>
-                                <option value="5">Màn hình điện tử ốp tường</option>
-                                <option value="6">Trụ treo băng rôn dọc</option>
-                                <option value="7">Trụ treo băng rôn ngang</option>
-                                <option value="8">Trụ/Cụm pano</option>
-                                <option value="9">Cổng chào</option>
-                                <option value="10">Trung tâm thương mại</option>
-                            </select>
-                        </div>
-
-                        <div class=" mb-2">
-                            <label class="form-label">Loại điểm đặt</label>
-                            <select id="typeLoc" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option selected>Phân loại điểm đặt</option>
-                                <option value="1">Đất công/Công viên/Hành lang an toàn giao thông</option>
-                                <option value="2">Đất tư nhân/Nhà ở riêng lẻ</option>
-                                <option value="3">Trung tâm thương mại</option>
-                                <option value="4">Chợ</option>
-                                <option value="5">Cây xăng</option>
-                                <option value="6">Nhà chờ xe buýt</option>
-                            </select>
-                        </div>
-
-                        
-                        <div class=" mb-2">
-                            <label class="form-label">Hình thức quảng cáo</label>
-                            <select id="typeAds" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                <option selected>Hình thức quảng cáo</option>
-                                <option value="1">Cổ động chính trị</option>
-                                <option value="2">Quảng cáo thương mại</option>
-                                <option value="3">Xã hội hoá</option>
+                                <option value="Trụ bảng hiflex">Trụ bảng hiflex</option>
+                                <option value="Trụ màn hình điện tử LED">Trụ màn hình điện tử LED</option>
+                                <option value="Trụ hộp đèn">Trụ hộp đèn</option>
+                                <option value="Bảng hiflex ốp tường">Bảng hiflex ốp tường</option>
+                                <option value="Màn hình điện tử ốp tường">Màn hình điện tử ốp tường</option>
+                                <option value="Trụ treo băng rôn dọc">Trụ treo băng rôn dọc</option>
+                                <option value="Trụ treo băng rôn ngang">Trụ treo băng rôn ngang</option>
+                                <option value="Trụ/Cụm pano">Trụ/Cụm pano</option>
+                                <option value="Cổng chào">Cổng chào</option>
+                                <option value="Trung tâm thương mại">Trung tâm thương mại</option>
                             </select>
                         </div>
 

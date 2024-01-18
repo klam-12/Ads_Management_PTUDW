@@ -17,23 +17,23 @@ const getAdsWithSetPoint = async (req, res) => {
 
 const createAds = async(req,res,next) =>{
   const body = req.body;
-  // console.log(body)
-  // const company = {
-  //   name: body.nameCompany,
-  //   address: body.address,
-  //   phoneNumber: body.phoneNumber,
-  //   email: body.email,
-  // }
-  // const newCompany = await companyService.createCompany(company);
+  console.log(body)
+  const company = {
+    name: body.nameCompany,
+    address: body.address,
+    phoneNumber: body.phoneNumber,
+    email: body.email,
+  }
+  const newCompany = await companyService.createCompany(company);
   // const setpoint  = setpointService.getSetPointWithlatlng(lat, lng);
   // if (!setpoint) {
-    // const newSetpoint = await setpointService.createSetPoint({
-      // typeofLocation: body.typeofLocation,
-      // adsFormat: body.adsFormat,
-      // isPlanned: true,
-      // lat: body.lat,
-      // lng: body.lng,
-    // })
+  //   const newSetpoint = await setpointService.createSetPoint({
+  //     typeofLocation: body.typeofLocation,
+  //     adsFormat: body.adsFormat,
+  //     isPlanned: true,
+  //     lat: body.lat,
+  //     lng: body.lng,
+  //   })
   // }
   const ads = {
     typeofAds: body.typeofAds,
@@ -45,7 +45,7 @@ const createAds = async(req,res,next) =>{
     startDate: new Date(body.startDate) || Date.now(),
     expireDate: new Date(body.expireDate) || null,
     id_setpoint: body.id_setpoint,
-    isLicensed: body.isLicensed, 
+    isLicensed: body.isLicensed || false, 
     
   }
   console.log(ads.image)

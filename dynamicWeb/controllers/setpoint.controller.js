@@ -25,7 +25,7 @@ const getSetPoint = async (req, res, next) => {
   if (!result) {
       throw new NotFoundResponse('Product not found');
   }
-  console.log(result)
+  console.log(result.pageSize)
   return res.render('vwAdmin/vwDepartment/spaceList', {
     list:result.results.map(setpoint => {
       setpoint = setpoint.toObject()
@@ -74,15 +74,17 @@ const getSetPointFilter = async (req, res, next) => {
       lat: setpoint.lat,
       lng: setpoint.lng
     };
-  })})
+  }),
+  page: result.page,
+      pageSize: result.pageSize,
+      totalPages: result.totalPages,
+      totalDocs: result.totalDocs
+})
 } 
 const createSetPoint = async (req, res, next) => {
   console.log("Setpoint")
     const body = req.body || {};
 
-    if (!body.address || !body.typeofLocation || !body.adsFormat || !body.lat || !body.lng) {
-      // throw new BadRequest('Required fields are missing');
-    }
     console.log(req.file)
     let setpoint = {
       address: body.address,
@@ -154,4 +156,12 @@ const getAllSetPoint = async (req, res, next) => {
   return res.json(responseData)
 }
 
-export { getSetPoint,getSetPointFilter,createSetPoint, getAllSetPoint};
+const deleteSetPointById = async (req, res, next) => {
+  const id = req.params.id
+  const deleteQC = await adsService.deleteAdsBySetPointId(id)
+  const result = await setpointService.deleteSetPointById(id)
+  return res.json({
+    message: 'Delete setpoint successfully',
+  })
+}
+export { getSetPoint,getSetPointFilter,createSetPoint, getAllSetPoint, deleteSetPointById,};

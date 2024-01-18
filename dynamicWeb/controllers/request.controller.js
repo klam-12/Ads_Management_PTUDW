@@ -14,7 +14,10 @@ const createRequest = async(req, res) => {
   if (objectToEdit === 'SetPoint'){
     
     const {adsFormat, typeofLocation, isPlanned, image} = body;
-    // const image = null
+    if(image){
+      const uploadedResponse = await Upload.uploadFile(req.file.path).catch((error) => {});
+      image = uploadedResponse.secure_url;
+    }
      data = {
       user_id,
       objectToEdit,

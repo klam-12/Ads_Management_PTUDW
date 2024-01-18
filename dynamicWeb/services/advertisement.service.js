@@ -23,6 +23,10 @@ class Advertisement{
     const result = await AdvertisementModel.updateOne({_id: id}, {$set: {isLicensed: true}});
     return result
   }
+  async deleteAdsBySetPointId(id){
+    const result = await AdvertisementModel.deleteMany({id_setpoint: id});
+    return result
+  }
 }
 
 export default new Advertisement();
