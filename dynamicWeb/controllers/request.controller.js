@@ -65,4 +65,11 @@ const handleReport = async(req, res) => {
   const {id, handleContent} = req.body
   const report = await requestService.handleReport(id, handleContent);
 } 
-export {createRequest,handleReport}
+const getRequestById = async(req, res) => {
+  console.log(req)
+  const id = req.query.id_setpoint
+  const request = await requestService.getRequestByObjectId(id)
+  console.log(request)
+  return res.json(request)
+}
+export {createRequest,handleReport, getRequestById}
