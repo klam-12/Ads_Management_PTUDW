@@ -117,7 +117,7 @@
         const isHandled = $(this).data('ishandled'); // Assuming you have isHandled data attribute in each tr
         const newColumn = `
             <td class="text-center">
-                <button class="btn <btn-sm btn-readonly">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
+                <button class="btn btn-sm ${isHandled ? 'btn-disabled' : 'btn-readonly'}">${isHandled ? 'Đã xử lí' : 'Chưa xử lí'}</button>
             </td>
         `;
         $(this).append(newColumn);
@@ -294,7 +294,7 @@
                   </td>
                   <td class="text-center">
                       ${authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường' ?
-                          `<button class="btn btn-sm btn-readonly">${report.isHandled ? 'Đã xử lý' : 'Chưa xử lý'} </button>` : '<p></p>'}
+                          `<button class="btn btn-sm ${report.isHandled ? 'btn-disabled' : 'btn-readonly'}">${report.isHandled ? 'Đã xử lý' : 'Chưa xử lý'} </button>` : '<p></p>'}
                   </td>
 
                   
@@ -376,9 +376,9 @@
             <th class="col-0.5" scope="col">STT</th>
             <th class="col-2" scope="col">Thời điểm gửi</th>
             <th class="col-2" scope="col">Thông tin người gửi</th>
-            <th class="col-4" scope="col">Thông tin quảng cáo</th>
+            <th class="col-3" scope="col">Thông tin quảng cáo</th>
             <th class="col-2" scope="col">Loại hình quảng cáo</th>
-            <th class="col-2" scope="col">Cách thức xử lý</th>
+            <th class="col-1" scope="col">Cách thức xử lý</th>
             {{#ifEquals authUser.role 'Cán bộ Quận'}} 
                 <th class="col-2" scope="col">Trạng thái</th>
             {{/ifEquals}}
@@ -428,13 +428,21 @@
     
     {{#ifEquals authUser.role 'Cán bộ Quận'}} 
         <td class="text-center">
-            <button class="btn btn-sm btn-readonly">{{#if isHandled}}Đã xử lí{{else}}Chưa xử lí{{/if}}</button>
+            {{#if isHandled}}
+                <button class="btn btn-sm btn-disabled">Đã xử lí</button>
+            {{else}}
+                <button class="btn btn-sm btn-readonly">Chưa xử lí</button>
+            {{/if}}
         </td>
     {{/ifEquals}}
 
     {{#ifEquals authUserRole 'Cán bộ Phường'}} 
         <td class="text-center">
-            <button class="btn btn-sm btn-readonly">{{#if isHandled}}Đã xử lí{{else}}Chưa xử lí{{/if}}</button>
+            {{#if isHandled}}
+                <button class="btn btn-sm btn-disabled">Đã xử lí</button>
+            {{else}}
+                <button class="btn btn-sm btn-readonly">Chưa xử lí</button>
+            {{/if}}
         </td>
     {{/ifEquals}}
 </tr>

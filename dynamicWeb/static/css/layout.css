@@ -491,11 +491,7 @@
     border-radius: 20px;
 }
 .btn-readonly{
-    display: flex;
-    padding: 5px;
-    justify-content: center;
-    align-items: center;
-
+    width: 100px;
     color: var(--table-orange-tag-text);
     font-weight: 500;
     background-color: var(--table-orange-tag-bg);
@@ -504,6 +500,18 @@
     color: var(--table-orange-tag-text);
     font-weight: 500;
     background-color: var(--table-orange-tag-bg);
+}
+.btn-disabled{
+    width: 100px;
+    color: var(--table-disabled-button);
+    font-weight: 500;
+    background-color: var(--table-disabled-tag);
+}
+.btn-disabled:hover{
+    cursor: default;
+    font-weight: 500;
+    color: var(--table-disabled-button);
+    background-color: var(--table-disabled-tag);
 }
 .btn-list{
     width: 120px;
