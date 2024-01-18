@@ -107,9 +107,7 @@
             })
         </script>
         
-        <script>
-            
-           
+        <script>   
         $('#formAddSpace').on('submit', function (e) {
             e.preventDefault(); // Prevent the default form submission behavior
 
@@ -160,6 +158,7 @@
                 processData: false,
                 success: function (response) {
                     console.log("Success", response);
+                    $('div#successAddPoint').removeClass('d-none');
                     // Optionally handle success response
                 },
                 error: function (xhr, status, error) {
@@ -168,6 +167,11 @@
                 }
             });
         });
+
+            $('div#successAddPoint a.create-confirm-btn').click(function(){
+                $('div#successAddPoint').addClass('d-none');
+                $('div.space-form-container').addClass('d-none');
+            });
 
         </script>
 
