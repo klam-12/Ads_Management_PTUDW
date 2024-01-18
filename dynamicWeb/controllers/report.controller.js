@@ -5,10 +5,18 @@ import {SuccessResponse} from '../common/success.response.js';
 import {paginateReport} from '../utils/pagination.js';
 import Report from '../models/Report.js';
 import {formatMongoDBDate} from '../utils/datetime.js';
-const createReport = (req, res, next) => {
+import {sendEmail} from '../utils/sendEmail.js';
+// const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+import Upload from '../utils/upload.js';
+dotenv.config();
+
+const createReport = async(req, res, next) => {
   try{
   const body = req.body;
   const {reportType, fullName, email, phoneNumber, reportContent, type, lat, lng, isHandler,address,ward,district} = body;
+  console.log(123,req.files['image1'] )
   const data = {
     reportType,
     fullName,
@@ -21,7 +29,20 @@ const createReport = (req, res, next) => {
     address: body.address || '',
     ward,
     district,
-    isHandler: isHandler || false
+    isHandler: isHandler || false,
+    address: body.address || '',
+     image1 : req.files['image1'] ? req.files['image1'][0].filename : '',
+     image2 : req.files['image2'] ? req.files['image2'][0].filename : ''
+
+  }
+  if (data.image1 ) {
+    const uploadedResponse = await Upload.uploadFile(req.files['image1'][0].path).catch((error) => {});
+    data.image1 = uploadedResponse.secure_url;
+
+  }
+  if (data.image2 ) {
+    const uploadedResponse = await Upload.uploadFile(req.files['image2'][0].path).catch((error) => {});
+    data.image2 = uploadedResponse.secure_url;
   }
   const report = reportService.createReport(data);
   if (!report) {
@@ -63,10 +84,10 @@ const getReportFilter = async (req, res, next) => {
         quantity: data.quantity,
         width: data.width,
         height: data.height,
-       type: data.type,
-       reportContent: data.reportContent,
-       isHandled: data.isHandled,
-       createAt: formatMongoDBDate(data.createdAt),
+        type: data.type,
+        reportContent: data.reportContent,
+        isHandled: data.isHandled,
+        createAt: formatMongoDBDate(data.createdAt),
         }
       }),
       page: result.page,
@@ -137,7 +158,7 @@ const getReportForMap = async (req, res, next) => {
   const reports = await reportService.getAllReports();
   const result = reports.map((report) => {
     return {
-        isProcess: report.isHandler,
+        isProcess: report.isHandled,
         reportType: report.reportType,
         fullName: report.fullName,
         email: report.email,
@@ -150,15 +171,34 @@ const getReportForMap = async (req, res, next) => {
   })
   return res.json(result);
 }
-
-const editReportStatus = async (req, res, next) => {
+const handleReport = async (req, res, next) => {
   const id = req.params.id;
-  const report = await reportService.editReportStatus(id);
+  const {content,email,address,fullName} = req.body
+  const report = await reportService.handleReport(id,content);
   console.log(report)
-  if (!report) {
-    throw new NotFoundResponse('Report not found');
-  }
-  return res.json(report);
+  const subject = '[Ads Management System)_G5] Your report has been handled'
+  const text = `<p>Chào ${fullName},</p>
+
+  <p>Cán bộ Phường đã xử lý xong báo cáo của bạn được gửi ở địa chỉ ${address}. Vui lòng xem lại báo cáo của mình để thấy thêm thông tin về cách thức xử lý.</p>
+
+  <p>Sau đây là cách thức xử lý cho báo cáo của bạn:</p>
+
+  <p >Nội dung: <strong> ${content}</strong></p>
+
+  <p>Cảm ơn bạn đã cung cấp thông tin này.</p>
+
+  <p>Trân trọng,</p>
+  <p>Ads Management System_G5</p>`
+
+  try {
+    await sendEmail(email, subject, text);
+    return res.json({
+      message: 'Report handled successfully'
+    })
+} catch
+(err) {
+  return res.json(err)
+}
 }
 
-export {createReport, getAllReports,getReportFilter,getReportById,getReportForMap,editReportStatus};
+export {createReport, getAllReports,getReportFilter,getReportById,getReportForMap,handleReport};

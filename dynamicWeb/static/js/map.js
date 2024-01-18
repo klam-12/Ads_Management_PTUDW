@@ -1,79 +1,3 @@
-
-// var dataReport = {
-//     type: 'FeatureCollection',
-//     features: [
-//         {
-//             type: 'Feature',
-//             properties: {
-//                 isProcess: true,
-//                 reportType: 'Tố giác sai phạm',
-//                 fullName: 'John Doe',
-//                 email: 'johndoe@example.com',
-//                 phoneNumber: '123-456-7890',
-//                 reportContent: 'Report details and description...',
-//                 image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-//                 image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-//             },
-//             geometry: {
-//                 coordinates: [106.68222807113926, 10.762650746826012],
-//                 type: 'Point',
-//             },
-//         },
-//         {
-//             type: 'Feature',
-//             properties: {
-//                 isProcess: false,
-//                 reportType: 'Tố giác sai phạm',
-//                 fullName: 'John Doe',
-//                 email: 'johndoe@example.com',
-//                 phoneNumber: '123-456-7890',
-//                 reportContent: 'Report details and description...',
-//                 image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-//                 image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-//             },
-//             geometry: {
-//                 coordinates: [106.68260580019103, 10.766612233710092],
-//                 type: 'Point',
-//             },
-//         },
-//         {
-//             type: 'Feature',
-//             properties: {
-//                 isProcess: true,
-//                 reportType: 'Tố giác sai phạm',
-//                 fullName: 'John Doe',
-//                 email: 'johndoe@example.com',
-//                 phoneNumber: '123-456-7890',
-//                 reportContent: 'Report details and description...',
-//                 image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-//                 image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-//             },
-//             geometry: {
-//                 coordinates: [106.67862331833987, 10.765453009157298],
-//                 type: 'Point',
-//             },
-//         },
-//         {
-//             type: 'Feature',
-//             properties: {
-//                 isProcess: true,
-//                 reportType: 'Tố giác sai phạm',
-//                 fullName: 'John Doe',
-//                 email: 'johndoe@example.com',
-//                 phoneNumber: '123-456-7890',
-//                 reportContent: 'Report details and description...',
-//                 image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-//                 image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-//             },
-//             geometry: {
-//                 coordinates: [106.68060964262065, 10.765443348934227],
-//                 type: 'Point',
-//             },
-//         },
-//     ],
-// };
-
-// Creating Icons
 var qcIconPlanned = L.divIcon({
     className: 'qc-icon qc-planned',
     html: 'QC',
@@ -340,6 +264,7 @@ $('.modal-content').on('click', '.btn-info', function () {
 
 const reportInfo = (info) => {
     const content = info.properties;
+    console.log(56789,content)
     return `<div class="component-report-sm component-report">
     <form class="report-form">
         <h4 class="report-form-title">
@@ -437,7 +362,7 @@ const reportInfo = (info) => {
             </div>
         </div>
     </form>
-</div>`;
+    </div>`;
 };
 var reportMarkers = L.markerClusterGroup({
     iconCreateFunction: function (cluster) {
@@ -462,6 +387,7 @@ const fetchDataReport = async () => {
         const dataReport = {
             type: 'FeatureCollection',
             features: data.map((item) => ({
+
                 type: 'Feature',
                 properties: {
                     isProcess: item.isProcess,
@@ -547,6 +473,57 @@ $('.modal-content').on('click', '.btn-report', function () {
     $('#submitBtn').data('infoData', infoData);
 });
 
+const addReportToMap = (reportData) => {
+    const dataReport = {
+        type: 'FeatureCollection',
+        features: reportData.map((item) => ({
+            type: 'Feature',
+            properties: {
+                isProcess: item.isProcess,
+                reportType: item.reportType,
+                fullName: item.fullName,
+                email: item.email,
+                phoneNumber: item.phoneNumber,
+                reportContent: item.reportContent,
+                image1: item.image1,
+                image2: item.image2,
+            },
+            geometry: {
+                coordinates: item.coordinates,
+                type: 'Point',
+            },
+        })),
+    };
+
+    var reportMarker = L.geoJSON(dataReport, {
+        pointToLayer: function (feature, latlng) {
+            if (feature.properties.isProcess) {
+                return L.marker(latlng, { icon: reportIconDone });
+            } else {
+                return L.marker(latlng, { icon: reportIconProcessing });
+            }
+        },
+        onEachFeature: function (feature, layer) {
+            layer.on('click', function (e) {
+                $('.modal-content').empty();
+                const content = reportInfo(feature);
+                $('.modal-content').append(content);
+                checkModalComponents();
+                $('.component-report').addClass('show');
+            });
+        },
+    });
+
+    // Clear existing report markers before adding new ones
+    reportMarkers.clearLayers();
+
+    // Add the new report markers to the marker cluster group
+    reportMarkers.addLayer(reportMarker);
+
+    // Add the marker cluster group to the map
+    map.addLayer(reportMarkers);
+};
+
 $('#reportForm').submit(function (e) {
     e.preventDefault();
 
@@ -560,30 +537,43 @@ $('#reportForm').submit(function (e) {
     console.log(infoData)
     const imageFiles = $('#img')[0].files;
     
-    // Combine formData and infoData
+    
     const combinedData = { 
         fullName: formData[1].value,
         email:formData[2].value,
         phoneNumber:formData[3].value,
-        reportType:formData['reportType'],
-        reportContent: formData['reportContent'],
+        reportType:formData[0].value,
+        reportContent: formData[4].value,
         type: infoData.type,
         lat: infoData.lat,
         lng: infoData.lng,
         isHandled: false,
+        image1: imageFiles[0],
+        image2: imageFiles[1],
     };
-
+    console.log(combinedData)
+    const form = new FormData();
+    form.append('fullName', combinedData.fullName);
+    form.append('email', combinedData.email);
+    form.append('phoneNumber', combinedData.phoneNumber);
+    form.append('reportType', combinedData.reportType);
+    form.append('reportContent', combinedData.reportContent);
+    form.append('type', combinedData.type);
+    form.append('lat', combinedData.lat);
+    form.append('lng', combinedData.lng);
+    form.append('isHandled', combinedData.isHandled);
+    form.append('image1', combinedData.image1);
+    form.append('image2', combinedData.image2);
+    console.log(form)
     fetch('http://localhost:3000/reports/', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(combinedData),
+        body: form,
     })
     .then(response => response.json())
     .then(data => {
         // Handle the response from the server as needed
         console.log(data);
+        addReportToMap([data]);
     })
     .catch(error => {
         console.error('Error:', error);

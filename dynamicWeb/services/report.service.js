@@ -13,8 +13,8 @@ class Report{
     const reports = await ReportModel.find({});
     return reports
   }
-  async editReportStatus(id){
-    const report = await ReportModel.findByIdAndUpdate(id, {isHandled: true});
+  async handleReport(id,handleContent){
+    const report = await ReportModel.findByIdAndUpdate(id, {isHandled: true, handleContent:handleContent});
     return report
   }
 }

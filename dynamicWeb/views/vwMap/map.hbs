@@ -316,12 +316,6 @@
                 </button>
             </div>
             <div>
-                {{!-- <h4 class="modal-title">{{authUser}}</h4> --}}
-                <button type="button" class="btn btn-sm btn-outline-success padding-3 d-none" id="licenseRequest">
-                    <i class="bi bi-file-arrow-up-fill" style="font-size:16px;">
-                        Xin cấp phép
-                    </i>
-                </button>
                 {{#ifEquals authUser.role 'Cán bộ Sở'}}
                 <button type="button" class="btn btn-sm btn-outline-primary padding-3" id="addSetPoint">
                     <i class="bi bi-plus-square-fill" style="font-size:16px;">
@@ -337,7 +331,7 @@
         <div class="report-component hide" id="report">
             <div class="report-form-container center">
                 <button class="btn-close-report-form"><i class="bi bi-x-lg"></i></button>
-                <form class="report-form" id="reportForm">
+                <form class="report-form" id="reportForm" enctype="multipart/form-data">
                     <h4 class="report-form-title">
                         <i class="bi bi-exclamation-octagon-fill"></i> BÁO CÁO VI PHẠM
                     </h4>
@@ -357,9 +351,10 @@
                                             id="reportType"
                                         >
                                             <option value="" selected>Chọn hình thức báo cáo</option>
-                                            <option value="Cổ động chính trị">Cổ động chính trị</option>
-                                            <option value="Quảng cáo thương mại">Quảng cáo thương mại</option>
-                                            <option value="Xã hội hoá">Xã hội hoá</option>
+                                            <option value="Tố giác sai phạm">Tố giác sai phạm</option>
+                                            <option value="Đăng ký nội dung">Đăng ký nội dung</option>
+                                            <option value="Đóng góp ý kiến">Đóng góp ý kiến</option>
+                                            <option value="Giải đáp thắc mắc">Giải đáp thắc mắc</option>
                                         </select>
                                         <span class="report-required"></span>
                                     </div>

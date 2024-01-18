@@ -103,19 +103,16 @@ const createSetPoint = async (req, res, next) => {
       if (uploadedResponse.secure_url) {
         // Set additional location details based on coordinates
         const { address, ward, district } = await toAddress(body.lat, body.lng);
-        // setpoint.address = address;
-        // setpoint.ward = ward;
-        // setpoint.district = district;
+
         console.log(setpoint)
         // Create setpoint in the database
+        try{
         const createdSetpoint = await setpointService.createSetpoint(setpoint);
-
-        // Respond with success and metadata
-        // return new SuccessResponse({
-        //   metadata: createdSetpoint,
-        // }).send(req, res);
         console.log(createdSetpoint)
-        return res.json(createdSetpoint ||{}) // createdSetpoint;
+        return res.json(createdSetpoint ||{}) 
+        }
+        catch(error){console.log(error)}
+
       } else {
         // throw new UnprocessableContentResponse('Image upload failed');
       }

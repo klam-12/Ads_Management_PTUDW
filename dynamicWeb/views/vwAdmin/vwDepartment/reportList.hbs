@@ -2,29 +2,47 @@
 <script>
     performAjaxQuery();
     var pageNumber = 1;
+    $(document).on('click', 'button.btn-view-report', function () {
+    $('button.btn-view-report').click(function () {
+        $('div.report-container').removeClass('d-none');
+        const id = $(this).data('id');
+        console.log(id)
 
-    $('button.btn-blue').click(function () {
-    $('div.report-container').removeClass('d-none');
-    const id = $(this).data('id');
-
-    $.getJSON(`/reports/getId/${id}`, function (data) {
-      console.log(data.reportType)
-        $('#reportType').val(data.reportType);
-        $('#fullName').val(data.fullName);
-        $('#email').val(data.email);
-        $('#phoneNumber').val(data.phoneNumber);
-        $('#reportContent').val(data.reportContent);
-
-        $('#imagesOutput').empty();
-        if (data.images && data.images.length > 0) {
-            data.images.forEach(image => {
-                $('#imagesOutput').append(`<img src="${image}" alt="Report Image" class="uploaded-image">`);
-            });
-        }
-        $('.report-status').text(data.ReportState);
+        $.getJSON(`/reports/getId/${id}`, function (data) {
+        console.log(data)
+            $('#reportType').val(data.reportType);
+            $('#fullName').val(data.fullName);
+            $('#email').val(data.email);
+            $('#phoneNumber').val(data.phoneNumber);
+            $('#reportContent').val(data.reportContent);
+            $('#address').val(data.address);
+            $('#imagesOutput').empty();
+            if (data.image1 && data.image1.length > 0) {
+                //data.images.forEach(image => {
+                    $('#imagesOutput').append(`<img src="${data.image1}" alt="Report Image" class="uploaded-image">`);
+                //});
+            }
+            if (data.image2 && data.image2.length > 0) {
+                //data.images.forEach(image => {
+                    $('#imagesOutput').append(`<img src="${data.image2}" alt="Report Image" class="uploaded-image">`);
+                //});
+            }
+            console.log(data)
+            if (data.isHandled){
+                $('#reportHandleContent').val(data.handleContent)
+                $('#report-submit-button').addClass('d-none');
+                $('#reportHandleContent').prop('disabled', true);
+            }
+            else {
+                $('#reportHandleContent').prop('disabled', false);
+                $('#report-submit-button').removeClass('d-none');
+                $('#report-submit-button').data('id',data._id)
+                console.log(data.id)
+            }
+            $('.report-status').text(data.ReportState);
+        });
     });
-});
-
+    })
     $('i.report-close-btn').click(function(){
       $('div.report-container').addClass('d-none');
       $('div.report-container form#reportForm')[0].reset();
@@ -34,12 +52,32 @@
       e.preventDefault();
       if(!$('textarea#reportHandleContent').val()){
         $('span#reportHandleRequired').removeClass('d-none');
+
       }
       else{
-        $('form#reportForm').submit();
+        const formData = {
+            id : $('#report-submit-button').data('id'),
+            email: $('input#email').val(),
+            fullName: $('input#fullName').val(),
+            address: $('input#address').val(),
+            handleContent: $('textarea#reportHandleContent').val()
+        }
+        console.log(formData)
+        $.ajax({
+          type: 'PUT',
+          url: `/reports/handle-report/${formData.id}`,
+          data: formData,
+          success: function(response) {
+            $('div.report-container').addClass('d-none');
+            $('div.report-container form#reportForm')[0].reset();
+            performAjaxQuery();
+            console.log('success')
+          }
+        })
+        //$('form#reportForm').submit();
       }
     });
-
+    
      const District1 = [
                 'Phường Bến Nghé',
                 'Phường Bến Thành',
@@ -85,7 +123,9 @@
         $(this).append(newColumn);
     });
     }
-
+         if (authUserRole === "Cán bộ sở") {
+           $('#reportHandleContent').prop('disabled', true);
+         }
         function updateDropdownContent() {
             const districtSelect = $('#districtSelect');
             const wardSelect = $('#wardSelect');
@@ -234,15 +274,15 @@
                           `<span class="fw-bold">Bảng QC</span>
                           <ul>
                               <li>Địa chỉ: ${report.address}</li>
-                              <li>Kích thước: 2.5m x 10m</li>
-                              <li>Số lượng: 1 trụ/bảng</li>
-                              <li>Hình thức: Cổ động chính trị</li>
+                              <li>Kích thước: ${report.heigh}m x ${report.width}m</li>
+                              <li>Số lượng: ${report.quantity} trụ/bảng</li>
+                              <li>Hình thức: ${report.type}</li>
                               <li>Phân loại: ${report.classification}</li>
                           </ul>` :
                           `<span class="fw-bold">Điểm đặt</span>
                           <ul>
                               <li>Địa chỉ: ${report.address}</li>
-                              <li>Hình thức QC: Cổ động chính trị</li>
+                              <li>Hình thức QC: ${report.type}</li>
                               <li>Phân loại: ${report.classification}</li>
                               <li>Tình trạng: ${report.status}</li>
                           </ul>`
@@ -250,7 +290,7 @@
                   </td>
                   <td class="text-center">${report.reportType}</td>
                   <td class="text-center">
-                      <button type="button" data-id="${report._id}" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+                      <button type="button" data-id="${report._id}" class="btn btn-sm btn-table btn-blue btn-view-report">Xem thêm</button>
                   </td>
                   <td class="text-center">
                       ${authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường' ?
@@ -382,7 +422,7 @@
     <td class="text-center">{{reportType}}</td>
 
     <td class="text-center">
-        <button type="button" data-id="{{_id}}" class="btn btn-sm btn-table btn-blue">Xem thêm</button>
+        <button type="button" data-id="{{_id}}" class="btn btn-sm btn-table btn-blue btn-view-report">Xem thêm</button>
         <p>{{authUser.role}}</p>
     </td>
     
@@ -513,15 +553,25 @@
                             cols="30"
                             rows="10"
                             style="resize: none"
+                            {{!-- disabled --}}
                         ></textarea>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="report-submit-button">
+                {{#ifEquals authUser.role 'Cán bộ Quận'}} 
+               <div class="row">
+                    <div class="report-submit-button" id="report-submit-button">
                         <input type="submit" id="submitBtn" value="Gửi cách thức xử lý" />
                     </div>
                 </div>
+            {{/ifEquals}}
+            {{#ifEquals authUser.role 'Cán bộ Phường'}} 
+               <div class="row">
+                    <div class="report-submit-button" id ="report-submit-button">
+                        <input type="submit" id="submitBtn" value="Gửi cách thức xử lý" />
+                    </div>
+                </div>
+            {{/ifEquals}}
+                
 
             </div>
         </form>

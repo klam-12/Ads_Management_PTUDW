@@ -18,6 +18,10 @@ const ReportSchema = new mongoose.Schema({
   district: String,
   ward: String,
   address: String,
+  handleContent: {
+    type: String,
+    default: null
+  }
 }, { timestamps: true });
 
 const Report = mongoose.model('Report', ReportSchema);

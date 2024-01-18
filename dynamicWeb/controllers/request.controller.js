@@ -58,4 +58,8 @@ const createRequest = async(req, res) => {
   res.json(response);
 }
 
-export {createRequest}
+const handleReport = async(req, res) => {
+  const {id, handleContent} = req.body
+  const report = await requestService.handleReport(id, handleContent);
+} 
+export {createRequest,handleReport}
