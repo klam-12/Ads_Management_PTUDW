@@ -1,198 +1,3 @@
-// when the docs use an import:
-var dataADS = {
-    type: 'FeatureCollection',
-    features: [
-        {
-            type: 'Feature',
-            properties: {
-                address: '459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh',
-                typeofLocation: 'Đất công/Công viên/Hành lang an toàn giao thông',
-                AdsFormat: 'Cổ động chính trị',
-                isPlanned: true,
-                typeofAds: 'Trụ bảng hiflex',
-                width: 2.5,
-                height: 10,
-                quantity: 1,
-                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
-                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
-            },
-            geometry: {
-                coordinates: [106.68222807113926, 10.762650746826012],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                address: '459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh',
-                typeofLocation: 'Trung tâm thương mại',
-                AdsFormat: 'Quảng cáo thương mại',
-                isPlanned: true,
-                typeofAds: 'Trung tâm thương mại',
-                width: 2.5,
-                height: 10,
-                quantity: 1,
-                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
-                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
-            },
-            geometry: {
-                coordinates: [106.68225621143063, 10.761193217103099],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                address: '459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh',
-                typeofLocation: ' Chợ',
-                AdsFormat: 'Xã hội hoá',
-                isPlanned: false,
-                typeofAds: 'Trụ hộp đèn',
-                width: 2.5,
-                height: 10,
-                quantity: 1,
-                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
-                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
-            },
-            geometry: {
-                coordinates: [106.68051981395382, 10.76387028778423],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                address: '459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh',
-                typeofLocation: ' Đất tư nhân/Nhà ở riêng lẻ',
-                AdsFormat: 'Quảng cáo thương mại',
-                isPlanned: true,
-                typeofAds: 'Trụ/Cụm pano',
-                width: 2.5,
-                height: 10,
-                quantity: 1,
-                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
-                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
-            },
-            geometry: {
-                coordinates: [106.68048211743064, 10.76130263744605],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                address: '459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh',
-                typeofLocation: ' Nhà chờ xe buýt',
-                AdsFormat: 'Xã hội hoá',
-                isPlanned: true,
-                typeofAds: ' Màn hình điện tử ốp tường',
-                width: 2.5,
-                height: 10,
-                quantity: 1,
-                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
-                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
-            },
-            geometry: {
-                coordinates: [106.67946431131486, 10.761012540960436],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                address: '459 Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, TP Hồ Chí Minh',
-                typeofLocation: ' Cây xăng',
-                AdsFormat: 'Quảng cáo thương mại',
-                isPlanned: false,
-                typeofAds: 'Trụ treo băng rôn dọc',
-                width: 2.5,
-                height: 10,
-                quantity: 1,
-                image1: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQgByBT5IiAT_a2x9pUVb4VMoOrlzHH7Jrzj-HB5jzHlR4lNLMS',
-                image2: 'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*',
-            },
-            geometry: {
-                coordinates: [106.67887038240696, 10.762101450786247],
-                type: 'Point',
-            },
-        },
-    ],
-};
-
-var dataReport = {
-    type: 'FeatureCollection',
-    features: [
-        {
-            type: 'Feature',
-            properties: {
-                isProcess: true,
-                reportType: 'Tố giác sai phạm',
-                fullName: 'John Doe',
-                email: 'johndoe@example.com',
-                phoneNumber: '123-456-7890',
-                reportContent: 'Report details and description...',
-                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-            },
-            geometry: {
-                coordinates: [106.68222807113926, 10.762650746826012],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                isProcess: false,
-                reportType: 'Tố giác sai phạm',
-                fullName: 'John Doe',
-                email: 'johndoe@example.com',
-                phoneNumber: '123-456-7890',
-                reportContent: 'Report details and description...',
-                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-            },
-            geometry: {
-                coordinates: [106.68260580019103, 10.766612233710092],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                isProcess: true,
-                reportType: 'Tố giác sai phạm',
-                fullName: 'John Doe',
-                email: 'johndoe@example.com',
-                phoneNumber: '123-456-7890',
-                reportContent: 'Report details and description...',
-                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-            },
-            geometry: {
-                coordinates: [106.67862331833987, 10.765453009157298],
-                type: 'Point',
-            },
-        },
-        {
-            type: 'Feature',
-            properties: {
-                isProcess: true,
-                reportType: 'Tố giác sai phạm',
-                fullName: 'John Doe',
-                email: 'johndoe@example.com',
-                phoneNumber: '123-456-7890',
-                reportContent: 'Report details and description...',
-                image1: 'https://hips.hearstapps.com/hmg-prod/images/beautiful-smooth-haired-red-cat-lies-on-the-sofa-royalty-free-image-1678488026.jpg?crop=0.88847xw:1xh;center,top&resize=1200:*',
-                image2: 'https://th-thumbnailer.cdn-si-edu.com/bgmkh2ypz03IkiRR50I-UMaqUQc=/1000x750/filters:no_upscale():focal(1061x707:1062x708)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/55/95/55958815-3a8a-4032-ac7a-ff8c8ec8898a/gettyimages-1067956982.jpg',
-            },
-            geometry: {
-                coordinates: [106.68060964262065, 10.765443348934227],
-                type: 'Point',
-            },
-        },
-    ],
-};
-// Creating Icons
 var qcIconPlanned = L.divIcon({
     className: 'qc-icon qc-planned',
     html: 'QC',
@@ -210,14 +15,14 @@ var qcIconPlanning = L.divIcon({
 
 var reportIconProcessing = L.divIcon({
     className: 'report-icon report-processing',
-    html: '<img src="./css/Vector.svg" alt="Your SVG File" class="svg-icon" />',
+    html: '<img src="../static/css/Vector.svg" alt="Your SVG File" class="svg-icon" />',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
     popupAnchor: [-3, -76],
 });
 var reportIconDone = L.divIcon({
     className: 'report-icon report-done',
-    html: '<img src="./css/Vector.svg" alt="Your SVG File" class="svg-icon" />',
+    html: '<img src="../static/css/Vector.svg" alt="Your SVG File" class="svg-icon" />',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
     popupAnchor: [-3, -76],
@@ -235,44 +40,109 @@ var customPopup = L.DomUtil.create('div', 'custom-popup-class');
 
 map.getContainer().appendChild(customPopup);
 
-var qcMarkers = L.markerClusterGroup();
-// var listComponent = [];
-var qcMarker = L.geoJSON(dataADS, {
-    pointToLayer: function (feature, latlng) {
-        if (feature.properties.isPlanned) {
-            return L.marker(latlng, { icon: qcIconPlanned });
-        } else {
-            return L.marker(latlng, { icon: qcIconPlanning });
-        }
-    },
-    onEachFeature: function (feature, layer) {
-        layer.on('mouseover', function (e) {
-            var content = popupTemplate(feature);
-            // e.popup.setContent(content);
-            customPopup.innerHTML = content;
+let qcMarkers = L.markerClusterGroup();
+const transformData = (inputData) => {
+    return {
+      type: 'FeatureCollection',
+      features: inputData.list.map((item) => {
+        const feature = {
+          type: 'Feature',
+          properties: {
+            address: item.data.address,
+            typeofLocation: item.data.typeofLocation,
+            AdsFormat: item.data.AdsFormat,
+            isPlanned: item.data.isPlanned,
+            image: item.data.image,
+            qcInfo: item.data.qcInfo.map((qcItem) => ({
+              id: qcItem.id,
+              image: qcItem.image,
+              typeofAds: qcItem.typeofAds,
+              width: qcItem.width,
+              height: qcItem.height,
+              quantity: qcItem.quantity,
+            })),
+          },
+          geometry: {
+            coordinates: item.coordinates.reverse(), // Swap latitude and longitude
+            type: 'Point',
+          },
+        };
+        return feature;
+      }),
+    };
+  };
+  
+const fetchDataAndCreateLayer = async () => {
+    try {
+        const apiUrl = 'http://localhost:3000/setPoints/map';
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+  
+      const data = await response.json();
+  
+      const transformedData = transformData(data);
+      const dataADS = {
+        type: 'FeatureCollection',
+        features: transformedData.features,
+      };
+  
+  
+      // Create the Leaflet geoJSON layer with the transformed data
+    var qcMarker = L.geoJSON(dataADS, {
+        pointToLayer: function (feature, latlng) {
+            if (feature.properties.isPlanned) {
+                return L.marker(latlng, { icon: qcIconPlanned });
+            } else {
+                return L.marker(latlng, { icon: qcIconPlanning });
+            }
+        },
+        onEachFeature: function (feature, layer) {
+            layer.on('mouseover', function (e) {
+                var content = popupTemplate(feature);
+                // e.popup.setContent(content);
+                customPopup.innerHTML = content;
 
-            // Hiển thị thẻ div và đặt vị trí
-            customPopup.style.display = 'flex';
+                // Hiển thị thẻ div và đặt vị trí
+                customPopup.style.display = 'flex';
 
-            var coords = map.latLngToContainerPoint(layer.getLatLng());
-            customPopup.style.left = coords.x + 5 + 'px';
-            customPopup.style.top = coords.y + 5 + 'px'; // Điều chỉnh vị trí hiển thị thẻ div
-        });
+                var coords = map.latLngToContainerPoint(layer.getLatLng());
+                customPopup.style.left = coords.x + 5 + 'px';
+                customPopup.style.top = coords.y + 5 + 'px'; // Điều chỉnh vị trí hiển thị thẻ div
+            });
 
-        layer.on('mouseout', function (e) {
-            customPopup.style.display = 'none';
-        });
-        layer.on('click', function (e) {
-            $('.modal-content').empty();
-            const content = QCComponent(feature.properties);
-            $('.modal-content').html(content);
-            console.log(content);
-            checkModalComponents();
-            $('.modal-content').show();
-            $('.component-QC-and-Img').addClass('show');
-        });
-    },
+            layer.on('mouseout', function (e) {
+                customPopup.style.display = 'none';
+            });
+            layer.on('click', function (e) {
+                $('.modal-content').empty();
+                feature.properties.qcInfo.map((qcInfo) => {
+                    console.log(qcInfo)
+                    const content = QCComponent(feature.properties, qcInfo, feature.geometry);
+                    $('.modal-content').append(content);
+                });
+        
+                checkModalComponents();
+                $('.modal-content').show();
+                $('.component-QC-and-Img').addClass('show');
+            });
+        },
+    
 });
+  
+      // Add the layer to the map
+      qcMarkers.addLayer(qcMarker);
+  
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+
+};
+  
+  // Call the async function to fetch data and create the layer
+fetchDataAndCreateLayer();
+  
 function checkModalComponents() {
     const modalContent = $('.modal-content');
     if (modalContent.children().length === 0) {
@@ -295,58 +165,108 @@ var popupTemplate = function (feature) {
           </div>
           <span class = "popup-status">${plannedStatus}</span>
           <div style = " height: 115px;">
-            <img src="${feature.properties.image1}" alt="" style = "object-fit: contain;width: inherit;height: inherit;">
+            <img src="${feature.properties.image}" alt="" style = "object-fit: contain;width: inherit;height: inherit;">
           </div>
           
 
   `;
-};
-var QCComponent = function (info) {
-    return `
-    <div class="component-QC-and-Img " style = "gap: 20px;flex-direction: column;">
-    <div class="component-QC">
-    <div class="row flex-column QC-head">
-        <h3 class="qc-title">${info.typeofAds}</h3>
-        <div class="qc-adr">${info.address}</div>
-    </div>
-    <div class="row flex-column QC-body">
-        <div class="qc-size">Kích thước: <strong> ${info.width}m x ${info.height}m </strong></div>
-        <div class="qc-number">Số lượng: <strong> ${info.quantity} trụ/bảng</strong></div>
-        <div class="qc-format">Hình thức: <strong> ${info.AdsFormat}</strong></div>
-        <div class="qc-type">Phân loại: <strong> ${info.typeofLocation}</strong></div>
-    </div>
-    <div class="row d-flex align-items-center justify-content-between QC-foot">
-        <div class="col-md-auto infoBtn">
-            <button type="button" class ="btn-info">
-                <i class="bi bi-info-circle-fill"></i>
-                &#8203;
-            </button>
-        </div>
-        <div class="col-md-auto d-flex qc-report">
-            <button type="button" class="btn-report">
-                <i class="bi bi-exclamation-octagon-fill"></i>
-                Báo cáo vi phạm
-            </button>
-        </div>
-    </div>
-    </div>
-    <div class="component-moreInfoQC hide">
-            <img src="${info.image2}" alt="robot.jpg" class="moreInfoQC-imgs" height="140" style="object-fit: contain;" />
-            <div class="moreInfoQC-content">Ngày hết hạn hợp đồng: 30/12/2023</div>
-        </div>
+}
 
-  `;
+const District1 = {
+    "Ben Nghe Ward": 'Phường Bến Nghé',
+    "Ben Thanh Ward": 'Phường Bến Thành',
+    "Cau Kho Ward": 'Phường Cầu Kho',
+    "Cau Ong Lanh Ward": 'Phường Cầu Ông Lãnh',
+    "Co Giang Ward": 'Phường Cô Giang',
+    "Da Kao Ward": 'Phường Đa Kao',
+    "Nguyen Cu Trinh Ward": 'Phường Nguyễn Cư Trinh',
+    "Nguyen Thai Binh Ward": 'Phường Nguyễn Thái Bình',
+    "Pham Ngu Lao Ward": 'Phường Phạm Ngũ Lão',
+    "Tan Dinh Ward": 'Phường Tân Định'
+}
+const District5 = 
+    {
+        'Ward 1': 'Phường 1',
+        'Ward 2': 'Phường 2',
+        'Ward 3': 'Phường 3',
+        'Ward 4': 'Phường 4',
+        'Ward 5': 'Phường 5',
+        'Ward 6': 'Phường 6',
+        'Ward 7': 'Phường 7',
+        'Ward 8': 'Phường 8',
+        'Ward 9': 'Phường 9',
+        'Ward 10': 'Phường 10',
+        'Ward 11': 'Phường 11',
+        'Ward 12': 'Phường 12',
+        'Ward 13': 'Phường 13',
+        'Ward 14': 'Phường 14',
+        'Ward 15': 'Phường 15'
+    }    
+
+const district = {
+    'District 5':'Quận 5',
+    'District 1':'Quận 1'
+};
+
+var QCComponent = function (info, qcInfo,coordinates) {
+    console.log("qcinfo",info)
+    const infoData ={
+        type: 'Advertisement',
+        id: qcInfo.id,
+        address: info.address,
+        district: info.address.suburb,
+        ward:  info.address.quarter,
+        lat: coordinates.coordinates[1],
+        lng: coordinates.coordinates[0]
+    }
+    const infoDataJson = JSON.stringify(infoData);
+    console.log(infoData)
+    return `
+        <div class="component-QC-and-Img " style="gap: 20px;flex-direction: column;">
+            <div class="component-QC">
+                <div class="row flex-column QC-head">
+                    <h3 class="qc-title">${qcInfo.typeofAds}</h3>
+                    <div class="qc-adr">${info.address}</div>
+                </div>
+                <div class="row flex-column QC-body">
+                    <div class="qc-size">Kích thước: <strong>${qcInfo.width}m x ${qcInfo.height}m</strong></div>
+                    <div class="qc-number">Số lượng: <strong>${qcInfo.quantity} trụ/bảng</strong></div>
+                    <div class="qc-format">Hình thức: <strong>${info.AdsFormat}</strong></div>
+                    <div class="qc-type">Phân loại: <strong>${info.typeofLocation}</strong></div>
+                </div>
+                <div class="row d-flex align-items-center justify-content-between QC-foot">
+                    <div class="col-md-auto infoBtn">
+                        <button type="button" class="btn-info">
+                            <i class="bi bi-info-circle-fill"></i>
+                            &#8203;
+                        </button>
+                    </div>
+                    <div class="col-md-auto d-flex qc-report">
+                        <button type="button" class="btn-report" data-info='${infoDataJson}'>
+                            <i class="bi bi-exclamation-octagon-fill"></i>
+                            Báo cáo vi phạm
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="component-moreInfoQC hide">
+                <img src="${qcInfo.image}" alt="robot.jpg" class="moreInfoQC-imgs" height="140" style="object-fit: contain;" />
+                <div class="moreInfoQC-content">Ngày hết hạn hợp đồng: 30/12/2023</div>
+            </div>
+        </div>
+    `;
 };
 $('.modal-content').on('click', '.btn-info', function () {
-    console.log('click');
-    $('.component-moreInfoQC').removeClass('hide').addClass('show');
+    const moreInfoQC = $(this).closest('.component-QC-and-Img').find('.component-moreInfoQC');
+    moreInfoQC.toggleClass('show hide');
 });
 
-qcMarkers.addLayer(qcMarker);
+
+// qcMarkers.addLayer(qcMarker);
 
 const reportInfo = (info) => {
-    console.log(info.properties);
     const content = info.properties;
+    console.log(56789,content)
     return `<div class="component-report-sm component-report">
     <form class="report-form">
         <h4 class="report-form-title">
@@ -427,9 +347,8 @@ const reportInfo = (info) => {
                         cols="30"
                         rows="10"
                         style="resize: none"
-                        value="${content.reportContent}"
                         readonly
-                    ></textarea>
+                    >${content.reportContent}</textarea>
                 </div>
             </div>
 
@@ -444,7 +363,7 @@ const reportInfo = (info) => {
             </div>
         </div>
     </form>
-</div>`;
+    </div>`;
 };
 var reportMarkers = L.markerClusterGroup({
     iconCreateFunction: function (cluster) {
@@ -457,28 +376,86 @@ var reportMarkers = L.markerClusterGroup({
         });
     },
 });
-var reportMarker = L.geoJSON(dataReport, {
-    pointToLayer: function (feature, latlng) {
-        if (feature.properties.isProcess) {
-            return L.marker(latlng, { icon: reportIconDone });
-        } else {
-            return L.marker(latlng, { icon: reportIconProcessing });
+
+const fetchDataReport = async () => {
+    try {
+        const response = await fetch('http://localhost:3000/reports/map');
+        if (!response.ok) {
+            // Handle error if needed
         }
-    },
-    onEachFeature: function (feature, layer) {
-        layer.on('click', function (e) {
-            $('.modal-content').empty();
-            const content = reportInfo(feature);
-            $('.modal-content').append(content);
-            checkModalComponents();
-            $('.component-report').addClass('show');
+        const data = await response.json();
+        console.log(data);
+        const dataReport = {
+            type: 'FeatureCollection',
+            features: data.map((item) => ({
+
+                type: 'Feature',
+                properties: {
+                    isProcess: item.isProcess,
+                    reportType: item.reportType,
+                    fullName: item.fullName,
+                    email: item.email,
+                    phoneNumber: item.phoneNumber,
+                    reportContent: item.reportContent,
+                    image1: item.image1,
+                    image2: item.image2,
+                },
+                geometry: {
+                    coordinates: item.coordinates,
+                    type: 'Point',
+                },
+            })),
+        };
+        console.log(dataReport);
+        var reportMarker = L.geoJSON(dataReport, {
+            pointToLayer: function (feature, latlng) {
+                if (feature.properties.isProcess) {
+                    return L.marker(latlng, { icon: reportIconDone });
+                } else {
+                    return L.marker(latlng, { icon: reportIconProcessing });
+                }
+            },
+            onEachFeature: function (feature, layer) {
+                layer.on('click', function (e) {
+                    $('.modal-content').empty();
+                    const content = reportInfo(feature);
+                    $('.modal-content').append(content);
+                    checkModalComponents();
+                    $('.component-report').addClass('show');
+                });
+            },
         });
-    },
-});
+        reportMarkers.clearLayers();
+        // Add the layer to the marker cluster group
+        reportMarkers.addLayer(reportMarker);
+
+        // Add the marker cluster group to the map
+        map.addLayer(reportMarkers);
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
+
+// Call the function to fetch data and create report markers
+fetchDataReport();
 const handleReportBtn = (info) => {
+    const infoData = {
+        type: "SetPoint",
+        name: info.name,
+        address: info.display_name,
+        district: info.address.suburb,
+        ward:  info.address.quarter,
+        lat: info.lat,
+        lng: info.lon
+    };
+
+    // Convert infoData to a JSON string
+    const infoDataJson = JSON.stringify(infoData);
+
     const content = `
         <div class="qc-report d-flex flex-row-reverse">
-            <button type="button" class="btn-report">
+            <button type="button" class="btn-report" data-info='${infoDataJson}'>
                 <i class="bi bi-exclamation-octagon-fill"></i>
                 Báo cáo vi phạm
             </button>
@@ -488,10 +465,133 @@ const handleReportBtn = (info) => {
 };
 
 $('.modal-content').on('click', '.btn-report', function () {
+    const infoData = $(this).data('info');
+    console.log(infoData)
     $('.report-component').removeClass('hide');
+    // console.log('infoData:', JSON.stringify(infoData));
     $('.report-component').addClass('show-report');
+   
+    $('#submitBtn').data('infoData', infoData);
 });
 
+const addReportToMap = (reportData) => {
+    const dataReport = {
+        type: 'FeatureCollection',
+        features: reportData.map((item) => ({
+            type: 'Feature',
+            properties: {
+                isProcess: item.isProcess,
+                reportType: item.reportType,
+                fullName: item.fullName,
+                email: item.email,
+                phoneNumber: item.phoneNumber,
+                reportContent: item.reportContent,
+                image1: item.image1,
+                image2: item.image2,
+            },
+            geometry: {
+                coordinates: item.coordinates,
+                type: 'Point',
+            },
+        })),
+    };
+    
+    var reportMarker = L.geoJSON(dataReport, {
+        pointToLayer: function (feature, latlng) {
+            if (feature.properties.isProcess) {
+                return L.marker(latlng, { icon: reportIconDone });
+            } else {
+                return L.marker(latlng, { icon: reportIconProcessing });
+            }
+        },
+        onEachFeature: function (feature, layer) {
+            layer.on('click', function (e) {
+                $('.modal-content').empty();
+                const content = reportInfo(feature);
+                $('.modal-content').append(content);
+                checkModalComponents();
+                $('.component-report').addClass('show');
+            });
+        },
+    });
+
+    // Clear existing report markers before adding new ones
+    reportMarkers.clearLayers()
+
+    // Add the new report markers to the marker cluster group
+    reportMarkers.addLayer(reportMarker);
+    console.log("clear")
+    map.addLayer(reportMarkers);
+};
+$('input#submitBtn').click(function(){
+    $('.report-component').addClass('d-none');
+     $('div#successSendReport').removeClass('d-none');
+ });
+
+ $('div#successSendReport a.create-confirm-btn').click(function(){
+     $('div#successSendReport').addClass('d-none');
+ });
+$('#reportForm').submit(function (e) {
+    e.preventDefault();
+
+    // Gather form data
+    const formData = $(this).serializeArray();
+    // Assuming you have 'reportType', 'fullName', etc. fields in your form
+
+    // Gather infoData from the submit button
+    const infoData = $('#submitBtn').data('infoData');
+    console.log(formData)
+    console.log(infoData)
+    const imageFiles = $('#img')[0].files;
+    
+    
+    const combinedData = { 
+        fullName: formData[1].value,
+        email:formData[2].value,
+        phoneNumber:formData[3].value,
+        reportType:formData[0].value,
+        reportContent: formData[4].value,
+        type: infoData.type,
+        lat: infoData.lat,
+        lng: infoData.lng,
+        isHandled: false,
+        image1: imageFiles[0],
+        image2: imageFiles[1],
+        district: infoData.district,
+        ward: infoData.ward,
+        address: infoData.address
+    };
+    console.log(combinedData)
+    const form = new FormData();
+    form.append('fullName', combinedData.fullName);
+    form.append('email', combinedData.email);
+    form.append('phoneNumber', combinedData.phoneNumber);
+    form.append('reportType', combinedData.reportType);
+    form.append('reportContent', combinedData.reportContent);
+    form.append('type', combinedData.type);
+    form.append('lat', combinedData.lat);
+    form.append('lng', combinedData.lng);
+    form.append('isHandled', combinedData.isHandled);
+    form.append('image1', combinedData.image1);
+    form.append('image2', combinedData.image2);
+    form.append('district', combinedData.district);
+    form.append('ward', combinedData.ward);
+    form.append('address', combinedData.address);
+    console.log(form)
+    fetch('http://localhost:3000/reports/', {
+        method: 'POST',
+        body: form,
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the server as needed
+        console.log(data);
+        fetchDataReport()
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
 const locationInfo = (info) => {
     const type = info.addresstype;
     let name = '';
@@ -503,6 +603,7 @@ const locationInfo = (info) => {
     } else {
         address = info.display_name; // If it's a road, keep the entire display name as the address
     }
+    console.log(124312,info)
     const reportBtn = handleReportBtn(info);
 
     return `
@@ -533,12 +634,23 @@ const locationInfo = (info) => {
                     </div>
 `;
 };
+
+
 map.on('click', function (e) {
     const { lat, lng } = e.latlng;
 
     fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
         .then((response) => response.json())
         .then((data) => {
+            console.log(data)
+            console.log(data.address.suburb, data.address.quarter)
+            const dataInfo = {
+                address: data.display_name,
+                lat: lat,
+                lng: lng,
+                district: data.address.suburb,
+                ward: data.address.quarter
+            }
             $('.modal-content').empty();
 
             $('.modal-content').append(locationInfo(data));
@@ -558,7 +670,6 @@ const searchControl = new GeoSearch.GeoSearchControl({
 });
 
 map.addControl(searchControl);
-reportMarkers.addLayer(reportMarker);
 map.addLayer(reportMarkers);
 map.addLayer(qcMarkers);
 

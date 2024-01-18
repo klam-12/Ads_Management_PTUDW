@@ -11,18 +11,21 @@ import hbs_sections from 'express-handlebars-sections';
 import session from 'express-session';
 
 import numeral from 'numeral'
-
+import cors from 'cors';
 import connectMongoDBSession from 'connect-mongodb-session';
 
+
+const app = express();
 const MongoDBStore = connectMongoDBSession(session);
 // Connect to MongoDB
 dotenv.config();
 db();
-
+app.use(express.json());
+app.use(cors());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const __dirname = dirname(fileURLToPath(import.meta.url));
-const app = express();
+
 const port = 3000;
 app.use(express.json());
 const store = new MongoDBStore({

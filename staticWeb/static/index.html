@@ -107,10 +107,11 @@
                                                 name="reportType"
                                                 id="reportType"
                                             >
-                                                <option value="" selected>Chọn hình thức báo cáo</option>
-                                                <option value="politicalReport">Cổ động chính trị</option>
-                                                <option value="adsReport">Quảng cáo thương mại</option>
-                                                <option value="socializedReport">Xã hội hoá</option>
+                                            <option value="" selected>Chọn hình thức báo cáo</option>
+                                            <option value="Tố giác sai phạm">Tố giác sai phạm</option>
+                                            <option value="Đăng ký nội dung">Đăng ký nội dung</option>
+                                            <option value="Đóng góp ý kiến">Đóng góp ý kiến</option>
+                                            <option value="Giải đáp thắc mắc">Giải đáp thắc mắc</option>
                                             </select>
                                             <span class="report-required"></span>
                                         </div>
@@ -184,6 +185,15 @@
                     </form>
                 </div>
             </div>
+            
+        <div class="alert alert-success text-center center create-confirm d-none" id="successSendReport" role="alert">
+            <div class="d-inline-flex">
+            <h4><i class="bi bi-cursor-fill"></i> <span>&nbsp;</span> </h4>
+            <h5>Gửi báo cáo thành công</h5>
+            </div>
+            <a role="button" class="btn btn-sm btn-success create-confirm-btn">OK</a>
+        </div>
+  
         </div>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script

@@ -91,13 +91,13 @@
 
 .leaflet-control-geosearch {
     width: 35vw;
-    height: 3vh;
+    /* height: 3vh; */
     align-items: center;
     flex-shrink: 0;
     border-radius: 3px;
     border: none;
     background: var(--white-color);
-    height: 4.5vh;
+
 }
 .leaflet-control-geosearch input[type='text'] {
     width: 100%;

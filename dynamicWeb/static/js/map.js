@@ -141,7 +141,7 @@ const fetchDataAndCreateLayer = async () => {
 };
   
   // Call the async function to fetch data and create the layer
-  fetchDataAndCreateLayer();
+fetchDataAndCreateLayer();
   
 function checkModalComponents() {
     const modalContent = $('.modal-content');
@@ -347,9 +347,8 @@ const reportInfo = (info) => {
                         cols="30"
                         rows="10"
                         style="resize: none"
-                        value="${content.reportContent}"
                         readonly
-                    ></textarea>
+                    >${content.reportContent}</textarea>
                 </div>
             </div>
 
@@ -426,7 +425,7 @@ const fetchDataReport = async () => {
                 });
             },
         });
-
+        reportMarkers.clearLayers();
         // Add the layer to the marker cluster group
         reportMarkers.addLayer(reportMarker);
 
@@ -496,7 +495,7 @@ const addReportToMap = (reportData) => {
             },
         })),
     };
-
+    
     var reportMarker = L.geoJSON(dataReport, {
         pointToLayer: function (feature, latlng) {
             if (feature.properties.isProcess) {
@@ -517,12 +516,11 @@ const addReportToMap = (reportData) => {
     });
 
     // Clear existing report markers before adding new ones
-    reportMarkers.clearLayers();
+    reportMarkers.clearLayers()
 
     // Add the new report markers to the marker cluster group
     reportMarkers.addLayer(reportMarker);
-
-    // Add the marker cluster group to the map
+    console.log("clear")
     map.addLayer(reportMarkers);
 };
 
@@ -581,7 +579,7 @@ $('#reportForm').submit(function (e) {
     .then(data => {
         // Handle the response from the server as needed
         console.log(data);
-        addReportToMap([data]);
+        fetchDataReport()
     })
     .catch(error => {
         console.error('Error:', error);
