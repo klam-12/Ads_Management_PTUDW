@@ -36,8 +36,6 @@ const dateObject = new Date(year, month, day);
   }
   const profile = await userService.updateUser(id, value);
   req.session.authUser = profile;
-  console.log(profile)
-  console.log(req.session.authUser)
   return res.render('vwAccount/profile', {
     layout: false,
     success_message: 'Cập nhật thành công'

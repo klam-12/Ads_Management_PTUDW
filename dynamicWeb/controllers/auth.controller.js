@@ -38,7 +38,6 @@ const createAccount = async (req, res, next) => {
     }
     // console.log(userInput)
     const hashedPassword = await bcrypt.hash(value.password, 10);
-    console.log(hashedPassword)
     value.password = hashedPassword;
     await userService.createUser(value);
     const response = new CreatedResponse({ message: 'User created successfully', metadata: value });

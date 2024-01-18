@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-static": "nodemon staticWeb/serverStatic.js",
-    "start-dynamic": "nodemon dynamicWeb/app.js"
+    "start-static": "node staticWeb/serverStatic.js",
+    "start-dynamic": "node dynamicWeb/app.js"
   },
   "repository": {
     "type": "git",

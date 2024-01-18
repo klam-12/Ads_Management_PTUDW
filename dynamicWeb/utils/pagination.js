@@ -106,7 +106,7 @@ const paginateAds = async (model,pageNumber, PAGE_SIZE, district, ward) => {
       ]).exec();
     
   
-    const totalDocs = await model.countDocuments(matchQuery);
+    const totalDocs = result.length//await model.countDocuments(matchQuery);
   
     const totalPages = Math.ceil(totalDocs / PAGE_SIZE);
     console.log(result)

@@ -27,7 +27,165 @@
     });
 
     // Validate form Xin cấp phép QC
-    $('#formLicense').submit(function (e) {
+    
+    })
+</script>
+
+  <script>
+    performAjaxQuery();
+    // Set date edit: Today
+    var date = new Date();
+    var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
+    const authUserRole = '{{authUser.role}}';
+    if (authUserRole === 'Cán bộ Sở') {
+        $('button#btn-request-space')[0].innerHTML = 'Duyệt yêu cầu';
+    }
+    else{
+        $('button#btn-request-space')[0].innerHTML = 'Gửi yêu cầu';
+    }
+    // Click space row
+    $(document).on('click', ' .space-row', function() {
+        const id_setpoint = $(this).data('id');
+        $('.surface-table-tbody').empty();
+        
+        $.getJSON(`/ads?id_setpoint=${id_setpoint}`, function(data) {
+        if (data.length === 0) {
+            // Handle empty data
+            $('.surface-table-tbody').append('<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>');
+            return;
+        }
+        let index = -1
+        data.forEach(function(item) {
+            var newRow = $('<tr>').addClass('card-info-row');
+            index = index + 1;
+            newRow.append($('<td>').addClass('text-center').text(index)); // STT
+            var infoList = $('<ul>');
+            infoList.append($('<li>').text('Kích thước: ' + item.width + " x " +item.height )); // width
+            infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
+            infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
+        
+            newRow.append($('<td>').append(infoList));
+            newRow.append($('<td>').addClass('text-center').text(item.expireDate)); // Ngày hết hạn
+
+            var requestButton = $('<button>')
+            .attr('type', 'button')
+            .addClass('btn btn-sm btn-table btn-list btn-outline-green btn-edit-ads mb-1')
+            .text('Chỉnh sửa')
+            .attr('data-id', item._id);
+
+            var viewRequestButton = $('<button>')
+            .attr('type', 'button')
+            .addClass('btn btn-sm btn-table btn-list btn-outline-green btn-view-ads mb-1')
+            .text('Xem yêu cầu')
+            .attr('data-id', item._id);
+
+            var deleteRequestButton = $('<button>')
+            .attr('type', 'button')
+            .addClass('btn btn-sm btn-table btn-list btn-gray btn-delete-ads')
+            .text('Xoá')
+            .attr('data-id', item._id);
+
+            if (authUserRole === 'Cán bộ Sở') {
+                newRow.append($('<td>').addClass('text-center').append(viewRequestButton).append(deleteRequestButton));
+            }
+            else newRow.append($('<td>').addClass('text-center').append(requestButton))
+
+            $('.surface-table-tbody').append(newRow);
+        });
+        });
+
+        // Hide/show elements based on the click event
+        $('.surface-default').addClass('d-none');
+        $('.surface-table').removeClass('d-none');
+        $('tr.space-row').removeClass('row-active');
+        $(this).addClass('row-active');
+    });
+
+    $(document).on('click', 'button.btn-edit-space-req', function() {
+      const id = $(this).data('id');
+      $('#btn-request-space').val(id)
+      $('div.space-form-container').removeClass('d-none');
+      $('div.space-form-container input').each(function(){
+        this.disabled = false;
+      });
+
+      $('div.space-form-container textarea').each(function(){
+        this.disabled = false;
+      });
+
+      $('div.space-form-container select').each(function(){
+        this.disabled = false;
+      });
+      $('div.space-form-container #txtDate').val(today);
+});
+
+    $(document).on('click', 'button.btn-view-space-req', function() {
+      const id = $(this).data('id');
+      $('#btn-request-space').val(id);
+      $('div.space-form-container').removeClass('d-none');
+      $('div.space-form-container input').each(function(){
+        this.disabled = true;
+      });
+
+      $('div.space-form-container textarea').each(function(){
+        this.disabled = true;
+      });
+
+      $('div.space-form-container select').each(function(){
+        this.disabled = true;
+      });
+      fetch(`/request/objects?id_setpoint=${id}`)
+      .then(response => response.json())
+      .then(data => {
+          console.log(data)
+          if (data.message === 'Request not found' )
+          {
+            $('div.space-form-container').addClass('d-none');
+            $('.error-noti #errorMessage').text(data.message);
+            $('.error-noti').removeClass('d-none').show();
+            return 
+          }
+          $('div.space-form-container #txtSender').val(data.name);
+          $('div.space-form-container #txtDate').val(data.request.createdAt);
+          $('div.space-form-container #reasonArea').val(data.request.reason);
+          $("div.space-form-container #typeAds").find("option:selected").text(data.request.updatedInfo.typeofLocation);
+          $("div.space-form-container #typeLoc").find("option:selected").text(data.request.updatedInfo.adsFormat);
+          $("div.space-form-container #isPlanned").find("option:selected").text(data.request.updatedInfo.isPlanned ? 'Đã quy hoạch' : 'Chưa quy hoạch');
+          if (data.request.status === 'Pending' || authUserRole !== 'Cán bộ Sở')
+            { $('button#btn-request-space').data('id', data.request._id);
+              $('button#btn-request-space').removeClass('d-none');}
+            else $('button#btn-request-space').addClass('d-none');
+          console.log($('button#btn-request-space').data('id'))
+      })
+      //$('button#btn-request-space')[0].innerHTML = 'Duyệt yêu cầu';
+      
+      
+    });
+    $(document).on('click', 'button#btn-request-space', function() {
+      const id = $(this).data('id');
+      if (authUserRole === 'Cán bộ Sở')
+      {
+         $.ajax({
+        type: 'PUT',
+        url: `/request/accept/${id}`,
+        success: function(response) {
+          $('div.space-form-container').addClass('d-none');
+          $('div.space-form-container #errorContainer').empty();
+        $('div.space-form-container #successMessage').text(response.message);
+        $('.create-confirm').removeClass('d-none');
+
+        },
+        error: function(xhr, status, error) {
+          console.log(error);
+        }
+      })
+      }
+      else if(authUserRole === 'Cán bộ Quận' || authUserRole === 'Cán bộ Phường') {
+        $('div.space-form-container').addClass('d-none');
+        $('div.space-form-container #errorContainer').empty();
+        $('div.space-form-container #successMessage').text('Đã gửi yêu cầu');
+        $('.create-confirm').removeClass('d-none');
+        $('#formLicense').submit(function (e) {
         e.preventDefault();
         console.log("check jquery")
         var errorNoti = "";
@@ -83,9 +241,9 @@
         }
         const setPointData = $(this).data('id');
         const formData = new FormData();
-
+    
         formData.append('id_setpoint', setPointData);
-        formData.append('typeofAds', typeAds);
+        formData.append('typeofAds', typeBillboard);
         formData.append('startDate', dateStart);
         formData.append('expireDate', dateEnd);
         formData.append('height', $('div.license-form-container #txtHeight').val());
@@ -112,129 +270,22 @@
                     $('div.license-form-container #errorContainer').empty();
                     $('div.license-form-container #errorContainer').append('<h5 class="text-center text-success">Đăng ký thành cảnh công!</h5>');
                     $('div.license-form-container #errorContainer').append('<p class="text-center text-success">Vui lý nếu bắt đầu đăng ký.</p>');
-                } ,
+                } 
+            },
             error: function() {
                     $('div.license-form-container #errorContainer').empty();
                     $('div.license-form-container #errorContainer').append('<h5 class="text-center text-danger">Đăng ký thất bài!</h5>');
                     $('div.license-form-container #errorContainer').append('<p class="text-center text-danger">Vui lý nếu bắt đầu đăng ký.</p>');
 
                 
-                }
+                
             }
         })
-      
+
     })
+    
+      }
     })
-</script>
-
-  <script>
-    performAjaxQuery();
-    // Set date edit: Today
-    var date = new Date();
-    var today = date.getDate() + '/' + (date.getMonth()+1) + '/' +  date.getFullYear();
-
-    // Click space row
-    $(document).on('click', ' .space-row', function() {
-        const id_setpoint = $(this).data('id');
-        $('.surface-table-tbody').empty();
-
-        $.getJSON(`/ads?id_setpoint=${id_setpoint}`, function(data) {
-        if (data.length === 0) {
-            // Handle empty data
-            $('.surface-table-tbody').append('<tr><td colspan="4" class="text-center">Không có dữ liệu</td></tr>');
-            return;
-        }
-        let index = -1
-        data.forEach(function(item) {
-            var newRow = $('<tr>').addClass('card-info-row');
-            index = index + 1;
-            newRow.append($('<td>').addClass('text-center').text(index)); // STT
-            var infoList = $('<ul>');
-            infoList.append($('<li>').text('Kích thước: ' + item.width + " x " +item.height )); // width
-            infoList.append($('<li>').text('Số lượng: ' + item.quantity)); // quantity
-            infoList.append($('<li>').text('Phân loại: ' + item.typeofAds)); // typeofAds
-            infoList.append($('<li>').append($('<a>').attr('href', item.image || '#').text('Link hình ảnh'))); // image link
-
-            newRow.append($('<td>').append(infoList));
-            newRow.append($('<td>').addClass('text-center').text(item.expireDate)); // Ngày hết hạn
-
-            var requestButton = $('<button>')
-            .attr('type', 'button')
-            .addClass('btn btn-sm btn-table btn-list btn-outline-green btn-edit-ads mb-1')
-            .text('Chỉnh sửa')
-            .attr('data-id', item._id);
-
-            var viewRequestButton = $('<button>')
-            .attr('type', 'button')
-            .addClass('btn btn-sm btn-table btn-list btn-outline-green btn-view-ads mb-1')
-            .text('Xem yêu cầu')
-            .attr('data-id', item._id);
-
-            var deleteRequestButton = $('<button>')
-            .attr('type', 'button')
-            .addClass('btn btn-sm btn-table btn-list btn-gray btn-delete-ads')
-            .text('Xoá')
-            .attr('data-id', item._id);
-
-            newRow.append($('<td>').addClass('text-center').append(requestButton).append(viewRequestButton).append(deleteRequestButton));
-
-            $('.surface-table-tbody').append(newRow);
-        });
-        });
-
-        // Hide/show elements based on the click event
-        $('.surface-default').addClass('d-none');
-        $('.surface-table').removeClass('d-none');
-        $('tr.space-row').removeClass('row-active');
-        $(this).addClass('row-active');
-    });
-
-    $(document).on('click', 'button.btn-edit-space-req', function() {
-      const id = $(this).data('id');
-      $('#btn-request-space').val(id)
-      $('div.space-form-container').removeClass('d-none');
-      $('div.space-form-container input').each(function(){
-        this.disabled = false;
-      });
-
-      $('div.space-form-container textarea').each(function(){
-        this.disabled = false;
-      });
-
-      $('div.space-form-container select').each(function(){
-        this.disabled = false;
-      });
-      $('div.space-form-container #txtDate').val(today);
-      $('button#btn-request-space')[0].innerHTML = 'Gửi yêu cầu';
-});
-
-    $(document).on('click', 'button.btn-view-space-req', function() {
-      const id = $(this).data('id');
-      $('#btn-request-space').val(id);
-      $('div.space-form-container').removeClass('d-none');
-      $('div.space-form-container input').each(function(){
-        this.disabled = true;
-      });
-
-      $('div.space-form-container textarea').each(function(){
-        this.disabled = true;
-      });
-
-      $('div.space-form-container select').each(function(){
-        this.disabled = true;
-      });
-      fetch(`/request/objects?id_setpoint=${id}`)
-      .then(response => response.json())
-      .then(data => {
-          console.log($('div.space-form-container #typeAds'))
-          $('div.space-form-container #txtDate').val(data.createdAt);
-          $('div.space-form-container #reasonArea').val(data.reason);
-          $('div.space-form-container #typeAds').val(data.updatedInfo.typeofLocation);
-          $('div.space-form-container #typeLoc').val(data.updatedInfo.adsFormat);
-         // $('div.space-form-container #isPlanned').val(data.updatedInfo.isPlanned ? 'Đã quy hoạch' : 'Chưa quy hoạch');
-      })
-      $('button#btn-request-space')[0].innerHTML = 'Duyệt yêu cầu';
-});
 
     $('a.btn-yes').click(function() {
       $('div.delete-confirm').addClass('d-none');
@@ -306,7 +357,7 @@
             console.log(data)
             $('div.surface-form-container #txtDate').val(data.createdAt);
             $('div.surface-form-container #reasonArea').val(data.reason);
-            //$('div.surface-form-container #typeAds').val(data.updatedInfo.typeofLocation);
+            $('div.surface-form-container #typeAds').val(data.updatedInfo.typeofLocation);
             //$('div.surface-form-container #typeLoc').val(data.updatedInfo.adsFormat);
             //$('div.surface-form-container #isPlanned').val(data.updatedInfo.isPlanned ? 'Đã quy hoạch' : 'Chưa quy hoạch');
 
@@ -315,12 +366,7 @@
     });
 
     // Xử lý Duyệt yêu cầu của chỉnh sửa điểm đặt 
-  $(document).on('click', 'button#btn-request-space', function(e) {
-      if($('button#btn-request-space')[0].innerHTML === 'Duyệt yêu cầu'){
-          $('button.btn-view-space-req').addClass('d-none');
-          $('div.space-form-container').addClass('d-none');
-      }
-  });
+
 
     // Xử lý Duyệt yêu cầu của chỉnh sửa bảng QC 
   $(document).on('click', 'button.btn-request-ads', function(e) {
@@ -332,8 +378,72 @@
 
     $(document).on('click', 'button.btn-gray', function() {
       $('div.delete-confirm').removeClass('d-none');
+
+    });//
+    $(document).on('click', 'button.btn-delete-space-req', function() {
+      $('div.delete-confirm').removeClass('d-none');
+      const deleteButton = $(this);
+      const id = $(this).data('id');
+        // Show the confirmation dialog
+        $('.delete-confirm').removeClass('d-none');
+        // Bind the click event for the "Yes" button only once
+        $('.btn-yes').one('click', function () {
+            // Make the AJAX request to delete the ad
+            $.ajax({
+                type: 'DELETE',
+                url: `/setPoints/${id}`,
+                success: function (response) {
+                deleteButton.parent().parent().remove();
+                $('.delete-confirm').addClass('d-none');
+                $("#successMessage").text(response.message);
+                $('.create-confirm').removeClass('d-none');
+                $('.surface-table-tbody').empty();
+                },
+                error: function () {
+                }
+            })
+        })
+
+    });
+    $(document).on('click', 'button.btn-delete-ads', function() {
+      $('div.delete-confirm').removeClass('d-none');
+      const deleteButton = $(this);
+      const id = $(this).data('id');
+        // Show the confirmation dialog
+        $('.delete-confirm').removeClass('d-none');
+        // Bind the click event for the "Yes" button only once
+        $('.btn-yes').one('click', function () {
+            // Make the AJAX request to delete the ad
+            $.ajax({
+                type: 'DELETE',
+                url: `/ads/request/delete/${id}`,
+            success: function (response) {
+                // Hide the confirmation dialog
+                 deleteButton.parent().parent().remove();
+                    $('.delete-confirm').addClass('d-none');
+                    console.log(response)
+                    $("#successMessage").text(response.message);
+                    $('.create-confirm').removeClass('d-none');
+                
+            },
+            error: function () {
+            }
+        });
     });
 
+    // Bind the click event for the "No" button
+    $('.btn-no').click(function () {
+        // Hide the confirmation dialog
+        $('.delete-confirm').addClass('d-none');
+    });
+
+    // Bind the click event for the "OK" button in the success message
+    $('.btn-success').click(function () {
+        // Hide the success message
+        $('.create-confirm').addClass('d-none');
+    });
+      
+    });
     $('i.space-close-btn').click(function(){
       $('div.space-form-container form')[0].reset();
       $('div.space-form-container').addClass('d-none');
@@ -379,11 +489,6 @@
         form.append('isPlanned', formData.isPlanned);
         form.append('objectId', formData.objectId);
         form.append('objectToEdit', formData.objectToEdit);
-
-        const fileInput = $('#fuMain')[0].files[0];
-        if (fileInput) {
-            form.append('image', fileInput);
-        }
 
         if(errorNoti.length !== 0){
             var errComp = $(`<div class="alert alert-danger text-center center error-noti" role="alert">
@@ -872,9 +977,9 @@
             
             {{/if}}
             <div class="card-footer text-muted d-flex align-items-center justify-content-between">
-                <p>
+                {{!-- <p>
                     Hiển thị {{limit}} trên {{totalPages}} mục
-                </p>
+                </p> --}}
                 <ul class="pagination">
                   <li class="page-item"><a class="page-link" href="#">Trước</a></li>
                   {{#each this.pageNumbers}}
@@ -982,10 +1087,6 @@
                 </div>
             </div>
 
-            <div class="row mb-2 form-group">
-                <label for="fuMain" class="mb-2">Hình ảnh</label>
-                <input type="file" id="fuMain" name="fuMain">
-            </div>
         </div>
 
         <div class="row">
@@ -1168,10 +1269,6 @@
                             </select>
                         </div>
 
-                        <div class=" mb-2 form-group">
-                            <label for="fuMain" class="form-label">Hình ảnh minh họa</label>
-                            <input type="file" id="fuMain" name="fuMain">
-                        </div>
 
                     </div>
 

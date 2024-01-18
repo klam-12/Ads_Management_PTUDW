@@ -1,10 +1,13 @@
 import { BadRequest } from '../common/error.response.js';
 import { SuccessResponse } from '../common/success.response.js';
 import requestService from '../services/request.service.js';
-
+import userService from '../services/user.service.js';
+import setPointService from '../services/setpoint.service.js';
+import adsService from '../services/advertisement.service.js';
+import { sendEmail } from '../utils/sendEmail.js';
+import Upload from '../utils/upload.js';
 const createRequest = async(req, res) => {
   const body = req.body;
-  console.log(body)
   const user_id = req.session.authUser._id
   const {reason, objectToEdit, objectId} = body;
   if (reason===''){
@@ -69,7 +72,58 @@ const getRequestById = async(req, res) => {
   console.log(req)
   const id = req.query.id_setpoint
   const request = await requestService.getRequestByObjectId(id)
-  console.log(request)
-  return res.json(request)
+  if (!request) {
+    return res.json({message: 'Request not found'})
+  }
+  const user = await userService.getUserById(request.user_id)
+  let name = 'Cán bộ ';
+  if (user.role == 'Cán bộ Phường'){
+    name = user.ward;
+  }
+  else name = user.district
+  return res.json({request, name})
 }
-export {createRequest,handleReport, getRequestById}
+
+const acceptRequest = async(req, res) => {
+  const id = req.params.id
+  const request = await requestService.acceptRequest(id)
+  if (request.type === 'SetPoint'){
+    const data = {
+      adsFormat: request.updatedInfo.adsFormat,
+      typeofLocation: request.updatedInfo.typeofLocation,
+      isPlanned: request.updatedInfo.isPlanned,
+    }
+    await setPointService.updateSetPoint(request.objectId, data)
+  }
+  else {
+    const data = {
+      width: request.updatedInfo.width,
+      height: request.updatedInfo.height,
+      quantity: request.updatedInfo.quantity,
+      typeofAds: request.updatedInfo.typeofAds,
+      expireDate: request.updatedInfo.expireDate
+    }
+    await adsService.updateAds(request.objectId, data)
+  }
+  const user = await userService.getUserById(request.user_id)
+  const subject = '[Ads Management System)_G5]'
+  const text = ` <p>Chào ${user.fullName},</p>
+
+  <p>Cán bộ Sở đã duyệt yêu cầu chỉnh sửa của bạn được gửi ở địa chỉ {address}. Vui lòng xem lại thông tin mới ở trang chủ.</p>
+
+  <p>Trân trọng,</p>
+  <p>Ads Management System_G5</p>`
+  try{
+    await sendEmail(user.email, subject, text)
+    return new SuccessResponse('Request accepted successfully!')
+  } catch
+  (err) {
+    return res.json(err)
+  }
+
+
+  
+}
+
+
+export {createRequest,handleReport, getRequestById,acceptRequest}

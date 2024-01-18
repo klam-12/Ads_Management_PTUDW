@@ -27,6 +27,10 @@ class Advertisement{
     const result = await AdvertisementModel.deleteMany({id_setpoint: id});
     return result
   }
+  async updateAds(id, data){
+    const result = await AdvertisementModel.updateOne({_id: id}, {$set: data});
+    return result
+  }
 }
 
 export default new Advertisement();

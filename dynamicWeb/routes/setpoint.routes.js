@@ -4,10 +4,10 @@ import { getSetPoint,getSetPointFilter,createSetPoint,getAllSetPoint ,deleteSetP
 import { authentication } from '../middlewares/authorization.js';
 import {uploads} from '../utils/cloudinary.js';
 const router = Router();
-router.post('/create-setPoints', asyncHandler(uploads.single('image')), createSetPoint);
-router.get('/',getSetPoint);
+router.post('/create-setPoints', asyncHandler(uploads.single('image')), asyncHandler(createSetPoint));
+router.get('/',asyncHandler(getSetPoint));
 router.get('/filter', asyncHandler(getSetPointFilter));
 
-router.get('/map',getAllSetPoint);
+router.get('/map',asyncHandler(getAllSetPoint));
 router.delete('/:id', asyncHandler(authentication), asyncHandler(deleteSetPointById));
 export default router;

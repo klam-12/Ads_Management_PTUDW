@@ -7,6 +7,7 @@ import SetPoint from "../models/SetPoint.js";
 import Upload from '../utils/upload.js';
 import {PAGE_SIZE} from '../common/index.js';
 import adsService from '../services/advertisement.service.js';
+import { kMaxLength } from "buffer";
 const getSetPoint = async (req, res, next) => {
   const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
   const limit = PAGE_SIZE;
@@ -20,12 +21,10 @@ const getSetPoint = async (req, res, next) => {
   else if (authUser.role === 'Cán bộ Quận'){
     district = authUser.district
   }
-  console.log(district, ward)
   const result = await paginateReport(SetPoint, parseInt(page), parseInt(limit),"district", district, "ward", ward);
   if (!result) {
       throw new NotFoundResponse('Product not found');
   }
-  console.log(result.pageSize)
   return res.render('vwAdmin/vwDepartment/spaceList', {
     list:result.results.map(setpoint => {
       setpoint = setpoint.toObject()
@@ -51,9 +50,18 @@ const getSetPoint = async (req, res, next) => {
 } 
 const getSetPointFilter = async (req, res, next) => {
   const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
-    const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
-    const district = req.query.district ? req.query.district : null
-    const ward = req.query.ward? req.query.ward : null
+  const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
+  let district = req.query.district ? req.query.district : null
+  let ward = req.query.ward? req.query.ward : null
+  const user = req.session.authUser
+  if (user.role === 'Cán bộ Phường'){
+    district = user.district
+    ward = user.ward
+  }
+  else if (user.role === 'Cán bộ Quận'){
+    district = user.district
+  }
+
   const result = await paginateReport(SetPoint, parseInt(page), parseInt(limit),"district", district, "ward", ward);
   if (!result) {
       throw new NotFoundResponse('Product not found');
@@ -82,10 +90,8 @@ const getSetPointFilter = async (req, res, next) => {
 })
 } 
 const createSetPoint = async (req, res, next) => {
-  console.log("Setpoint")
     const body = req.body || {};
 
-    console.log(req.file)
     let setpoint = {
       address: body.address,
       typeofLocation: body.typeofLocation,
@@ -97,7 +103,6 @@ const createSetPoint = async (req, res, next) => {
       lat: body.lat,
       lng: body.lng,
     };
-    console.log(124,setpoint)
     if (setpoint.image) {
       // Handle image upload
       const uploadedResponse = await Upload.uploadFile(req.file.path).catch((error) => {});
@@ -106,7 +111,6 @@ const createSetPoint = async (req, res, next) => {
         // Set additional location details based on coordinates
         const { address, ward, district } = await toAddress(body.lat, body.lng);
 
-        console.log(setpoint)
         // Create setpoint in the database
         try{
         const createdSetpoint = await setpointService.createSetpoint(setpoint);

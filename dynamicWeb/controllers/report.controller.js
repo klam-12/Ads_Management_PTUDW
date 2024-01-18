@@ -16,7 +16,6 @@ const createReport = async(req, res, next) => {
   try{
   const body = req.body;
   const {reportType, fullName, email, phoneNumber, reportContent, type, lat, lng, isHandler,address,ward,district} = body;
-  console.log(123,req.files['image1'] )
   const data = {
     reportType,
     fullName,
@@ -60,13 +59,19 @@ catch(error){
 }
 
 const getReportFilter = async (req, res, next) => {
-  console.log(req.query)
   try{
     const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
     const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
-    const district = req.query.district ? req.query.district : null
-    const ward = req.query.ward? req.query.ward : null
-    console.log(123, district, ward)
+    let district = req.query.district ? req.query.district : null
+    let ward = req.query.ward? req.query.ward : null
+    const user = req.session.authUser
+    if (user.role === 'Cán bộ Phường'){
+      district = user.district
+      ward = user.ward
+    }
+    else if (user.role === 'Cán bộ Quận'){
+      district = user.district
+    }
     const result = await paginateReport(Report, parseInt(page), parseInt(limit),"district", district, "ward", ward);
     if (!result) {
         throw new NotFoundResponse('Product not found');
@@ -121,7 +126,6 @@ const getAllReports = async (req, res, next) => {
     return res.render('vwAdmin/vwDepartment/reportList', {
       list: result.results.map(data => {
         const date = new Date(data.createAt);
-        console.log(date);
         return {
           _id: data._id,
         fullName: data.fullName,
@@ -175,7 +179,6 @@ const handleReport = async (req, res, next) => {
   const id = req.params.id;
   const {handleContent,email,address,fullName} = req.body
   const report = await reportService.handleReport(id,handleContent);
-  console.log(report)
   const subject = '[Ads Management System)_G5] Your report has been handled'
   const text = `<p>Chào ${fullName},</p>
 

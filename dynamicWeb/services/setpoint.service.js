@@ -42,5 +42,13 @@ import SetPointModel from '../models/SetPoint.js';
       throw new Error("Failed to delete setpoint");
     }
   }
+  async updateSetPoint(id, data){
+    try {
+      const data = await SetPointModel.findByIdAndUpdate(id, data);
+      return data;
+    } catch (error) {
+      throw new Error("Failed to update setpoint");
+    }
+  }
 }
 export default new SetPoint;

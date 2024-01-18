@@ -17,7 +17,6 @@ const getAdsWithSetPoint = async (req, res) => {
 
 const createAds = async(req,res,next) =>{
   const body = req.body;
-  console.log(body)
   const company = {
     name: body.nameCompany,
     address: body.address,
@@ -25,16 +24,6 @@ const createAds = async(req,res,next) =>{
     email: body.email,
   }
   const newCompany = await companyService.createCompany(company);
-  // const setpoint  = setpointService.getSetPointWithlatlng(lat, lng);
-  // if (!setpoint) {
-  //   const newSetpoint = await setpointService.createSetPoint({
-  //     typeofLocation: body.typeofLocation,
-  //     adsFormat: body.adsFormat,
-  //     isPlanned: true,
-  //     lat: body.lat,
-  //     lng: body.lng,
-  //   })
-  // }
   const ads = {
     typeofAds: body.typeofAds,
     width: body.width,
@@ -42,21 +31,19 @@ const createAds = async(req,res,next) =>{
     quantity: body.quantity,
     image: req.file?.filename || undefined,
     companyId: body.company_id,
-    startDate: new Date(body.startDate) || Date.now(),
-    expireDate: new Date(body.expireDate) || null,
+    startDate: new Date(body.startDate.split('/').reverse().join('-')),//; new Date(body.startDate) || Date.now(),
+    expireDate: new Date(body.expireDate.split('/').reverse().join('-')),//new Date(body.expireDate) || null,
     id_setpoint: body.id_setpoint,
     isLicensed: body.isLicensed || false, 
-    
+    companyId: newCompany._id
   }
-  console.log(ads.image)
   if (ads.image) {
-    console.log(req.file)
     const uploadedResponse = await Upload.uploadFile(req.file.path).catch((error) => {console.log(error)});
-    console.log(uploadedResponse)
     ads.image = uploadedResponse.secure_url;
     if (uploadedResponse.secure_url) {
         const result = await advertisementService.createAds(ads);
         return new SuccessResponse({
+          message: 'Advertisement created successfully.',
             metadata: result,
         }).send(req, res);
     } else {
@@ -150,11 +137,18 @@ const getAdsFilter = async (req, res, next) => {
   try {
       const page = parseInt(req.query.page) >= 1 ? parseInt(req.query.page) : 1;
       const limit = parseInt(req.query.limit) > 1 ? parseInt(req.query.limit) : PAGE_SIZE;
-      const district = req.query.district && req.query.district !== 'Quận' ? req.query.district : null;
-      const ward = req.query.ward && req.query.ward !== 'Phường' ? req.query.ward : null;
-
-      const result = await paginateAds(Advertisement, page, limit, district, ward);
+      let district = req.query.district && req.query.district !== 'Quận' ? req.query.district : null;
+      let ward = req.query.ward && req.query.ward !== 'Phường' ? req.query.ward : null;
+      const user = req.session.authUser
+    if (user.role === 'Cán bộ Phường'){
+      district = user.district
+      ward = user.ward
+    }
+    else if (user.role === 'Cán bộ Quận'){
+      district = user.district
+    }
     
+      const result = await paginateAds(Advertisement, page, limit, district, ward);
       return res.json({
         licenseList: result.results.map(advertisement => {
               return {
